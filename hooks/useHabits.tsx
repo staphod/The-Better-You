@@ -7,16 +7,30 @@ const toYYYYMMDD = (date: Date): string => date.toISOString().split('T')[0];
 
 const getStoredHabits = (): Habit[] => {
     try {
-        const storedHabits = localStorage.getItem(HABITS_STORAGE_KEY);
-        // This simple check helps avoid loading malformed data from older versions.
-        if (storedHabits && !storedHabits.includes('measurement')) {
-             localStorage.removeItem(HABITS_STORAGE_KEY);
-             return [];
-        }
-        return storedHabits ? JSON.parse(storedHabits) : [];
+        const storedHabitsJSON = localStorage.getItem(HABITS_STORAGE_KEY);
+        if (!storedHabitsJSON) return [];
+
+        const habitsFromStorage = JSON.parse(storedHabitsJSON);
+
+        if (!Array.isArray(habitsFromStorage)) return [];
+
+        // Data migration for older habits
+        const migratedHabits = habitsFromStorage
+            .map((habit: any) => {
+                if (!habit || typeof habit !== 'object' || !habit.measurement) {
+                    return null; // Invalid habit format, filter it out
+                }
+                if (!habit.category) {
+                    return { ...habit, category: 'Other' }; // Add default category
+                }
+                return habit;
+            })
+            .filter(Boolean); // Remove null entries
+
+        return migratedHabits as Habit[];
     } catch (error) {
-        console.error("Failed to parse habits from localStorage", error);
-        return [];
+        console.error("Failed to parse or migrate habits from localStorage", error);
+        return []; // Return empty array on error
     }
 };
 

@@ -100,8 +100,6 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
                 borderWidth: 1,
             });
 
-            // FIX: Use a direct check on the discriminant property `type` to ensure TypeScript
-            // correctly narrows the union type and allows access to the `goal` property.
             if (habit.measurement.type !== 'daily') {
                 datasets.push({
                     type: 'line',

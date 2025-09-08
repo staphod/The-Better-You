@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import type { Habit, HabitLog } from '@/types';
 
-const toYYYYMMDD = (date: Date): string => date.toISOString().split('T')[0];
+export const toYYYYMMDD = (date: Date): string => date.toISOString().split('T')[0];
 
-const isDayCompleted = (habit: Habit, log: HabitLog): boolean => {
+export const isDayCompleted = (habit: Habit, log: HabitLog): boolean => {
     switch (habit.measurement.type) {
         case 'daily':
             return log.value >= 1;

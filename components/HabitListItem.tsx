@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Habit } from '@/types';
+import type { Habit, HabitCategory } from '@/types';
 import { useHabitStats } from '@/hooks/useHabitStats';
 import DropdownMenu from '@/components/DropdownMenu';
 import { TrashIcon, EditIcon, TrendingUpIcon, MoreVerticalIcon, PlusCircleIcon } from '@/components/icons/StatusIcons';
@@ -11,6 +11,17 @@ interface HabitListItemProps {
     onViewDetails: (habit: Habit) => void;
     onInitiateLog: (habit: Habit) => void;
 }
+
+const categoryColors: Record<HabitCategory, string> = {
+    Health: 'bg-green-100 text-green-800',
+    Learning: 'bg-blue-100 text-blue-800',
+    Mindfulness: 'bg-purple-100 text-purple-800',
+    Fitness: 'bg-orange-100 text-orange-800',
+    Productivity: 'bg-indigo-100 text-indigo-800',
+    Social: 'bg-pink-100 text-pink-800',
+    Finance: 'bg-yellow-100 text-yellow-800',
+    Other: 'bg-gray-100 text-gray-800',
+};
 
 const getGoalString = (habit: Habit): string => {
     switch(habit.measurement.type) {
@@ -38,6 +49,8 @@ const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onDelete, onEdit, 
         }
     }
     
+    const category = habit.category || 'Other';
+    
     return (
         <div className={`bg-brand-surface p-4 rounded-lg shadow-sm border ${isCompletedToday ? 'border-green-300' : 'border-gray-200'}`}>
             <div className="flex items-start justify-between gap-4">
@@ -45,7 +58,12 @@ const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onDelete, onEdit, 
                     className="flex-grow cursor-pointer"
                     onClick={() => onViewDetails(habit)}
                 >
-                    <p className="font-bold text-lg text-brand-text-primary">{habit.title}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-bold text-lg text-brand-text-primary">{habit.title}</p>
+                        <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${categoryColors[category]}`}>
+                            {category}
+                        </span>
+                    </div>
                     <div className="flex items-center text-sm text-brand-text-secondary mt-1">
                         <TrendingUpIcon className="h-4 w-4 mr-1 text-brand-accent"/>
                         Streak: <span className="font-semibold text-brand-accent ml-1">{streak} days</span>

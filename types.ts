@@ -67,10 +67,16 @@ export interface MeasurementCount {
 
 export type HabitMeasurement = MeasurementDaily | MeasurementReps | MeasurementDuration | MeasurementCount;
 
+// --- Habit Categories ---
+export const HABIT_CATEGORIES = ['Health', 'Learning', 'Mindfulness', 'Fitness', 'Productivity', 'Social', 'Finance', 'Other'] as const;
+export type HabitCategory = typeof HABIT_CATEGORIES[number];
+
+
 // The main Habit structure, designed for flexibility.
 export interface Habit {
   id: string;
   title: string;
+  category: HabitCategory;
   isPositive: boolean; // True for building a habit, false for breaking one.
   cue: string;
   craving: string;

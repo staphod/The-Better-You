@@ -5,9 +5,10 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  size?: 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 'lg' }) => {
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -20,6 +21,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
 
   if (!isOpen) return null;
 
+  const sizeClasses = {
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
@@ -27,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
       role="dialog"
       onClick={onClose}
     >
-      <div className="bg-brand-surface rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto mx-4 p-6 sm:p-8" onClick={(e) => e.stopPropagation()}>
+      <div className={`bg-brand-surface rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto mx-4 p-6 sm:p-8`} onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between items-center border-b pb-4 mb-4">
           <h2 className="text-2xl font-bold text-brand-text-primary">{title}</h2>
           <button

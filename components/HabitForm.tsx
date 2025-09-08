@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import type { Habit, HabitMeasurement, MeasurementType } from '@/types';
+import type { Habit, HabitMeasurement, MeasurementType, HabitCategory } from '@/types';
+import { HABIT_CATEGORIES } from '@/types';
 
 interface HabitFormProps {
     onSave: (habit: Omit<Habit, 'id' | 'history'> | Habit) => void;
@@ -9,6 +10,7 @@ interface HabitFormProps {
 
 const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit }) => {
     const [title, setTitle] = useState('');
+    const [category, setCategory] = useState<HabitCategory>('Other');
     const [isPositive, setIsPositive] = useState(true);
     const [cue, setCue] = useState('');
     const [craving, setCraving] = useState('');
@@ -25,6 +27,7 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
     useEffect(() => {
         if (initialHabit) {
             setTitle(initialHabit.title);
+            setCategory(initialHabit.category || 'Other');
             setIsPositive(initialHabit.isPositive);
             setCue(initialHabit.cue);
             setCraving(initialHabit.craving);
@@ -45,6 +48,7 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
         } else {
             // Reset form for new habit
             setTitle('');
+            setCategory('Other');
             setIsPositive(true);
             setCue('');
             setCraving('');
@@ -80,7 +84,7 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
         }
 
         const habitData = {
-            title, isPositive, cue, craving, response, reward, reminderTime: reminderTime || null, measurement
+            title, category, isPositive, cue, craving, response, reward, reminderTime: reminderTime || null, measurement
         };
         
         if(initialHabit) {
@@ -136,20 +140,27 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
     
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-                <label htmlFor="title" className="block text-sm font-medium text-brand-text-secondary">Habit Title</label>
-                <input type="text" id="title" value={title} onChange={e => setTitle(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
-            </div>
-            
-            <div>
-                <label className="block text-sm font-medium text-brand-text-secondary">Habit Type</label>
-                <div className="mt-1 flex rounded-md shadow-sm">
-                    <button type="button" onClick={() => setIsPositive(true)} className={`w-1/2 rounded-l-md px-4 py-2 text-sm font-medium ${isPositive ? 'bg-brand-primary text-white' : 'bg-white hover:bg-gray-50'}`}>
-                        Build (Positive)
-                    </button>
-                    <button type="button" onClick={() => setIsPositive(false)} className={`w-1/2 rounded-r-md px-4 py-2 text-sm font-medium ${!isPositive ? 'bg-red-500 text-white' : 'bg-white hover:bg-gray-50'}`}>
-                        Break (Negative)
-                    </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
+                    <label htmlFor="title" className="block text-sm font-medium text-brand-text-secondary">Habit Title</label>
+                    <input type="text" id="title" value={title} onChange={e => setTitle(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                </div>
+                <div>
+                     <label htmlFor="category" className="block text-sm font-medium text-brand-text-secondary">Category</label>
+                    <select id="category" value={category} onChange={e => setCategory(e.target.value as HabitCategory)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary">
+                        {HABIT_CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                    </select>
+                </div>
+                 <div>
+                    <label className="block text-sm font-medium text-brand-text-secondary">Habit Type</label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                        <button type="button" onClick={() => setIsPositive(true)} className={`w-1/2 rounded-l-md px-4 py-2 text-sm font-medium ${isPositive ? 'bg-brand-primary text-white' : 'bg-white hover:bg-gray-50'}`}>
+                            Build (Positive)
+                        </button>
+                        <button type="button" onClick={() => setIsPositive(false)} className={`w-1/2 rounded-r-md px-4 py-2 text-sm font-medium ${!isPositive ? 'bg-red-500 text-white' : 'bg-white hover:bg-gray-50'}`}>
+                            Break (Negative)
+                        </button>
+                    </div>
                 </div>
             </div>
             

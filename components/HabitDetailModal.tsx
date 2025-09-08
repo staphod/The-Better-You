@@ -3,6 +3,8 @@ import type { Habit } from '@/types';
 import Modal from '@/components/Modal';
 import { useHabitStats } from '@/hooks/useHabitStats';
 import { TrendingUpIcon, TrendingDownIcon } from '@/components/icons/StatusIcons';
+import HabitCharts from './HabitCharts';
+import HabitCalendarView from './HabitCalendarView';
 
 interface HabitDetailModalProps {
   isOpen: boolean;
@@ -44,7 +46,7 @@ const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, ha
   const { streak, failures } = useHabitStats(habit);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={habit.title}>
+    <Modal isOpen={isOpen} onClose={onClose} title={habit.title} size="5xl">
         <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <StatCard 
@@ -55,13 +57,28 @@ const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, ha
                />
                <StatCard 
                     icon={<TrendingDownIcon className="h-6 w-6 text-white"/>}
-                    label="Total Failures"
+                    label="Total Missed Days"
                     value={failures}
                     color="bg-red-500"
                />
             </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div className="lg:col-span-3">
+                    <h3 className="text-lg font-semibold text-brand-text-primary mb-3">Monthly Progress</h3>
+                    <HabitCalendarView habit={habit} />
+                </div>
+                <div className="lg:col-span-2 space-y-4 pt-10">
+                     <DetailRow label="Category" value={habit.category || 'Other'} />
+                     <DetailRow label="Goal" value={<span className="font-bold text-brand-primary">{getGoalString(habit)}</span>} />
+                </div>
+            </div>
+
+            <div className="border-t pt-6">
+                <HabitCharts habit={habit} />
+            </div>
+
             <div className="border-t pt-6 space-y-4">
-                <DetailRow label="Goal" value={<span className="font-bold text-brand-primary">{getGoalString(habit)}</span>} />
                 <DetailRow label="1. Cue (Trigger)" value={habit.cue} />
                 <DetailRow label="2. Craving (Motivation)" value={habit.craving} />
                 <DetailRow label="3. Response (Action)" value={habit.response} />

@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { puzzles } from '../data/puzzles';
-import type { Puzzle } from '../types';
+import { puzzles } from '@/data/puzzles';
+import type { Puzzle } from '@/types';
 
 const getSolvedPuzzles = (): number[] => {
     try {

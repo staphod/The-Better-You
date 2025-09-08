@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { FullTest, Question } from '../types';
-import { fetchTestById } from '../services/api';
-import { useOnlineStatus } from '../hooks/useOnlineStatus';
-import { ClipboardIcon, CheckCircleIcon } from '../components/icons/StatusIcons';
+import type { FullTest, Question } from '@/types';
+import { fetchTestById } from '@/services/api';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { ClipboardIcon, CheckCircleIcon } from '@/components/icons/StatusIcons';
 
 const LoadingSpinner: React.FC = () => (
     <div className="flex justify-center items-center h-64">

@@ -1,7 +1,6 @@
-
 import React from 'react';
-import ModuleCard from '../components/ModuleCard';
-import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon } from '../components/icons/ModuleIcons';
+import ModuleCard from '@/components/ModuleCard';
+import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon } from '@/components/icons/ModuleIcons';
 
 const HomePage: React.FC = () => {
   const modules = [
@@ -53,8 +52,8 @@ const HomePage: React.FC = () => {
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {modules.map((module) => (
-          <ModuleCard key={module.to} {...module} />
+        {modules.map(({ to, title, description, icon }) => (
+          <ModuleCard key={to} to={to} title={title} description={description} icon={icon} />
         ))}
       </div>
     </div>

@@ -1,5 +1,4 @@
-
-import type { FullTest, Question } from '../types';
+import type { FullTest, Question } from '@/types';
 
 const mockTestDb: FullTest[] = [
   {

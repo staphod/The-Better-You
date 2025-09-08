@@ -1,8 +1,7 @@
-
 import React from 'react';
-import { useOnlineStatus } from '../hooks/useOnlineStatus';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { Link } from 'react-router-dom';
-import { WifiIcon, WifiOffIcon } from './icons/StatusIcons';
+import { WifiIcon, WifiOffIcon } from '@/components/icons/StatusIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isOnline, toggleOnlineStatus } = useOnlineStatus();

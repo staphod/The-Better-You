@@ -1,4 +1,5 @@
 
+
 export interface TestListing {
   id: string;
   title: string;
@@ -45,5 +46,6 @@ export interface Habit {
   response: string;
   reward: string;
   streak: number;
-  lastCompleted: string | null; // ISO date string
+  lastCompleted: string | null; // ISO date string YYYY-MM-DD
+  reminderTime: string | null; // e.g., "14:30"
 }

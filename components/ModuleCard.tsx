@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,15 +8,17 @@ interface ModuleCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
-  status: 'Online' | 'Offline' | 'Hybrid';
+  // status: 'Online' | 'Offline' | 'Hybrid'; // This prop is no longer used in the UI
 }
 
-const ModuleCard: React.FC<ModuleCardProps> = ({ to, title, description, icon, status }) => {
+const ModuleCard: React.FC<ModuleCardProps> = ({ to, title, description, icon }) => {
+  /*
   const statusColors = {
     Online: 'bg-red-100 text-red-800',
     Offline: 'bg-green-100 text-green-800',
     Hybrid: 'bg-blue-100 text-blue-800',
   };
+  */
 
   return (
     <Link to={to} className="block group">
@@ -24,9 +27,12 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ to, title, description, icon, s
           <div className="bg-brand-primary text-white rounded-lg p-3">
             {icon}
           </div>
+          {/* Developer Note: Status display hidden as per user request. */}
+          {/*
           <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusColors[status]}`}>
             {status}
           </span>
+          */}
         </div>
         <h3 className="text-xl font-bold text-brand-text-primary mb-2 group-hover:text-brand-primary transition-colors">{title}</h3>
         <p className="text-brand-text-secondary flex-grow">{description}</p>

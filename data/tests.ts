@@ -1,6 +1,5 @@
-
-import type { TestListing } from '../types';
-import { BrainIcon, OceanIcon } from '../components/icons/ModuleIcons';
+import type { TestListing } from '@/types';
+import { BrainIcon, OceanIcon } from '@/components/icons/ModuleIcons';
 
 export const testListings: TestListing[] = [
   {

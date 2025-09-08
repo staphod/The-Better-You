@@ -1,5 +1,4 @@
-
-import type { Puzzle } from '../types';
+import type { Puzzle } from '@/types';
 
 export const puzzles: Puzzle[] = [
   {

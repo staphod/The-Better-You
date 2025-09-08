@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ToolsIcon } from '../components/icons/ModuleIcons';
+import { ToolsIcon } from '@/components/icons/ModuleIcons';
 
 const ToolsPage: React.FC = () => {
   return (

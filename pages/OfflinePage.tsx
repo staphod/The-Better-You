@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { WifiOffIcon } from '../components/icons/StatusIcons';
+import { WifiOffIcon } from '@/components/icons/StatusIcons';
 
 const OfflinePage: React.FC = () => {
   return (

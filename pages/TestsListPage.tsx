@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { testListings } from '../data/tests';
-import type { TestListing } from '../types';
+import { testListings } from '@/data/tests';
+import type { TestListing } from '@/types';
 
 const TestItem: React.FC<{ test: TestListing }> = ({ test }) => {
   return (

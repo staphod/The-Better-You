@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AddictionIcon } from '../components/icons/ModuleIcons';
+import { AddictionIcon } from '@/components/icons/ModuleIcons';
 
 const AddictionsPage: React.FC = () => {
   return (

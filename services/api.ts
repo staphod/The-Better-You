@@ -1,4 +1,5 @@
-import type { FullTest, Question } from '@/types';
+import type { FullTest, Question, Addiction } from '@/types';
+import { addictions } from '@/data/addictions';
 
 const mockTestDb: FullTest[] = [
   {
@@ -66,6 +67,20 @@ export const fetchTestById = (id: string): Promise<FullTest> => {
         resolve(test);
       } else {
         reject(new Error("Test not found"));
+      }
+    }, 1000); // Simulate network delay
+  });
+};
+
+export const fetchAddictionById = (id: string): Promise<Addiction> => {
+  console.log(`Fetching addiction with id: ${id}`);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const addiction = addictions.find(a => a.id === id);
+      if (addiction) {
+        resolve(addiction);
+      } else {
+        reject(new Error("Addiction assessment not found"));
       }
     }, 1000); // Simulate network delay
   });

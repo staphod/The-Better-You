@@ -1,7 +1,7 @@
 import React from 'react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { Link } from 'react-router-dom';
-import { WifiIcon, WifiOffIcon } from '@/components/icons/StatusIcons';
+import { WifiIcon, WifiOffIcon, HeartIcon } from '@/components/icons/StatusIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isOnline, toggleOnlineStatus } = useOnlineStatus();
@@ -33,6 +33,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {children}
       </main>
       <footer className="text-center py-4 text-brand-text-secondary text-sm">
+        <div className="mb-2">
+            <Link to="/credits" className="inline-flex items-center gap-1 text-gray-500 hover:text-brand-primary transition-colors">
+                <HeartIcon className="h-4 w-4" />
+                <span>Credits</span>
+            </Link>
+        </div>
         <p>&copy; {new Date().getFullYear()} The Better You. All Rights Reserved.</p>
       </footer>
     </div>

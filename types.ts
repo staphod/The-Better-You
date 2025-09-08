@@ -116,3 +116,13 @@ export interface Addiction {
   resultTemplate: AddictionResultTemplate;
   scoringThresholds: { moderate: number; high: number }; // moderate score >= moderate, high score >= high
 }
+
+// --- Credits Page Types ---
+export interface CreditCategory {
+  title: string;
+  items: {
+    name: string;
+    url?: string;
+    description: string;
+  }[];
+}

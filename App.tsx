@@ -11,6 +11,7 @@ import HabitsPage from '@/pages/HabitsPage';
 import ToolsPage from '@/pages/ToolsPage';
 import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
+import CreditsPage from '@/pages/CreditsPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/tools" element={<ToolsPage />} />
             <Route path="/addictions" element={<AddictionsPage />} />
             <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
+            <Route path="/credits" element={<CreditsPage />} />
             <Route path="/offline" element={<OfflinePage />} />
           </Routes>
         </Layout>

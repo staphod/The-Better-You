@@ -1,8 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { addictions } from '@/data/addictions';
 import type { Addiction } from '@/types';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { fetchAddictionById } from '@/services/api';
 import { ClipboardIcon, CheckCircleIcon, ShieldCheckIcon, LightbulbIcon, LifebuoyIcon } from '@/components/icons/StatusIcons';
+
+const LoadingSpinner: React.FC = () => (
+    <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-brand-primary"></div>
+    </div>
+);
 
 const AddictionResult: React.FC<{ result: any; onCopy: () => void; copied: boolean }> = ({ result, onCopy, copied }) => {
     const riskColors: Record<string, string> = {
@@ -56,30 +63,46 @@ const AddictionResult: React.FC<{ result: any; onCopy: () => void; copied: boole
 const AddictionDetailPage: React.FC = () => {
     const { addictionId } = useParams<{ addictionId: string }>();
     const navigate = useNavigate();
+    const { isOnline } = useOnlineStatus();
 
-    const addiction = addictions.find(a => a.id === addictionId);
+    const [addiction, setAddiction] = useState<Addiction | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [result, setResult] = useState<any | null>(null);
     const [copied, setCopied] = useState(false);
 
-    if (!addiction) {
-        return (
-            <div className="text-center">
-                <h1 className="text-2xl font-bold">Assessment Not Found</h1>
-                <p className="mt-2">The assessment you're looking for doesn't exist.</p>
-                <Link to="/addictions" className="mt-4 inline-block bg-brand-primary text-white font-bold py-2 px-4 rounded-lg">
-                    Back to Assessments
-                </Link>
-            </div>
-        );
-    }
+    useEffect(() => {
+        if (!addictionId) return;
+
+        if (!isOnline) {
+            navigate('/offline');
+            return;
+        }
+
+        const loadAddiction = async () => {
+            try {
+                setLoading(true);
+                const addictionData = await fetchAddictionById(addictionId);
+                setAddiction(addictionData);
+                setError(null);
+            } catch (err) {
+                setError('Failed to load the assessment. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadAddiction();
+    }, [addictionId, isOnline, navigate]);
     
     const handleAnswerChange = (questionId: string, value: number) => {
         setAnswers(prev => ({ ...prev, [questionId]: value }));
     };
 
     const handleSubmit = () => {
+        if (!addiction) return;
         const totalScore = Object.values(answers).reduce((sum, val) => sum + val, 0);
         
         let resultKey = 'low-risk';
@@ -93,7 +116,7 @@ const AddictionDetailPage: React.FC = () => {
     };
 
     const handleCopy = useCallback(() => {
-        if (!result) return;
+        if (!result || !addiction) return;
         const textToCopy = `
 My ${addiction.title} Results:
 ---
@@ -107,7 +130,22 @@ Resources: ${result.helplines.map((h: any) => `${h.name} (${h.url})`).join(', ')
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         });
-    }, [result, addiction.title]);
+    }, [result, addiction]);
+
+    if (loading) return <LoadingSpinner />;
+    if (error) return <p className="text-center text-red-500">{error}</p>;
+    
+    if (!addiction) {
+        return (
+            <div className="text-center">
+                <h1 className="text-2xl font-bold">Assessment Not Found</h1>
+                <p className="mt-2">The assessment you're looking for doesn't exist.</p>
+                <Link to="/addictions" className="mt-4 inline-block bg-brand-primary text-white font-bold py-2 px-4 rounded-lg">
+                    Back to Assessments
+                </Link>
+            </div>
+        );
+    }
     
     if (result) {
         return <AddictionResult result={result} onCopy={handleCopy} copied={copied} />;

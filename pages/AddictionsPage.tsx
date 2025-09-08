@@ -58,6 +58,7 @@ const AddictionsPage: React.FC = () => {
         </div>
         <p className="mt-2 text-lg text-brand-text-secondary">
           Take a confidential self-assessment to better understand your habits. These tests are for educational purposes and are not a substitute for professional medical advice.
+          <span className="block text-sm mt-2">An internet connection is required to load individual assessments.</span>
         </p>
       </div>
       

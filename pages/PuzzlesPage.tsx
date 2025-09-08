@@ -1,45 +1,70 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { puzzles } from '@/data/puzzles';
 import type { Puzzle } from '@/types';
+import { FireIcon } from '@/components/icons/StatusIcons';
 
-const getSolvedPuzzles = (): number[] => {
+// --- LocalStorage Helper Functions ---
+
+const SOLVED_PUZZLES_KEY = 'solvedPuzzles';
+const PUZZLE_STREAK_KEY = 'puzzleStreak';
+
+const getFromStorage = <T,>(key: string, defaultValue: T): T => {
     try {
-        const solved = localStorage.getItem('solvedPuzzles');
-        return solved ? JSON.parse(solved) : [];
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : defaultValue;
     } catch (e) {
-        console.error("Failed to parse solved puzzles from localStorage", e);
-        return [];
+        console.error(`Failed to parse ${key} from localStorage`, e);
+        return defaultValue;
     }
 };
 
+const saveToStorage = <T,>(key: string, value: T) => {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+        console.error(`Failed to save ${key} to localStorage`, e);
+    }
+};
+
+const getSolvedPuzzles = (): number[] => getFromStorage(SOLVED_PUZZLES_KEY, []);
 const saveSolvedPuzzle = (id: number) => {
     const solved = getSolvedPuzzles();
     if (!solved.includes(id)) {
-        localStorage.setItem('solvedPuzzles', JSON.stringify([...solved, id]));
+        saveToStorage(SOLVED_PUZZLES_KEY, [...solved, id]);
     }
 };
+const getStreak = (): number => getFromStorage(PUZZLE_STREAK_KEY, 0);
+const saveStreak = (streak: number) => saveToStorage(PUZZLE_STREAK_KEY, streak);
 
-// Utility to shuffle an array
-const shuffleArray = (array: any[]) => [...array].sort(() => Math.random() - 0.5);
+
+// --- Utility Functions ---
+
+const shuffleArray = <T,>(array: T[]): T[] => [...array].sort(() => Math.random() - 0.5);
+
+
+// --- Component ---
 
 const PuzzlesPage: React.FC = () => {
-    const [solvedIds, setSolvedIds] = useState<number[]>(getSolvedPuzzles);
+    const [solvedIds, setSolvedIds] = useState<number[]>([]);
+    const [streak, setStreak] = useState<number>(0);
     const [currentPuzzle, setCurrentPuzzle] = useState<Puzzle | null>(null);
     const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-    const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+    const [isInitialized, setIsInitialized] = useState(false);
     
+    // Derived state, memoized for performance
     const unsolvedPuzzles = useMemo(() => puzzles.filter(p => !solvedIds.includes(p.id)), [solvedIds]);
-    
+
     const loadNextPuzzle = useCallback(() => {
         setSelectedAnswer(null);
-        setIsCorrect(null);
         
-        let nextPuzzle: Puzzle;
+        let nextPuzzle: Puzzle | undefined;
+        // Re-check unsolved puzzles within this function to ensure it has the latest `solvedIds`
+        const currentUnsolved = puzzles.filter(p => !getSolvedPuzzles().includes(p.id));
 
-        if (unsolvedPuzzles.length > 0) {
-            const randomIndex = Math.floor(Math.random() * unsolvedPuzzles.length);
-            nextPuzzle = unsolvedPuzzles[randomIndex];
+        if (currentUnsolved.length > 0) {
+            const randomIndex = Math.floor(Math.random() * currentUnsolved.length);
+            nextPuzzle = currentUnsolved[randomIndex];
         } else {
             // Endless mode: All puzzles solved once, now pick any puzzle randomly.
             const randomIndex = Math.floor(Math.random() * puzzles.length);
@@ -50,60 +75,79 @@ const PuzzlesPage: React.FC = () => {
             setCurrentPuzzle(nextPuzzle);
             setShuffledOptions(shuffleArray(nextPuzzle.options));
         }
-    },[unsolvedPuzzles]);
+    }, []);
 
-    // This effect runs on mount and whenever loadNextPuzzle function changes (i.e., when unsolvedPuzzles changes)
+    // Load initial state from localStorage on mount
     useEffect(() => {
-        loadNextPuzzle();
-    }, [loadNextPuzzle]);
+        setSolvedIds(getSolvedPuzzles());
+        setStreak(getStreak());
+        setIsInitialized(true);
+    }, []);
+
+    // Load the first puzzle once state is initialized
+    useEffect(() => {
+        if(isInitialized) {
+            loadNextPuzzle();
+        }
+    }, [isInitialized, loadNextPuzzle]);
     
     const handleAnswer = (option: string) => {
         if (selectedAnswer || !currentPuzzle) return;
 
         setSelectedAnswer(option);
-        const correct = option === currentPuzzle.answer;
-        setIsCorrect(correct);
+        const isCorrect = option === currentPuzzle.answer;
 
-        if (correct) {
-            const isNewSolve = !solvedIds.includes(currentPuzzle.id);
-            if (isNewSolve) {
+        if (isCorrect) {
+            const newStreak = streak + 1;
+            setStreak(newStreak);
+            saveStreak(newStreak);
+
+            if (!solvedIds.includes(currentPuzzle.id)) {
                 saveSolvedPuzzle(currentPuzzle.id);
+                setSolvedIds(prev => [...prev, currentPuzzle.id!]);
             }
-            
-            setTimeout(() => {
-                if (isNewSolve) {
-                    setSolvedIds(prev => [...prev, currentPuzzle.id]);
-                } else {
-                    // It's a repeat solve in endless mode, just load the next puzzle
-                    loadNextPuzzle();
-                }
-            }, 1500); // Wait before loading next
+        } else {
+            // Reset streak on incorrect answer
+            setStreak(0);
+            saveStreak(0);
         }
     };
     
     const getButtonClass = (option: string) => {
         if (!selectedAnswer) {
-            return 'bg-brand-surface hover:bg-gray-100';
+            return 'bg-brand-surface hover:bg-gray-100 text-brand-text-primary';
         }
         if (option === currentPuzzle?.answer) {
-            return 'bg-green-500 text-white';
+            // Always highlight correct answer in green after selection
+            return 'bg-green-500 text-white scale-105 shadow-lg';
         }
         if (option === selectedAnswer) {
+            // Highlight user's incorrect choice in red
             return 'bg-red-500 text-white';
         }
-        return 'bg-brand-surface opacity-60';
+        // Fade out other incorrect options
+        return 'bg-brand-surface opacity-50';
     };
+
+    const isCorrect = selectedAnswer === currentPuzzle?.answer;
 
     return (
         <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-3xl font-bold text-brand-text-primary">Mind Puzzles</h1>
-            <p className="mt-2 text-lg text-brand-text-secondary">
+            <div className="flex justify-between items-center mb-2">
+                <h1 className="text-3xl font-bold text-brand-text-primary text-left">Mind Puzzles</h1>
+                <div className="flex items-center space-x-2 bg-brand-surface px-4 py-2 rounded-full shadow-sm">
+                    <FireIcon className={`h-6 w-6 ${streak > 0 ? 'text-orange-500' : 'text-gray-400'}`} />
+                    <span className="text-xl font-bold text-brand-text-primary">{streak}</span>
+                    <span className="text-sm text-brand-text-secondary">Streak</span>
+                </div>
+            </div>
+            <p className="text-lg text-brand-text-secondary text-left">
                 Solved: {solvedIds.length}
             </p>
 
             {currentPuzzle ? (
-                <div className="mt-8 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
-                    <p className="text-xl sm:text-2xl font-medium text-brand-text-primary mb-6">
+                <div className="mt-6 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg">
+                    <p className="text-xl sm:text-2xl font-medium text-brand-text-primary mb-6 min-h-[6rem] flex items-center justify-center">
                         {currentPuzzle.question}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -118,6 +162,23 @@ const PuzzlesPage: React.FC = () => {
                             </button>
                         ))}
                     </div>
+
+                    {selectedAnswer && (
+                        <div className="mt-6 text-center animate-fade-in">
+                             <p className={`font-bold text-lg ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                                {isCorrect ? 'Correct!' : 'Not quite!'}
+                            </p>
+                            {!isCorrect && (
+                                <p className="text-brand-text-secondary mt-1">The correct answer was: <span className="font-semibold">{currentPuzzle.answer}</span></p>
+                            )}
+                            <button
+                                onClick={loadNextPuzzle}
+                                className="mt-4 bg-brand-primary text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-opacity"
+                            >
+                                Next Puzzle
+                            </button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="mt-8 bg-brand-surface p-8 rounded-lg shadow-lg">

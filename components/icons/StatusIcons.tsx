@@ -64,3 +64,9 @@ export const PlusCircleIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
 );
+
+export const FireIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 15 7.5 15 9c1.429.143 3.571-.143 3.571-1.429 0-1.428-.571-3.571-2.914-3.571A4.002 4.002 0 0012 3.5c-1.486 0-2.857.5-3.571 1.429C4.929 7.371 4.929 11.171 7.37 13.614l.707.707a2 2 0 002.828 0l.707-.707" />
+  </svg>
+);

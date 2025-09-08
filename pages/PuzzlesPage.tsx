@@ -19,9 +19,13 @@ const saveSolvedPuzzle = (id: number) => {
     }
 };
 
+// Utility to shuffle an array
+const shuffleArray = (array: any[]) => [...array].sort(() => Math.random() - 0.5);
+
 const PuzzlesPage: React.FC = () => {
     const [solvedIds, setSolvedIds] = useState<number[]>(getSolvedPuzzles);
     const [currentPuzzle, setCurrentPuzzle] = useState<Puzzle | null>(null);
+    const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
     
@@ -30,39 +34,53 @@ const PuzzlesPage: React.FC = () => {
     const loadNextPuzzle = useCallback(() => {
         setSelectedAnswer(null);
         setIsCorrect(null);
+        
+        let nextPuzzle: Puzzle;
+
         if (unsolvedPuzzles.length > 0) {
             const randomIndex = Math.floor(Math.random() * unsolvedPuzzles.length);
-            setCurrentPuzzle(unsolvedPuzzles[randomIndex]);
+            nextPuzzle = unsolvedPuzzles[randomIndex];
         } else {
-            setCurrentPuzzle(null); // All puzzles solved
+            // Endless mode: All puzzles solved once, now pick any puzzle randomly.
+            const randomIndex = Math.floor(Math.random() * puzzles.length);
+            nextPuzzle = puzzles[randomIndex];
+        }
+        
+        if (nextPuzzle) {
+            setCurrentPuzzle(nextPuzzle);
+            setShuffledOptions(shuffleArray(nextPuzzle.options));
         }
     },[unsolvedPuzzles]);
 
+    // This effect runs on mount and whenever loadNextPuzzle function changes (i.e., when unsolvedPuzzles changes)
     useEffect(() => {
         loadNextPuzzle();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [solvedIds]);
+    }, [loadNextPuzzle]);
     
     const handleAnswer = (option: string) => {
-        if (selectedAnswer) return; // Prevent changing answer
+        if (selectedAnswer || !currentPuzzle) return;
 
         setSelectedAnswer(option);
-        const correct = option === currentPuzzle?.answer;
+        const correct = option === currentPuzzle.answer;
         setIsCorrect(correct);
 
-        if (correct && currentPuzzle) {
-            saveSolvedPuzzle(currentPuzzle.id);
+        if (correct) {
+            const isNewSolve = !solvedIds.includes(currentPuzzle.id);
+            if (isNewSolve) {
+                saveSolvedPuzzle(currentPuzzle.id);
+            }
+            
             setTimeout(() => {
-                setSolvedIds(prev => [...prev, currentPuzzle.id]);
+                if (isNewSolve) {
+                    setSolvedIds(prev => [...prev, currentPuzzle.id]);
+                } else {
+                    // It's a repeat solve in endless mode, just load the next puzzle
+                    loadNextPuzzle();
+                }
             }, 1500); // Wait before loading next
         }
     };
     
-    const resetProgress = () => {
-        localStorage.removeItem('solvedPuzzles');
-        setSolvedIds([]);
-    }
-
     const getButtonClass = (option: string) => {
         if (!selectedAnswer) {
             return 'bg-brand-surface hover:bg-gray-100';
@@ -80,21 +98,16 @@ const PuzzlesPage: React.FC = () => {
         <div className="max-w-2xl mx-auto text-center">
             <h1 className="text-3xl font-bold text-brand-text-primary">Mind Puzzles</h1>
             <p className="mt-2 text-lg text-brand-text-secondary">
-                Solved: {solvedIds.length} / {puzzles.length}
+                Solved: {solvedIds.length}
             </p>
-             {unsolvedPuzzles.length === 0 && (
-                <button onClick={resetProgress} className="mt-4 text-sm text-brand-primary hover:underline">
-                    Reset Progress
-                </button>
-            )}
 
             {currentPuzzle ? (
-                <div className="mt-8 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg">
+                <div className="mt-8 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
                     <p className="text-xl sm:text-2xl font-medium text-brand-text-primary mb-6">
                         {currentPuzzle.question}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {currentPuzzle.options.map(option => (
+                        {shuffledOptions.map(option => (
                             <button
                                 key={option}
                                 onClick={() => handleAnswer(option)}
@@ -108,8 +121,8 @@ const PuzzlesPage: React.FC = () => {
                 </div>
             ) : (
                 <div className="mt-8 bg-brand-surface p-8 rounded-lg shadow-lg">
-                    <h2 className="text-2xl font-bold text-green-500">Congratulations!</h2>
-                    <p className="mt-2 text-brand-text-secondary">You have solved all the puzzles!</p>
+                    <h2 className="text-2xl font-bold text-brand-primary">Loading Puzzles...</h2>
+                    <p className="mt-2 text-brand-text-secondary">Getting your next challenge ready!</p>
                 </div>
             )}
         </div>

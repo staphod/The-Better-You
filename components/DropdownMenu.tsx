@@ -19,12 +19,14 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, children }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const originalOnClick = trigger.props.onClick;
+
   const handleTriggerClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    if (trigger.props.onClick) {
-      trigger.props.onClick(e);
+    if (originalOnClick) {
+      originalOnClick(e);
     }
-    setIsOpen(!isOpen);
+    setIsOpen(prev => !prev);
   };
 
   return (

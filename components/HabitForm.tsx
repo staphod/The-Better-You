@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import type { Habit } from '@/types';
+import type { Habit, HabitMeasurement, MeasurementType } from '@/types';
 
 interface HabitFormProps {
-    onSave: (habit: Omit<Habit, 'id' | 'measurement' | 'history'> | Habit) => void;
+    onSave: (habit: Omit<Habit, 'id' | 'history'> | Habit) => void;
     onCancel: () => void;
     initialHabit?: Habit | null;
 }
@@ -15,6 +15,12 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
     const [response, setResponse] = useState('');
     const [reward, setReward] = useState('');
     const [reminderTime, setReminderTime] = useState<string>('');
+    
+    // State for the new measurement fields
+    const [measurementType, setMeasurementType] = useState<MeasurementType>('daily');
+    const [goal, setGoal] = useState<number>(1);
+    const [unit, setUnit] = useState<string>('');
+
 
     useEffect(() => {
         if (initialHabit) {
@@ -25,7 +31,19 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
             setResponse(initialHabit.response);
             setReward(initialHabit.reward);
             setReminderTime(initialHabit.reminderTime || '');
+            setMeasurementType(initialHabit.measurement.type);
+            if (initialHabit.measurement.type !== 'daily') {
+                setGoal(initialHabit.measurement.goal);
+            }
+            if (initialHabit.measurement.type === 'duration') {
+                setUnit(initialHabit.measurement.unit);
+            }
+            if (initialHabit.measurement.type === 'count') {
+                setUnit(initialHabit.measurement.unit);
+            }
+
         } else {
+            // Reset form for new habit
             setTitle('');
             setIsPositive(true);
             setCue('');
@@ -33,6 +51,9 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
             setResponse('');
             setReward('');
             setReminderTime('');
+            setMeasurementType('daily');
+            setGoal(1);
+            setUnit('');
         }
     }, [initialHabit]);
 
@@ -43,14 +64,73 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
             return;
         }
 
+        let measurement: HabitMeasurement;
+        switch(measurementType) {
+            case 'reps':
+                measurement = { type: 'reps', goal: goal > 0 ? goal : 1 };
+                break;
+            case 'duration':
+                measurement = { type: 'duration', goal: goal > 0 ? goal : 1, unit: unit === 'hours' ? 'hours' : 'minutes' };
+                break;
+            case 'count':
+                measurement = { type: 'count', goal: goal > 0 ? goal : 1, unit: unit || 'times' };
+                break;
+            default:
+                measurement = { type: 'daily' };
+        }
+
         const habitData = {
-            title, isPositive, cue, craving, response, reward, reminderTime: reminderTime || null,
+            title, isPositive, cue, craving, response, reward, reminderTime: reminderTime || null, measurement
         };
         
         if(initialHabit) {
             onSave({ ...initialHabit, ...habitData });
         } else {
-             onSave(habitData);
+             onSave(habitData as Omit<Habit, 'id'|'history'>);
+        }
+    };
+    
+    const renderMeasurementInputs = () => {
+        switch (measurementType) {
+            case 'reps':
+                return (
+                    <div>
+                        <label htmlFor="goal" className="block text-sm font-medium text-brand-text-secondary">Goal Repetitions</label>
+                        <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                    </div>
+                );
+            case 'duration':
+                return (
+                    <div className="flex gap-4">
+                        <div className="flex-grow">
+                            <label htmlFor="goal" className="block text-sm font-medium text-brand-text-secondary">Goal Duration</label>
+                            <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                        </div>
+                        <div>
+                             <label htmlFor="unit" className="block text-sm font-medium text-brand-text-secondary">Unit</label>
+                             <select id="unit" value={unit} onChange={e => setUnit(e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary">
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                             </select>
+                        </div>
+                    </div>
+                );
+            case 'count':
+                 return (
+                    <div className="flex gap-4">
+                        <div className="flex-grow">
+                            <label htmlFor="goal" className="block text-sm font-medium text-brand-text-secondary">Goal Count</label>
+                            <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                        </div>
+                        <div>
+                             <label htmlFor="unit-name" className="block text-sm font-medium text-brand-text-secondary">Unit Name</label>
+                             <input type="text" id="unit-name" value={unit} onChange={e => setUnit(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary" placeholder="e.g., pages"/>
+                        </div>
+                    </div>
+                );
+            case 'daily':
+            default:
+                return <p className="text-sm text-gray-500">This is a simple daily habit. Mark it as done each day.</p>;
         }
     };
     
@@ -72,8 +152,20 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
                     </button>
                 </div>
             </div>
+            
+            <div className="border-t pt-4">
+                 <label htmlFor="measurement-type" className="block text-sm font-medium text-brand-text-secondary">How will you measure this habit?</label>
+                 <select id="measurement-type" value={measurementType} onChange={e => setMeasurementType(e.target.value as MeasurementType)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary">
+                    <option value="daily">Daily Task (Done / Not Done)</option>
+                    <option value="reps">Repetitions (e.g., push-ups)</option>
+                    <option value="duration">Duration (Time-based)</option>
+                    <option value="count">Count (e.g., pages read)</option>
+                 </select>
+            </div>
+            
+            <div>{renderMeasurementInputs()}</div>
 
-            <p className="text-sm text-brand-text-secondary pt-2">Based on the "Atomic Habits" framework, define the following:</p>
+            <p className="text-sm text-brand-text-secondary pt-2">Optionally, define the "Atomic Habits" framework:</p>
 
             <div>
                 <label htmlFor="cue" className="block text-sm font-medium text-brand-text-secondary">1. Cue (Trigger)</label>

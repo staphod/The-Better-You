@@ -1,68 +1,72 @@
 import { useMemo } from 'react';
-import type { Habit } from '@/types';
+import type { Habit, HabitLog } from '@/types';
 
 const toYYYYMMDD = (date: Date): string => date.toISOString().split('T')[0];
 
+const isDayCompleted = (habit: Habit, log: HabitLog): boolean => {
+    switch (habit.measurement.type) {
+        case 'daily':
+            return log.value >= 1;
+        case 'reps':
+        case 'duration':
+        case 'count':
+            return log.value >= habit.measurement.goal;
+        default:
+            return false;
+    }
+};
+
 /**
  * A custom hook that computes statistics for a given habit based on its history.
- * It memoizes the result to prevent unnecessary recalculations.
  * @param habit The habit object.
- * @returns An object containing the calculated streak, total failures, and today's completion status.
+ * @returns An object containing calculated stats.
  */
 export const useHabitStats = (habit: Habit) => {
     return useMemo(() => {
         if (!habit?.history) {
-            return { streak: 0, failures: 0, completionStatusForToday: null };
+            return { streak: 0, failures: 0, completionValueForToday: null, isCompletedToday: false };
         }
 
         const sortedHistory = [...habit.history].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        const historyByDate = new Map(sortedHistory.map(log => [log.date, log]));
 
-        // Calculate total failures
-        const totalFailures = sortedHistory.filter(log => log.status === 'missed').length;
+        // --- Calculate total failures ---
+        const totalFailures = sortedHistory.filter(log => !isDayCompleted(habit, log)).length;
+        
+        // --- Calculate today's status ---
+        const todayStr = toYYYYMMDD(new Date());
+        const todayLog = historyByDate.get(todayStr);
+        const completionValueForToday = todayLog ? todayLog.value : null;
+        const isCompletedToday = todayLog ? isDayCompleted(habit, todayLog) : false;
 
-        // Calculate current streak
+        // --- Calculate current streak ---
         let currentStreak = 0;
-        const today = new Date();
-        const todayStr = toYYYYMMDD(today);
+        let currentDate = new Date();
         
-        // Find the starting point for streak calculation (today or yesterday)
-        const latestLog = sortedHistory.find(log => log.date <= todayStr);
-        
-        if (latestLog && latestLog.status === 'completed') {
-            const latestLogDate = new Date(latestLog.date + 'T12:00:00'); // Use midday to avoid timezone issues
-            const daysDiff = Math.round((today.getTime() - latestLogDate.getTime()) / (1000 * 60 * 60 * 24));
+        // If today is completed, start streak from today.
+        // If not, start checking from yesterday.
+        if (!isCompletedToday) {
+            currentDate.setDate(currentDate.getDate() - 1);
+        }
+
+        while (true) {
+            const dateStr = toYYYYMMDD(currentDate);
+            const log = historyByDate.get(dateStr);
             
-            if (daysDiff <= 1) { // Streak is current if last completion was today or yesterday
-                let currentDate = latestLogDate;
-                
-                for (const log of sortedHistory) {
-                     if (log.status === 'completed') {
-                        const logDate = new Date(log.date + 'T12:00:00');
-                        const expectedDateStr = toYYYYMMDD(currentDate);
-                        if (log.date === expectedDateStr) {
-                             currentStreak++;
-                             currentDate.setDate(currentDate.getDate() - 1);
-                        } else {
-                            // Break if there's a gap in the dates
-                            break;
-                        }
-                     } else {
-                         // Break if a 'missed' day is encountered in the streak
-                         break;
-                     }
-                }
+            if (log && isDayCompleted(habit, log)) {
+                currentStreak++;
+                currentDate.setDate(currentDate.getDate() - 1); // Move to the previous day
+            } else {
+                break; // Streak is broken
             }
         }
-        
-        // Determine today's status
-        const todayLog = sortedHistory.find(log => log.date === todayStr);
-        const completionStatusForToday = todayLog ? todayLog.status : null;
 
         return {
             streak: currentStreak,
             failures: totalFailures,
-            completionStatusForToday,
+            completionValueForToday,
+            isCompletedToday,
         };
 
-    }, [habit.history]);
+    }, [habit]);
 };

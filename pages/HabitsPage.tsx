@@ -5,6 +5,7 @@ import Modal from '@/components/Modal';
 import HabitForm from '@/components/HabitForm';
 import HabitListItem from '@/components/HabitListItem';
 import HabitDetailModal from '@/components/HabitDetailModal';
+import LogProgressModal from '@/components/LogProgressModal';
 import type { Habit } from '@/types';
 
 const requestNotificationPermission = async () => {
@@ -43,6 +44,7 @@ const HabitsPage: React.FC = () => {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
     const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
     const [viewingHabit, setViewingHabit] = useState<Habit | null>(null);
+    const [loggingHabit, setLoggingHabit] = useState<Habit | null>(null);
 
     const handleOpenAddModal = () => {
         setEditingHabit(null);
@@ -54,10 +56,10 @@ const HabitsPage: React.FC = () => {
         setIsFormModalOpen(true);
     };
 
-    const handleSaveHabit = useCallback(async (habitData: Omit<Habit, 'id' | 'measurement' | 'history'> | Habit) => {
+    const handleSaveHabit = useCallback(async (habitData: Omit<Habit, 'id' | 'history'> | Habit) => {
         const isNew = !('id' in habitData);
         if (isNew) {
-            addHabit(habitData);
+            addHabit(habitData as Omit<Habit, 'id' | 'history'>);
         } else {
             updateHabit(habitData as Habit);
         }
@@ -81,6 +83,13 @@ const HabitsPage: React.FC = () => {
 
     const handleViewDetails = (habit: Habit) => {
         setViewingHabit(habit);
+    };
+    
+    const handleLogProgress = (value: number) => {
+        if (loggingHabit) {
+            logHabit(loggingHabit.id, value);
+        }
+        setLoggingHabit(null);
     };
 
     return (
@@ -106,10 +115,10 @@ const HabitsPage: React.FC = () => {
                         <HabitListItem 
                             key={habit.id} 
                             habit={habit}
-                            onLogHabit={logHabit}
                             onDelete={handleDeleteHabit} 
                             onEdit={handleOpenEditModal}
                             onViewDetails={handleViewDetails}
+                            onInitiateLog={setLoggingHabit}
                         />
                     ))}
                 </div>
@@ -135,6 +144,15 @@ const HabitsPage: React.FC = () => {
                     habit={viewingHabit}
                     isOpen={!!viewingHabit}
                     onClose={() => setViewingHabit(null)}
+                />
+            )}
+            
+            {loggingHabit && (
+                <LogProgressModal
+                    habit={loggingHabit}
+                    isOpen={!!loggingHabit}
+                    onClose={() => setLoggingHabit(null)}
+                    onLog={handleLogProgress}
                 />
             )}
         </div>

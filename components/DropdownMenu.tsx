@@ -20,7 +20,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, children }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleTriggerClick = (e: React.MouseEvent) => {
+  // FIX: Explicitly typed the event `e` as React.MouseEvent<HTMLElement> to match the expected type of the trigger's onClick prop.
+  const handleTriggerClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     // Also call the original onClick if it exists, making the component more robust.
     if (trigger.props.onClick) {

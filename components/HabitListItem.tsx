@@ -1,40 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { Habit } from '@/types';
 import { useHabitStats } from '@/hooks/useHabitStats';
 import DropdownMenu from '@/components/DropdownMenu';
-import { TrashIcon, EditIcon, TrendingUpIcon, MoreVerticalIcon, CheckCircleIcon } from '@/components/icons/StatusIcons';
+import { TrashIcon, EditIcon, TrendingUpIcon, MoreVerticalIcon, PlusCircleIcon } from '@/components/icons/StatusIcons';
 
 interface HabitListItemProps {
     habit: Habit;
-    onLogHabit: (id: string, status: 'completed' | 'missed') => void;
     onDelete: (id: string) => void;
     onEdit: (habit: Habit) => void;
     onViewDetails: (habit: Habit) => void;
+    onInitiateLog: (habit: Habit) => void;
 }
 
-const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onLogHabit, onDelete, onEdit, onViewDetails }) => {
-    const { streak, completionStatusForToday } = useHabitStats(habit);
+const getGoalString = (habit: Habit): string => {
+    switch(habit.measurement.type) {
+        case 'daily': return "Complete daily";
+        case 'reps': return `Goal: ${habit.measurement.goal} reps`;
+        case 'duration': return `Goal: ${habit.measurement.goal} ${habit.measurement.unit}`;
+        case 'count': return `Goal: ${habit.measurement.goal} ${habit.measurement.unit}`;
+        default: return "";
+    }
+}
 
-    const getButtonStyle = (status: 'completed' | 'missed') => {
-        if (completionStatusForToday === status) {
-            return status === 'completed' 
-                ? 'bg-green-500 text-white' 
-                : 'bg-red-500 text-white';
+const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onDelete, onEdit, onViewDetails, onInitiateLog }) => {
+    const { streak, isCompletedToday, completionValueForToday } = useHabitStats(habit);
+
+    const goalString = getGoalString(habit);
+    let todayProgressString = "Not logged today";
+    if(completionValueForToday !== null) {
+        if (habit.measurement.type === 'daily') {
+            todayProgressString = completionValueForToday >= 1 ? "Completed today" : "Missed today";
+        // FIX: Replaced redundant `else if` with `else` to handle all non-daily habit types, which resolves the type overlap error.
+        } else {
+             todayProgressString = `Logged: ${completionValueForToday} / ${habit.measurement.goal}`;
         }
-        return 'bg-gray-200 hover:bg-gray-300';
-    };
-
+    }
+    
     return (
-        <div className="bg-brand-surface p-4 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between gap-4">
+        <div className={`bg-brand-surface p-4 rounded-lg shadow-sm border ${isCompletedToday ? 'border-green-300' : 'border-gray-200'}`}>
+            <div className="flex items-start justify-between gap-4">
                 <div 
                     className="flex-grow cursor-pointer"
                     onClick={() => onViewDetails(habit)}
                 >
                     <p className="font-bold text-lg text-brand-text-primary">{habit.title}</p>
-                    <div className="flex items-center text-sm text-brand-text-secondary">
+                    <div className="flex items-center text-sm text-brand-text-secondary mt-1">
                         <TrendingUpIcon className="h-4 w-4 mr-1 text-brand-accent"/>
-                        Current Streak: <span className="font-semibold text-brand-accent ml-1">{streak} days</span>
+                        Streak: <span className="font-semibold text-brand-accent ml-1">{streak} days</span>
+                    </div>
+                     <div className="text-sm text-brand-text-secondary">
+                        {goalString}
                     </div>
                 </div>
                 <div className="flex items-center space-x-2 flex-shrink-0">
@@ -51,22 +66,16 @@ const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onLogHabit, onDele
                 </div>
             </div>
             
-            <div className="mt-4 flex items-center gap-2">
+            <div className="mt-3 flex items-center justify-between gap-2 bg-gray-50 p-2 rounded-md">
+                <span className={`text-sm font-medium ${isCompletedToday ? 'text-green-600' : 'text-gray-600'}`}>
+                    {todayProgressString}
+                </span>
                 <button
-                    onClick={() => onLogHabit(habit.id, 'completed')}
-                    className={`w-full text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors ${getButtonStyle('completed')}`}
+                    onClick={() => onInitiateLog(habit)}
+                    className="text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors bg-brand-secondary text-white hover:opacity-90"
                 >
-                    <CheckCircleIcon className="h-5 w-5"/>
-                    Done
-                </button>
-                <button
-                    onClick={() => onLogHabit(habit.id, 'missed')}
-                    className={`w-full text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors ${getButtonStyle('missed')}`}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Not Done
+                    <PlusCircleIcon className="h-5 w-5"/>
+                    Log Progress
                 </button>
             </div>
         </div>

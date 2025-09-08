@@ -22,12 +22,22 @@ const StatCard: React.FC<{ icon: React.ReactNode; label: string; value: string |
     </div>
 );
 
-const DetailRow: React.FC<{label: string, value: string}> = ({label, value}) => (
+const DetailRow: React.FC<{label: string, value: string | React.ReactNode}> = ({label, value}) => (
     <div>
         <h4 className="text-sm font-semibold text-brand-text-secondary uppercase tracking-wider">{label}</h4>
         <p className="text-brand-text-primary mt-1">{value || '-'}</p>
     </div>
 );
+
+const getGoalString = (habit: Habit): string => {
+    switch(habit.measurement.type) {
+        case 'daily': return "Complete once per day";
+        case 'reps': return `${habit.measurement.goal} reps`;
+        case 'duration': return `${habit.measurement.goal} ${habit.measurement.unit}`;
+        case 'count': return `${habit.measurement.goal} ${habit.measurement.unit}`;
+        default: return "N/A";
+    }
+}
 
 
 const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, habit }) => {
@@ -51,6 +61,7 @@ const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, ha
                />
             </div>
             <div className="border-t pt-6 space-y-4">
+                <DetailRow label="Goal" value={<span className="font-bold text-brand-primary">{getGoalString(habit)}</span>} />
                 <DetailRow label="1. Cue (Trigger)" value={habit.cue} />
                 <DetailRow label="2. Craving (Motivation)" value={habit.craving} />
                 <DetailRow label="3. Response (Action)" value={habit.response} />

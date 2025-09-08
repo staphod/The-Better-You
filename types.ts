@@ -40,8 +40,32 @@ export interface Puzzle {
 // A log entry for a specific day in a habit's history.
 export interface HabitLog {
   date: string; // 'YYYY-MM-DD'
-  status: 'completed' | 'missed';
+  value: number; // The amount completed (e.g., 1 for daily, 20 for reps, 30 for minutes)
 }
+
+// --- New Flexible Habit Measurement Types ---
+
+export type MeasurementType = 'daily' | 'reps' | 'duration' | 'count';
+
+export interface MeasurementDaily {
+  type: 'daily';
+}
+export interface MeasurementReps {
+  type: 'reps';
+  goal: number;
+}
+export interface MeasurementDuration {
+  type: 'duration';
+  goal: number;
+  unit: 'minutes' | 'hours';
+}
+export interface MeasurementCount {
+  type: 'count';
+  goal: number;
+  unit: string; // e.g., 'pages', 'glasses'
+}
+
+export type HabitMeasurement = MeasurementDaily | MeasurementReps | MeasurementDuration | MeasurementCount;
 
 // The main Habit structure, designed for flexibility.
 export interface Habit {
@@ -53,10 +77,7 @@ export interface Habit {
   response: string;
   reward: string;
   reminderTime: string | null;
-  // Defines how the habit is measured. Currently supports daily completion.
-  measurement: {
-    type: 'daily'; // Future types: 'reps', 'duration'
-  };
+  measurement: HabitMeasurement;
   // A record of all completions and misses.
   history: HabitLog[];
 }

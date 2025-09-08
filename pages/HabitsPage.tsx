@@ -6,6 +6,7 @@ import HabitForm from '@/components/HabitForm';
 import HabitListItem from '@/components/HabitListItem';
 import HabitDetailModal from '@/components/HabitDetailModal';
 import LogProgressModal from '@/components/LogProgressModal';
+import Sparks from '@/components/Sparks';
 import type { Habit } from '@/types';
 
 const requestNotificationPermission = async () => {
@@ -45,6 +46,7 @@ const HabitsPage: React.FC = () => {
     const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
     const [viewingHabit, setViewingHabit] = useState<Habit | null>(null);
     const [loggingHabit, setLoggingHabit] = useState<Habit | null>(null);
+    const [showSparks, setShowSparks] = useState(false);
 
     const handleOpenAddModal = () => {
         setEditingHabit(null);
@@ -88,12 +90,27 @@ const HabitsPage: React.FC = () => {
     const handleLogProgress = (value: number) => {
         if (loggingHabit) {
             logHabit(loggingHabit.id, value);
+            
+            // Check if goal was met to trigger sparks
+            const measurement = loggingHabit.measurement;
+            let goalMet = false;
+            if (measurement.type === 'daily') {
+                goalMet = value >= 1;
+            } else {
+                goalMet = value >= measurement.goal;
+            }
+
+            if (goalMet) {
+                setShowSparks(true);
+                setTimeout(() => setShowSparks(false), 2500); // Hide sparks after animation
+            }
         }
         setLoggingHabit(null);
     };
 
     return (
         <div className="max-w-4xl mx-auto">
+            {showSparks && <Sparks />}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div className="text-left">
                     <h1 className="text-3xl font-bold text-brand-text-primary">Habits Tracker</h1>

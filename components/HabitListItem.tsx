@@ -27,12 +27,14 @@ const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onDelete, onEdit, 
 
     const goalString = getGoalString(habit);
     let todayProgressString = "Not logged today";
-    if(completionValueForToday !== null) {
-        if (habit.measurement.type === 'daily') {
+
+    if (completionValueForToday !== null) {
+        const { measurement } = habit;
+        if (measurement.type === 'daily') {
             todayProgressString = completionValueForToday >= 1 ? "Completed today" : "Missed today";
-        // FIX: Replaced redundant `else if` with `else` to handle all non-daily habit types, which resolves the type overlap error.
         } else {
-             todayProgressString = `Logged: ${completionValueForToday} / ${habit.measurement.goal}`;
+            // TypeScript knows `measurement` is not 'daily' here, so it must have a 'goal'.
+            todayProgressString = `Logged: ${completionValueForToday} / ${measurement.goal}`;
         }
     }
     

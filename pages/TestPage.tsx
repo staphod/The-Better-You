@@ -4,6 +4,7 @@ import type { FullTest, Question } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { ClipboardIcon, CheckCircleIcon } from '@/components/icons/StatusIcons';
+import Sparks from '@/components/Sparks';
 
 const LoadingSpinner: React.FC = () => (
     <div className="flex justify-center items-center h-64">
@@ -62,6 +63,7 @@ const TestPage: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [result, setResult] = useState<any | null>(null);
     const [copied, setCopied] = useState(false);
+    const [showSparks, setShowSparks] = useState(false);
 
     useEffect(() => {
         if (!testId) return;
@@ -97,6 +99,7 @@ const TestPage: React.FC = () => {
         const totalScore = Object.values(answers).reduce((sum, val) => sum + val, 0);
         const resultKey = totalScore >= 0 ? "high-score" : "low-score";
         setResult(test.result_template[resultKey]);
+        setShowSparks(true);
     };
 
     const handleCopy = useCallback(() => {
@@ -122,7 +125,12 @@ Famous Examples: ${result.famous.join(', ')}
     if (!test) return <p className="text-center">Test not found.</p>;
 
     if (result) {
-        return <TestResult result={result} onCopy={handleCopy} copied={copied} />;
+        return (
+            <>
+                {showSparks && <Sparks />}
+                <TestResult result={result} onCopy={handleCopy} copied={copied} />
+            </>
+        );
     }
 
     const allQuestionsAnswered = test.questions.length === Object.keys(answers).length;

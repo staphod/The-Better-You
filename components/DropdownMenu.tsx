@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 interface DropdownMenuProps {
-  // Fix: Specify that the trigger accepts HTML attributes to solve typing for React.cloneElement.
   trigger: React.ReactElement<React.HTMLAttributes<HTMLElement>>;
   children: React.ReactNode;
 }
@@ -20,10 +19,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ trigger, children }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // FIX: Explicitly typed the event `e` as React.MouseEvent<HTMLElement> to match the expected type of the trigger's onClick prop.
   const handleTriggerClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    // Also call the original onClick if it exists, making the component more robust.
     if (trigger.props.onClick) {
       trigger.props.onClick(e);
     }

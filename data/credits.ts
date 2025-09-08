@@ -5,8 +5,8 @@ export const credits: CreditCategory[] = [
     title: "Development & Design",
     items: [
       {
-        name: "The Better You Team",
-        description: "For the core concept, development, and design of this application."
+        name: "Staphod Cylas",
+        description: "Solo team developer for the core concept, development, and design of this application."
       }
     ]
   },
@@ -33,6 +33,10 @@ export const credits: CreditCategory[] = [
   {
     title: "Content & Inspiration",
     items: [
+      {
+        name: "Google Gemini AI & OpenAI ChatGPT",
+        description: "For extensive research and writing."
+      },
       {
         name: "DSM-5 & ICD-11",
         description: "The diagnostic manuals that provided the framework for the addiction awareness modules."

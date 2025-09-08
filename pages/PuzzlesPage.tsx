@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { puzzles } from '@/data/puzzles';
 import type { Puzzle } from '@/types';
 import { FireIcon } from '@/components/icons/StatusIcons';
+import Sparks from '@/components/Sparks';
 
 // --- LocalStorage Helper Functions ---
 
@@ -51,6 +52,7 @@ const PuzzlesPage: React.FC = () => {
     const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [isInitialized, setIsInitialized] = useState(false);
+    const [showSparks, setShowSparks] = useState(false);
     
     // Derived state, memoized for performance
     const unsolvedPuzzles = useMemo(() => puzzles.filter(p => !solvedIds.includes(p.id)), [solvedIds]);
@@ -106,6 +108,8 @@ const PuzzlesPage: React.FC = () => {
                 saveSolvedPuzzle(currentPuzzle.id);
                 setSolvedIds(prev => [...prev, currentPuzzle.id!]);
             }
+            setShowSparks(true);
+            setTimeout(() => setShowSparks(false), 2500);
         } else {
             // Reset streak on incorrect answer
             setStreak(0);
@@ -115,15 +119,18 @@ const PuzzlesPage: React.FC = () => {
     
     const getButtonClass = (option: string) => {
         if (!selectedAnswer) {
-            return 'bg-brand-surface hover:bg-gray-100 text-brand-text-primary';
+            return 'bg-brand-surface hover:bg-gray-100 text-brand-text-primary transform hover:scale-105';
         }
-        if (option === currentPuzzle?.answer) {
+        const isCorrectAnswer = option === currentPuzzle?.answer;
+        const isSelectedAnswer = option === selectedAnswer;
+
+        if (isCorrectAnswer) {
             // Always highlight correct answer in green after selection
-            return 'bg-green-500 text-white scale-105 shadow-lg';
+            return 'bg-green-500 text-white shadow-lg animate-tada';
         }
-        if (option === selectedAnswer) {
+        if (isSelectedAnswer) { // This means it's the incorrect user choice
             // Highlight user's incorrect choice in red
-            return 'bg-red-500 text-white';
+            return 'bg-red-500 text-white animate-shake';
         }
         // Fade out other incorrect options
         return 'bg-brand-surface opacity-50';
@@ -133,6 +140,7 @@ const PuzzlesPage: React.FC = () => {
 
     return (
         <div className="max-w-2xl mx-auto text-center">
+            {showSparks && <Sparks />}
             <div className="flex justify-between items-center mb-2">
                 <h1 className="text-3xl font-bold text-brand-text-primary text-left">Mind Puzzles</h1>
                 <div className="flex items-center space-x-2 bg-brand-surface px-4 py-2 rounded-full shadow-sm">
@@ -146,7 +154,7 @@ const PuzzlesPage: React.FC = () => {
             </p>
 
             {currentPuzzle ? (
-                <div className="mt-6 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg">
+                <div key={currentPuzzle.id} className="mt-6 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-puzzle-enter">
                     <p className="text-xl sm:text-2xl font-medium text-brand-text-primary mb-6 min-h-[6rem] flex items-center justify-center">
                         {currentPuzzle.question}
                     </p>

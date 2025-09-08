@@ -1,33 +1,23 @@
 import { useState, useEffect } from 'react';
-import type { Habit } from '@/types';
+import type { Habit, HabitLog } from '@/types';
 
 const HABITS_STORAGE_KEY = 'the-better-you-habits';
+
+const toYYYYMMDD = (date: Date): string => date.toISOString().split('T')[0];
 
 const getStoredHabits = (): Habit[] => {
     try {
         const storedHabits = localStorage.getItem(HABITS_STORAGE_KEY);
+        // Basic migration for users with old data structure.
+        if (storedHabits && storedHabits.includes('lastCompleted')) {
+            return []; // In a real app, you'd write a migration script. For this demo, we'll just reset.
+        }
         return storedHabits ? JSON.parse(storedHabits) : [];
     } catch (error) {
         console.error("Failed to parse habits from localStorage", error);
         return [];
     }
 };
-
-const isToday = (date: Date): boolean => {
-    const today = new Date();
-    return date.getFullYear() === today.getFullYear() &&
-           date.getMonth() === today.getMonth() &&
-           date.getDate() === today.getDate();
-};
-
-const isYesterday = (date: Date): boolean => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    return date.getFullYear() === yesterday.getFullYear() &&
-           date.getMonth() === yesterday.getMonth() &&
-           date.getDate() === yesterday.getDate();
-};
-
 
 export const useHabits = () => {
     const [habits, setHabits] = useState<Habit[]>(getStoredHabits);
@@ -36,12 +26,12 @@ export const useHabits = () => {
         localStorage.setItem(HABITS_STORAGE_KEY, JSON.stringify(habits));
     }, [habits]);
 
-    const addHabit = (newHabitData: Omit<Habit, 'id' | 'streak' | 'lastCompleted'>) => {
+    const addHabit = (newHabitData: Omit<Habit, 'id' | 'measurement' | 'history'>) => {
         const newHabit: Habit = {
             id: crypto.randomUUID(),
             ...newHabitData,
-            streak: 0,
-            lastCompleted: null,
+            measurement: { type: 'daily' },
+            history: [],
         };
         setHabits(prev => [...prev, newHabit]);
     };
@@ -54,33 +44,18 @@ export const useHabits = () => {
         setHabits(prev => prev.filter(habit => habit.id !== id));
     };
 
-    const completeHabit = (id: string) => {
+    const logHabit = (id: string, status: 'completed' | 'missed') => {
+        const todayStr = toYYYYMMDD(new Date());
+
         setHabits(prev => prev.map(habit => {
             if (habit.id === id) {
-                const today = new Date();
-                const todayStr = today.toISOString().split('T')[0];
-
-                if (habit.lastCompleted === todayStr) {
-                    return habit; // Already completed today
-                }
-                
-                let newStreak = habit.streak;
-                if (habit.lastCompleted) {
-                    const lastCompletedDate = new Date(habit.lastCompleted);
-                     if (isYesterday(lastCompletedDate)) {
-                        newStreak += 1;
-                    } else if (!isToday(lastCompletedDate)) {
-                        newStreak = 1;
-                    }
-                } else {
-                    newStreak = 1;
-                }
-                
-                return { ...habit, streak: newStreak, lastCompleted: todayStr };
+                const newHistory = habit.history.filter(log => log.date !== todayStr);
+                newHistory.push({ date: todayStr, status });
+                return { ...habit, history: newHistory };
             }
             return habit;
         }));
     };
     
-    return { habits, addHabit, updateHabit, deleteHabit, completeHabit };
+    return { habits, addHabit, updateHabit, deleteHabit, logHabit };
 };

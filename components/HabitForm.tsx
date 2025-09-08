@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Habit } from '@/types';
 
 interface HabitFormProps {
-    onSave: (habit: Omit<Habit, 'id' | 'streak' | 'lastCompleted'> | Habit) => void;
+    onSave: (habit: Omit<Habit, 'id' | 'measurement' | 'history'> | Habit) => void;
     onCancel: () => void;
     initialHabit?: Habit | null;
 }

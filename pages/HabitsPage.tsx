@@ -4,6 +4,7 @@ import { useHabits } from '@/hooks/useHabits';
 import Modal from '@/components/Modal';
 import HabitForm from '@/components/HabitForm';
 import HabitListItem from '@/components/HabitListItem';
+import HabitDetailModal from '@/components/HabitDetailModal';
 import type { Habit } from '@/types';
 
 const requestNotificationPermission = async () => {
@@ -38,28 +39,27 @@ const scheduleNotification = (habit: Habit) => {
 };
 
 const HabitsPage: React.FC = () => {
-    const { habits, addHabit, updateHabit, deleteHabit, completeHabit } = useHabits();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { habits, addHabit, updateHabit, deleteHabit, logHabit } = useHabits();
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
     const [editingHabit, setEditingHabit] = useState<Habit | null>(null);
-    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-    const [habitToComplete, setHabitToComplete] = useState<Habit | null>(null);
+    const [viewingHabit, setViewingHabit] = useState<Habit | null>(null);
 
     const handleOpenAddModal = () => {
         setEditingHabit(null);
-        setIsModalOpen(true);
+        setIsFormModalOpen(true);
     };
 
     const handleOpenEditModal = (habit: Habit) => {
         setEditingHabit(habit);
-        setIsModalOpen(true);
+        setIsFormModalOpen(true);
     };
 
-    const handleSaveHabit = useCallback(async (habitData: Omit<Habit, 'id' | 'streak' | 'lastCompleted'> | Habit) => {
+    const handleSaveHabit = useCallback(async (habitData: Omit<Habit, 'id' | 'measurement' | 'history'> | Habit) => {
         const isNew = !('id' in habitData);
         if (isNew) {
             addHabit(habitData);
         } else {
-            updateHabit(habitData);
+            updateHabit(habitData as Habit);
         }
         
         if (habitData.reminderTime) {
@@ -69,27 +69,18 @@ const HabitsPage: React.FC = () => {
             }
         }
 
-        setIsModalOpen(false);
+        setIsFormModalOpen(false);
         setEditingHabit(null);
     }, [addHabit, updateHabit]);
     
     const handleDeleteHabit = useCallback((id: string) => {
-        if(window.confirm("Are you sure you want to delete this habit?")) {
+        if(window.confirm("Are you sure you want to delete this habit? This action cannot be undone.")) {
             deleteHabit(id);
         }
     }, [deleteHabit]);
 
-    const handleInitiateComplete = (habit: Habit) => {
-        setHabitToComplete(habit);
-        setIsConfirmModalOpen(true);
-    };
-    
-    const handleConfirmComplete = () => {
-        if (habitToComplete) {
-            completeHabit(habitToComplete.id);
-        }
-        setHabitToComplete(null);
-        setIsConfirmModalOpen(false);
+    const handleViewDetails = (habit: Habit) => {
+        setViewingHabit(habit);
     };
 
     return (
@@ -114,10 +105,11 @@ const HabitsPage: React.FC = () => {
                     {habits.map(habit => (
                         <HabitListItem 
                             key={habit.id} 
-                            habit={habit} 
-                            onInitiateComplete={handleInitiateComplete} 
+                            habit={habit}
+                            onLogHabit={logHabit}
                             onDelete={handleDeleteHabit} 
                             onEdit={handleOpenEditModal}
+                            onViewDetails={handleViewDetails}
                         />
                     ))}
                 </div>
@@ -129,40 +121,22 @@ const HabitsPage: React.FC = () => {
                 </div>
             )}
             
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingHabit ? "Edit Habit" : "Add a New Habit"}>
+            <Modal isOpen={isFormModalOpen} onClose={() => setIsFormModalOpen(false)} title={editingHabit ? "Edit Habit" : "Add a New Habit"}>
                 <HabitForm 
                     key={editingHabit ? editingHabit.id : 'new'}
                     onSave={handleSaveHabit}
-                    onCancel={() => setIsModalOpen(false)}
+                    onCancel={() => setIsFormModalOpen(false)}
                     initialHabit={editingHabit}
                 />
             </Modal>
-
-            <Modal 
-                isOpen={isConfirmModalOpen} 
-                onClose={() => setIsConfirmModalOpen(false)} 
-                title="Confirm Completion"
-            >
-                <div className="text-center">
-                    <p className="text-brand-text-secondary mb-6">
-                        Are you sure you want to mark "{habitToComplete?.title}" as complete for today?
-                    </p>
-                    <div className="flex justify-center space-x-4">
-                        <button 
-                            onClick={() => setIsConfirmModalOpen(false)} 
-                            className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-                        >
-                            Cancel
-                        </button>
-                        <button 
-                            onClick={handleConfirmComplete}
-                            className="px-6 py-2 text-sm font-medium text-white bg-brand-secondary border border-transparent rounded-md shadow-sm hover:opacity-90"
-                        >
-                            Confirm
-                        </button>
-                    </div>
-                </div>
-            </Modal>
+            
+            {viewingHabit && (
+                <HabitDetailModal
+                    habit={viewingHabit}
+                    isOpen={!!viewingHabit}
+                    onClose={() => setViewingHabit(null)}
+                />
+            )}
         </div>
     );
 };

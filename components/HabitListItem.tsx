@@ -1,64 +1,72 @@
 import React, { useState } from 'react';
 import type { Habit } from '@/types';
-import { CheckCircleIcon, ClipboardIcon, TrashIcon, EditIcon } from '@/components/icons/StatusIcons';
+import { useHabitStats } from '@/hooks/useHabitStats';
+import DropdownMenu from '@/components/DropdownMenu';
+import { TrashIcon, EditIcon, TrendingUpIcon, MoreVerticalIcon, CheckCircleIcon } from '@/components/icons/StatusIcons';
 
 interface HabitListItemProps {
     habit: Habit;
-    onInitiateComplete: (habit: Habit) => void;
+    onLogHabit: (id: string, status: 'completed' | 'missed') => void;
     onDelete: (id: string) => void;
     onEdit: (habit: Habit) => void;
+    onViewDetails: (habit: Habit) => void;
 }
 
-const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onInitiateComplete, onDelete, onEdit }) => {
-    const [copied, setCopied] = useState(false);
-    const todayStr = new Date().toISOString().split('T')[0];
-    const isCompletedToday = habit.lastCompleted === todayStr;
+const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onLogHabit, onDelete, onEdit, onViewDetails }) => {
+    const { streak, completionStatusForToday } = useHabitStats(habit);
 
-    const handleCopy = () => {
-        const summary = `
-Habit: ${habit.title} (${habit.isPositive ? 'Build' : 'Break'})
-Streak: ${habit.streak} days
----
-1. Cue: ${habit.cue}
-2. Craving: ${habit.craving}
-3. Response: ${habit.response}
-4. Reward: ${habit.reward}
-        `.trim();
-        navigator.clipboard.writeText(summary).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        });
+    const getButtonStyle = (status: 'completed' | 'missed') => {
+        if (completionStatusForToday === status) {
+            return status === 'completed' 
+                ? 'bg-green-500 text-white' 
+                : 'bg-red-500 text-white';
+        }
+        return 'bg-gray-200 hover:bg-gray-300';
     };
 
     return (
-        <div className="bg-brand-surface p-4 rounded-lg shadow-sm border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex-grow">
-                <p className="font-bold text-lg text-brand-text-primary">{habit.title}</p>
-                <p className="text-sm text-brand-text-secondary">
-                    Current Streak: <span className="font-semibold text-brand-accent">{habit.streak} days</span>
-                </p>
-            </div>
-            <div className="flex items-center space-x-2 flex-shrink-0 w-full sm:w-auto">
-                <button
-                    onClick={() => onInitiateComplete(habit)}
-                    disabled={isCompletedToday}
-                    className={`w-full sm:w-auto flex-grow justify-center px-3 py-2 text-sm font-medium rounded-md flex items-center gap-2 transition-colors ${
-                        isCompletedToday 
-                        ? 'bg-green-500 text-white cursor-default' 
-                        : 'bg-brand-secondary text-white hover:opacity-90'
-                    }`}
+        <div className="bg-brand-surface p-4 rounded-lg shadow-sm border border-gray-200">
+            <div className="flex items-center justify-between gap-4">
+                <div 
+                    className="flex-grow cursor-pointer"
+                    onClick={() => onViewDetails(habit)}
                 >
-                    {isCompletedToday ? <CheckCircleIcon className="h-5 w-5" /> : null}
-                    {isCompletedToday ? 'Done!' : 'Complete Today'}
+                    <p className="font-bold text-lg text-brand-text-primary">{habit.title}</p>
+                    <div className="flex items-center text-sm text-brand-text-secondary">
+                        <TrendingUpIcon className="h-4 w-4 mr-1 text-brand-accent"/>
+                        Current Streak: <span className="font-semibold text-brand-accent ml-1">{streak} days</span>
+                    </div>
+                </div>
+                <div className="flex items-center space-x-2 flex-shrink-0">
+                    <DropdownMenu
+                        trigger={<button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"><MoreVerticalIcon className="h-5 w-5"/></button>}
+                    >
+                        <button onClick={() => onEdit(habit)} className="flex items-center w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">
+                            <EditIcon className="h-4 w-4 mr-2" /> Edit
+                        </button>
+                        <button onClick={() => onDelete(habit.id)} className="flex items-center w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50">
+                            <TrashIcon className="h-4 w-4 mr-2" /> Delete
+                        </button>
+                    </DropdownMenu>
+                </div>
+            </div>
+            
+            <div className="mt-4 flex items-center gap-2">
+                <button
+                    onClick={() => onLogHabit(habit.id, 'completed')}
+                    className={`w-full text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors ${getButtonStyle('completed')}`}
+                >
+                    <CheckCircleIcon className="h-5 w-5"/>
+                    Done
                 </button>
-                <button onClick={() => onEdit(habit)} title="Edit Habit" className="p-2 text-gray-500 hover:bg-gray-100 rounded-md transition-colors">
-                    <EditIcon className="h-5 w-5" />
-                </button>
-                <button onClick={handleCopy} title="Copy Summary" className="p-2 text-gray-500 hover:bg-gray-100 rounded-md transition-colors">
-                    {copied ? <CheckCircleIcon className="h-5 w-5 text-green-500" /> : <ClipboardIcon className="h-5 w-5" />}
-                </button>
-                 <button onClick={() => onDelete(habit.id)} title="Delete Habit" className="p-2 text-gray-500 hover:bg-red-100 hover:text-red-600 rounded-md transition-colors">
-                    <TrashIcon className="h-5 w-5" />
+                <button
+                    onClick={() => onLogHabit(habit.id, 'missed')}
+                    className={`w-full text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors ${getButtonStyle('missed')}`}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Not Done
                 </button>
             </div>
         </div>

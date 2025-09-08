@@ -1,10 +1,13 @@
+
 import React from 'react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { Link } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import { WifiIcon, WifiOffIcon, HeartIcon } from '@/components/icons/StatusIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isOnline, toggleOnlineStatus } = useOnlineStatus();
+  const { isOnline } = useOnlineStatus();
+  const { Link } = ReactRouterDom;
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text-primary font-sans">
@@ -14,18 +17,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Link to="/" className="text-2xl font-bold text-brand-primary hover:opacity-80 transition-opacity">
               The Better You
             </Link>
-            <button
-              onClick={toggleOnlineStatus}
-              className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors bg-gray-100 hover:bg-gray-200"
-              title={isOnline ? "Simulate Offline" : "Simulate Online"}
+            <div
+              className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium"
+              title={isOnline ? "You are online" : "You are offline"}
             >
-              <span className="hidden sm:inline">Network Status:</span>
+              <span className="hidden sm:inline text-brand-text-secondary">Status:</span>
               {isOnline ? (
                 <WifiIcon className="h-5 w-5 text-green-500" />
               ) : (
                 <WifiOffIcon className="h-5 w-5 text-red-500" />
               )}
-            </button>
+            </div>
           </div>
         </div>
       </header>

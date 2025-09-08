@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import type { FullTest, Question } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -53,6 +54,7 @@ const TestResult: React.FC<{ result: any, onCopy: () => void, copied: boolean }>
 
 
 const TestPage: React.FC = () => {
+    const { useParams, useNavigate } = ReactRouterDom;
     const { testId } = useParams<{ testId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();

@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import { testListings } from '@/data/tests';
 import type { TestListing } from '@/types';
 
 const TestItem: React.FC<{ test: TestListing }> = ({ test }) => {
+  const { Link } = ReactRouterDom;
   return (
     <Link to={`/test/${test.id}`} className="block hover:bg-gray-50 transition-colors duration-200">
       <div className="flex items-center p-4 sm:p-6 border rounded-lg bg-brand-surface shadow-sm">

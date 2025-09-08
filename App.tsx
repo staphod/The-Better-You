@@ -1,5 +1,6 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import { OnlineStatusProvider } from '@/hooks/useOnlineStatus';
 import Layout from '@/components/Layout';
 import HomePage from '@/pages/HomePage';
@@ -14,6 +15,7 @@ import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import CreditsPage from '@/pages/CreditsPage';
 
 function App() {
+  const { HashRouter, Routes, Route } = ReactRouterDom;
   return (
     <OnlineStatusProvider>
       <HashRouter>

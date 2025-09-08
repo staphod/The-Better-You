@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import { ToolsIcon } from '@/components/icons/ModuleIcons';
 
 const ToolsPage: React.FC = () => {
+  const { Link } = ReactRouterDom;
   return (
     <div className="flex flex-col items-center justify-center text-center h-full max-w-md mx-auto">
         <ToolsIcon className="h-24 w-24 text-brand-accent mb-6" />

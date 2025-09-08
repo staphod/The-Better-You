@@ -1,7 +1,8 @@
 
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 
 interface ModuleCardProps {
   to: string;
@@ -19,6 +20,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ to, title, description, icon })
     Hybrid: 'bg-blue-100 text-blue-800',
   };
   */
+  const { Link } = ReactRouterDom;
 
   return (
     <Link to={to} className="block group">

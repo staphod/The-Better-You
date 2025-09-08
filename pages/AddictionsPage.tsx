@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import { addictions } from '@/data/addictions';
 import type { Addiction, AddictionCategory } from '@/types';
 import { AddictionIcon } from '@/components/icons/ModuleIcons';
@@ -25,12 +26,15 @@ const Accordion: React.FC<{ title: string; children: React.ReactNode; isOpen: bo
   </div>
 );
 
-const AddictionItem: React.FC<{ addiction: Addiction }> = ({ addiction }) => (
-  <Link to={`/addiction/${addiction.id}`} className="block p-4 -mx-4 rounded-lg hover:bg-brand-bg transition-colors">
-    <h3 className="font-semibold text-brand-primary">{addiction.title}</h3>
-    <p className="text-sm text-brand-text-secondary mt-1">{addiction.description.split('.')[0]}.</p>
-  </Link>
-);
+const AddictionItem: React.FC<{ addiction: Addiction }> = ({ addiction }) => {
+  const { Link } = ReactRouterDom;
+  return (
+    <Link to={`/addiction/${addiction.id}`} className="block p-4 -mx-4 rounded-lg hover:bg-brand-bg transition-colors">
+      <h3 className="font-semibold text-brand-primary">{addiction.title}</h3>
+      <p className="text-sm text-brand-text-secondary mt-1">{addiction.description.split('.')[0]}.</p>
+    </Link>
+  );
+};
 
 
 const AddictionsPage: React.FC = () => {

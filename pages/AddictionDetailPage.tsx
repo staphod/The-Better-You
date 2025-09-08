@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+// FIX: Using namespace import for react-router-dom to fix module resolution issues.
+import * as ReactRouterDom from 'react-router-dom';
 import type { Addiction } from '@/types';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { fetchAddictionById } from '@/services/api';
@@ -61,6 +62,7 @@ const AddictionResult: React.FC<{ result: any; onCopy: () => void; copied: boole
 };
 
 const AddictionDetailPage: React.FC = () => {
+    const { useParams, useNavigate, Link } = ReactRouterDom;
     const { addictionId } = useParams<{ addictionId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();

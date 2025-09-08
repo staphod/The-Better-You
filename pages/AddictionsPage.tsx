@@ -1,21 +1,84 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { addictions } from '@/data/addictions';
+import type { Addiction, AddictionCategory } from '@/types';
 import { AddictionIcon } from '@/components/icons/ModuleIcons';
 
+const Accordion: React.FC<{ title: string; children: React.ReactNode; isOpen: boolean; onToggle: () => void }> = ({ title, children, isOpen, onToggle }) => (
+  <div className="border border-gray-200 rounded-lg">
+    <h2>
+      <button
+        type="button"
+        className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 bg-gray-50 hover:bg-gray-100"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+      >
+        <span>{title}</span>
+        <svg className={`w-6 h-6 shrink-0 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+      </button>
+    </h2>
+    {isOpen && (
+      <div className="p-5 border-t border-gray-200 bg-white">
+        {children}
+      </div>
+    )}
+  </div>
+);
+
+const AddictionItem: React.FC<{ addiction: Addiction }> = ({ addiction }) => (
+  <Link to={`/addiction/${addiction.id}`} className="block p-4 -mx-4 rounded-lg hover:bg-brand-bg transition-colors">
+    <h3 className="font-semibold text-brand-primary">{addiction.title}</h3>
+    <p className="text-sm text-brand-text-secondary mt-1">{addiction.description.split('.')[0]}.</p>
+  </Link>
+);
+
+
 const AddictionsPage: React.FC = () => {
+  const [openAccordion, setOpenAccordion] = useState<AddictionCategory | null>('Substance Addictions');
+
+  const groupedAddictions = useMemo(() => {
+    return addictions.reduce((acc, addiction) => {
+      (acc[addiction.category] = acc[addiction.category] || []).push(addiction);
+      return acc;
+    }, {} as Record<AddictionCategory, Addiction[]>);
+  }, []);
+
+  const toggleAccordion = (category: AddictionCategory) => {
+    setOpenAccordion(openAccordion === category ? null : category);
+  };
+
+  const categories: AddictionCategory[] = ["Substance Addictions", "Behavioral Addictions", "Digital/Emerging Addictions"];
+
   return (
-    <div className="flex flex-col items-center justify-center text-center h-full max-w-md mx-auto">
-        <AddictionIcon className="h-24 w-24 text-brand-accent mb-6" />
-        <h1 className="text-4xl font-bold text-brand-text-primary">Addiction Awareness</h1>
-        <p className="mt-4 text-lg text-brand-text-secondary">
-            This module is under construction. It will provide resources and self-assessment tools for addiction awareness.
+    <div className="max-w-4xl mx-auto">
+      <div className="text-left mb-8">
+        <div className="flex items-center gap-3">
+           <AddictionIcon className="h-10 w-10 text-brand-primary"/>
+           <h1 className="text-3xl font-bold text-brand-text-primary">Addiction Awareness</h1>
+        </div>
+        <p className="mt-2 text-lg text-brand-text-secondary">
+          Take a confidential self-assessment to better understand your habits. These tests are for educational purposes and are not a substitute for professional medical advice.
         </p>
-        <Link 
-            to="/" 
-            className="mt-8 bg-brand-primary text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity"
-        >
-            Back to Home
-        </Link>
+      </div>
+      
+      <div className="space-y-4">
+        {categories.map(category => (
+          groupedAddictions[category] && (
+            <Accordion 
+              key={category}
+              title={category}
+              isOpen={openAccordion === category}
+              onToggle={() => toggleAccordion(category)}
+            >
+              <div className="space-y-2">
+                {groupedAddictions[category].map(addiction => (
+                  <AddictionItem key={addiction.id} addiction={addiction} />
+                ))}
+              </div>
+            </Accordion>
+          )
+        ))}
+      </div>
     </div>
   );
 };

@@ -87,3 +87,32 @@ export interface Habit {
   // A record of all completions and misses.
   history: HabitLog[];
 }
+
+// --- Addiction Module Types ---
+export type AddictionCategory = 'Substance Addictions' | 'Behavioral Addictions' | 'Digital/Emerging Addictions';
+
+export interface AddictionQuestion {
+  id: string;
+  text: string;
+  options: { text: string; value: number }[];
+}
+
+export interface AddictionResultTemplate {
+    [key: string]: { // e.g., 'low-risk', 'moderate-risk', 'high-risk'
+      level: string; // "Low Risk", "Moderate Risk", "High Risk"
+      explanation: string;
+      advice: string[];
+      helplines: { name: string; number: string; url: string }[];
+    };
+}
+
+export interface Addiction {
+  id: string;
+  title: string;
+  category: AddictionCategory;
+  description: string;
+  riskFactors: string[];
+  questions: AddictionQuestion[];
+  resultTemplate: AddictionResultTemplate;
+  scoringThresholds: { moderate: number; high: number }; // moderate score >= moderate, high score >= high
+}

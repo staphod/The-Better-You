@@ -12,7 +12,7 @@ import TestPage from '@/pages/TestPage';
 import KnowledgeBaseListPage from '@/pages/KnowledgeBaseListPage';
 import KnowledgeBaseDetailPage from '@/pages/KnowledgeBaseDetailPage';
 
-import PuzzlesPage from '@/pages/PzzlesPage';
+import PuzzlesPage from '@/pages/PuzzlesPage';
 import OfflinePage from '@/pages/OfflinePage';
 import HabitsPage from '@/pages/HabitsPage';
 import ToolsPage from '@/pages/ToolsPage';

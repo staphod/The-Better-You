@@ -4,7 +4,7 @@ import * as ReactRouterDom from 'react-router-dom';
 import type { FullTest, Question } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { ClipboardIcon, CheckCircleIcon } from '@/components/icons/StatusIcons';
+import { ClipboardIcon, CheckCircleIcon, LightbulbIcon } from '@/components/icons/StatusIcons';
 import Sparks from '@/components/Sparks';
 
 const LoadingSpinner: React.FC = () => (
@@ -13,44 +13,57 @@ const LoadingSpinner: React.FC = () => (
     </div>
 );
 
-const TestResult: React.FC<{ result: any, onCopy: () => void, copied: boolean }> = ({ result, onCopy, copied }) => (
-    <div className="bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
-        <h2 className="text-2xl font-bold text-brand-text-primary mb-4">Your Results</h2>
-        <p className="text-brand-text-secondary mb-6">{result.explanation}</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-                <h3 className="font-semibold text-brand-primary mb-2">Strengths</h3>
-                <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.strengths.map((s: string) => <li key={s}>{s}</li>)}
-                </ul>
+const TestResult: React.FC<{ result: any; onCopy: () => void; copied: boolean; testId: string; }> = ({ result, onCopy, copied, testId }) => {
+    const { Link } = ReactRouterDom;
+    return (
+        <div className="bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
+            <h2 className="text-2xl font-bold text-brand-text-primary mb-4">Your Results</h2>
+            <p className="text-brand-text-secondary mb-6">{result.explanation}</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <h3 className="font-semibold text-brand-primary mb-2">Strengths</h3>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.strengths.map((s: string) => <li key={s}>{s}</li>)}
+                    </ul>
+                </div>
+                <div>
+                    <h3 className="font-semibold text-brand-primary mb-2">Weaknesses</h3>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.weaknesses.map((w: string) => <li key={w}>{w}</li>)}
+                    </ul>
+                </div>
+                 <div>
+                    <h3 className="font-semibold text-brand-primary mb-2">Best Job Fits</h3>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.best_work.map((j: string) => <li key={j}>{j}</li>)}
+                    </ul>
+                </div>
+                <div>
+                    <h3 className="font-semibold text-brand-primary mb-2">Famous Examples</h3>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.famous.map((p: string) => <li key={p}>{p}</li>)}
+                    </ul>
+                </div>
             </div>
-            <div>
-                <h3 className="font-semibold text-brand-primary mb-2">Weaknesses</h3>
-                <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.weaknesses.map((w: string) => <li key={w}>{w}</li>)}
-                </ul>
+            
+            <div className="mt-8 bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-center">
+                <div className="flex justify-center items-center gap-2">
+                    <LightbulbIcon className="h-6 w-6" />
+                    <p className="font-semibold">Want to learn more?</p>
+                </div>
+                <Link to={`/tests/knowledge-base/${testId}`} className="text-sm font-medium text-blue-600 hover:underline">
+                    Explore all results in the Knowledge Base
+                </Link>
             </div>
-             <div>
-                <h3 className="font-semibold text-brand-primary mb-2">Best Job Fits</h3>
-                <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.best_work.map((j: string) => <li key={j}>{j}</li>)}
-                </ul>
-            </div>
-            <div>
-                <h3 className="font-semibold text-brand-primary mb-2">Famous Examples</h3>
-                <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.famous.map((p: string) => <li key={p}>{p}</li>)}
-                </ul>
-            </div>
+            
+            <button onClick={onCopy} className="w-full flex justify-center items-center space-x-2 bg-brand-secondary text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 mt-4">
+               {copied ? <CheckCircleIcon className="h-5 w-5"/> : <ClipboardIcon className="h-5 w-5" />}
+               <span>{copied ? 'Copied to Clipboard!' : 'Copy Results'}</span>
+            </button>
         </div>
-        
-        <button onClick={onCopy} className="w-full flex justify-center items-center space-x-2 bg-brand-secondary text-white font-bold py-3 px-4 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50">
-           {copied ? <CheckCircleIcon className="h-5 w-5"/> : <ClipboardIcon className="h-5 w-5" />}
-           <span>{copied ? 'Copied to Clipboard!' : 'Copy Results'}</span>
-        </button>
-    </div>
-);
+    );
+};
 
 
 const TestPage: React.FC = () => {
@@ -130,7 +143,7 @@ Famous Examples: ${result.famous.join(', ')}
         return (
             <>
                 {showSparks && <Sparks />}
-                <TestResult result={result} onCopy={handleCopy} copied={copied} />
+                <TestResult result={result} onCopy={handleCopy} copied={copied} testId={testId!} />
             </>
         );
     }

@@ -28,6 +28,13 @@ export interface FullTest {
       famous: string[];
     };
   };
+  knowledgeBase: {
+    summary: string;
+    resultDetails: {
+        key: string;
+        title: string;
+    }[];
+  };
 }
 
 export interface Puzzle {

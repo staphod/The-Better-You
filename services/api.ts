@@ -27,6 +27,13 @@ const mockTestDb: FullTest[] = [
         weaknesses: ["Can be disorganized", "May avoid long-term planning"],
         famous: ["Bill Clinton", "Marilyn Monroe"]
       }
+    },
+    knowledgeBase: {
+        summary: "The Architect personality type is one of the rarest and most strategically capable personality types. Architects form only two percent of the population, and they are defined by their strategic thinking, imagination, and ambition. This knowledge base explores the two primary outcomes of our simplified assessment.",
+        resultDetails: [
+            { key: "high-score", title: "The Architect Profile (High Score)" },
+            { key: "low-score", title: "The Spontaneous Profile (Low Score)" }
+        ]
     }
   },
    {
@@ -54,6 +61,13 @@ const mockTestDb: FullTest[] = [
             weaknesses: ["Resistant to change", "Can seem distant"],
             famous: ["Isaac Newton", "Clint Eastwood"]
         }
+    },
+    knowledgeBase: {
+        summary: "The Big Five personality traits (also known as the OCEAN model) is a widely accepted model for describing human personality. It identifies five core dimensions: Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. This knowledge base explains the high and low-scoring profiles from our brief test.",
+        resultDetails: [
+            { key: "high-score", title: "The Well-Rounded Profile (High Score)" },
+            { key: "low-score", title: "The Reserved Profile (Low Score)" }
+        ]
     }
   }
 ];

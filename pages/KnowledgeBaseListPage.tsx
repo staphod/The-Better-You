@@ -3,12 +3,12 @@ import React from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { testListings } from '@/data/tests';
 import type { TestListing } from '@/types';
-import { BrainIcon } from '@/components/icons/ModuleIcons';
+import { BookOpenIcon } from '@/components/icons/ModuleIcons';
 
-const TestItem: React.FC<{ test: TestListing }> = ({ test }) => {
+const KnowledgeBaseItem: React.FC<{ test: TestListing }> = ({ test }) => {
   const { Link } = ReactRouterDom;
   return (
-    <Link to={`/test/${test.id}`} className="block hover:bg-gray-50 transition-colors duration-200">
+    <Link to={`/tests/knowledge-base/${test.id}`} className="block hover:bg-gray-50 transition-colors duration-200">
       <div className="flex items-center p-4 sm:p-6 border rounded-lg bg-brand-surface shadow-sm">
         <div className="flex-shrink-0 mr-4">
           <div className="bg-brand-secondary text-white rounded-lg p-3">
@@ -16,8 +16,8 @@ const TestItem: React.FC<{ test: TestListing }> = ({ test }) => {
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-lg font-semibold text-brand-primary truncate">{test.title}</p>
-          <p className="text-sm text-brand-text-secondary">{test.summary}</p>
+          <p className="text-lg font-semibold text-brand-primary truncate">About: {test.title}</p>
+          <p className="text-sm text-brand-text-secondary">Learn the theory and explore all outcomes for this test.</p>
         </div>
         <div className="ml-4">
            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -29,27 +29,27 @@ const TestItem: React.FC<{ test: TestListing }> = ({ test }) => {
   );
 };
 
-const TestsListPage: React.FC = () => {
+const KnowledgeBaseListPage: React.FC = () => {
   const { Link } = ReactRouterDom;
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-left mb-8">
         <div className="flex items-center gap-3">
-            <BrainIcon className="h-10 w-10 text-brand-primary"/>
-            <h1 className="text-3xl font-bold text-brand-text-primary">Take a Test</h1>
+            <BookOpenIcon className="h-10 w-10 text-brand-primary"/>
+            <h1 className="text-3xl font-bold text-brand-text-primary">Knowledge Base</h1>
         </div>
         <p className="mt-2 text-lg text-brand-text-secondary">
-          Select a test below to begin. An internet connection is required to load the test questions.
+          Select a test below to learn about the theory behind it and explore detailed explanations of all possible results.
         </p>
-        <Link to="/tests" className="text-sm text-brand-primary hover:underline mt-4 inline-block">&larr; Back to Discovery Tests Home</Link>
+         <Link to="/tests" className="text-sm text-brand-primary hover:underline mt-4 inline-block">&larr; Back to Discovery Tests Home</Link>
       </div>
       <div className="space-y-4">
         {testListings.map((test) => (
-          <TestItem key={test.id} test={test} />
+          <KnowledgeBaseItem key={test.id} test={test} />
         ))}
       </div>
     </div>
   );
 };
 
-export default TestsListPage;
+export default KnowledgeBaseListPage;

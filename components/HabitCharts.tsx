@@ -69,16 +69,16 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { labels: { color: '#777777' } }
+                legend: { labels: { color: '#64748B' } }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: { color: '#777777' },
-                    grid: { color: '#E5E7EB' }
+                    ticks: { color: '#64748B' },
+                    grid: { color: '#E2E8F0' }
                 },
                 x: {
-                    ticks: { color: '#777777' },
+                    ticks: { color: '#64748B' },
                     grid: { display: false }
                 }
             }
@@ -94,9 +94,9 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
                 label: habit.measurement.type === 'daily' ? 'Completion' : 'Progress',
                 data: dailyData,
                 backgroundColor: habit.measurement.type === 'daily' 
-                    ? dailyData.map(v => v >= 1 ? '#50E3C2' : '#F8F9FA') // brand-secondary or bg
-                    : '#4A90E2', // brand-primary
-                borderColor: habit.measurement.type === 'daily' ? dailyData.map(v => v >= 1 ? '#50E3C2' : '#D1D5DB') : '#4A90E2',
+                    ? dailyData.map(v => v >= 1 ? '#10B981' : '#F8FAFC') // brand-success or bg
+                    : '#475569', // brand-primary
+                borderColor: habit.measurement.type === 'daily' ? dailyData.map(v => v >= 1 ? '#10B981' : '#CBD5E1') : '#475569',
                 borderWidth: 1,
             });
 
@@ -105,7 +105,7 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
                     type: 'line',
                     label: 'Goal',
                     data: Array(7).fill(habit.measurement.goal),
-                    borderColor: '#F5A623', // brand-accent
+                    borderColor: '#F59E0B', // brand-accent
                     borderWidth: 2,
                     pointRadius: 0,
                     fill: false,
@@ -130,8 +130,8 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
                         label: 'Weekly Completion Rate (%)',
                         data: weeklyData,
                         fill: true,
-                        backgroundColor: 'rgba(74, 144, 226, 0.2)', // brand-primary with opacity
-                        borderColor: '#4A90E2', // brand-primary
+                        backgroundColor: 'rgba(71, 85, 105, 0.2)', // brand-primary with opacity
+                        borderColor: '#475569', // brand-primary
                         tension: 0.3
                     }]
                 },
@@ -162,9 +162,9 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
 
     if (habit.history.length < 1) {
         return (
-            <div className="text-center py-8 bg-gray-50 rounded-lg">
-                <h3 className="text-lg font-semibold text-brand-text-primary">No Progress Logged Yet</h3>
-                <p className="text-brand-text-secondary mt-1">Start logging your progress to see your charts here!</p>
+            <div className="text-center py-8 bg-slate-50 rounded-lg">
+                <h3 className="text-lg font-semibold text-brand-text">No Progress Logged Yet</h3>
+                <p className="text-brand-text-muted mt-1">Start logging your progress to see your charts here!</p>
             </div>
         );
     }
@@ -172,13 +172,13 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
     return (
         <div className="space-y-8">
             <div>
-                <h3 className="text-lg font-semibold text-brand-text-primary mb-3">Last 7 Days Progress</h3>
+                <h3 className="text-lg font-semibold text-brand-text mb-3">Last 7 Days Progress</h3>
                 <div className="h-64">
                     <canvas ref={dailyChartRef}></canvas>
                 </div>
             </div>
              <div>
-                <h3 className="text-lg font-semibold text-brand-text-primary mb-3">Weekly Completion Trend</h3>
+                <h3 className="text-lg font-semibold text-brand-text mb-3">Weekly Completion Trend</h3>
                  <div className="h-64">
                     <canvas ref={weeklyChartRef}></canvas>
                 </div>

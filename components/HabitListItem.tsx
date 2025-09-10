@@ -13,14 +13,14 @@ interface HabitListItemProps {
 }
 
 const categoryColors: Record<HabitCategory, string> = {
-    Health: 'bg-green-100 text-green-800',
-    Learning: 'bg-blue-100 text-blue-800',
-    Mindfulness: 'bg-purple-100 text-purple-800',
-    Fitness: 'bg-orange-100 text-orange-800',
-    Productivity: 'bg-indigo-100 text-indigo-800',
-    Social: 'bg-pink-100 text-pink-800',
-    Finance: 'bg-yellow-100 text-yellow-800',
-    Other: 'bg-gray-100 text-gray-800',
+    Health: 'bg-emerald-50 text-emerald-700',
+    Learning: 'bg-blue-50 text-blue-700',
+    Mindfulness: 'bg-violet-50 text-violet-700',
+    Fitness: 'bg-amber-50 text-amber-700',
+    Productivity: 'bg-indigo-50 text-indigo-700',
+    Social: 'bg-pink-50 text-pink-700',
+    Finance: 'bg-yellow-50 text-yellow-700',
+    Other: 'bg-slate-50 text-slate-700',
 };
 
 const getGoalString = (habit: Habit): string => {
@@ -52,47 +52,47 @@ const HabitListItem: React.FC<HabitListItemProps> = ({ habit, onDelete, onEdit, 
     const category = habit.category || 'Other';
     
     return (
-        <div className={`bg-brand-surface p-4 rounded-lg shadow-sm border ${isCompletedToday ? 'border-green-300' : 'border-gray-200'}`}>
+        <div className={`bg-brand-surface p-4 rounded-lg shadow-sm border ${isCompletedToday ? 'border-brand-success' : 'border-slate-200'}`}>
             <div className="flex items-start justify-between gap-4">
                 <div 
                     className="flex-grow cursor-pointer"
                     onClick={() => onViewDetails(habit)}
                 >
                     <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-bold text-lg text-brand-text-primary">{habit.title}</p>
+                        <p className="font-bold text-lg text-brand-text">{habit.title}</p>
                         <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${categoryColors[category]}`}>
                             {category}
                         </span>
                     </div>
-                    <div className="flex items-center text-sm text-brand-text-secondary mt-1">
+                    <div className="flex items-center text-sm text-brand-text-muted mt-1">
                         <TrendingUpIcon className="h-4 w-4 mr-1 text-brand-accent"/>
-                        Streak: <span className="font-semibold text-brand-accent ml-1">{streak} days</span>
+                        Streak: <span className="font-semibold text-brand-text ml-1">{streak} days</span>
                     </div>
-                     <div className="text-sm text-brand-text-secondary">
+                     <div className="text-sm text-brand-text-muted">
                         {goalString}
                     </div>
                 </div>
                 <div className="flex items-center space-x-2 flex-shrink-0">
                     <DropdownMenu
-                        trigger={<button className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"><MoreVerticalIcon className="h-5 w-5"/></button>}
+                        trigger={<button className="p-2 text-brand-text-muted hover:bg-slate-100 rounded-full transition-colors"><MoreVerticalIcon className="h-5 w-5"/></button>}
                     >
-                        <button onClick={() => onEdit(habit)} className="flex items-center w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">
+                        <button onClick={() => onEdit(habit)} className="flex items-center w-full px-4 py-2 text-sm text-left text-brand-text hover:bg-slate-100">
                             <EditIcon className="h-4 w-4 mr-2" /> Edit
                         </button>
-                        <button onClick={() => onDelete(habit.id)} className="flex items-center w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50">
+                        <button onClick={() => onDelete(habit.id)} className="flex items-center w-full px-4 py-2 text-sm text-left text-brand-danger hover:bg-red-50">
                             <TrashIcon className="h-4 w-4 mr-2" /> Delete
                         </button>
                     </DropdownMenu>
                 </div>
             </div>
             
-            <div className="mt-3 flex items-center justify-between gap-2 bg-gray-50 p-2 rounded-md">
-                <span className={`text-sm font-medium ${isCompletedToday ? 'text-green-600' : 'text-gray-600'}`}>
+            <div className="mt-3 flex items-center justify-between gap-2 bg-slate-50 p-2 rounded-md">
+                <span className={`text-sm font-medium ${isCompletedToday ? 'text-brand-success' : 'text-brand-text-muted'}`}>
                     {todayProgressString}
                 </span>
                 <button
                     onClick={() => onInitiateLog(habit)}
-                    className="text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors bg-brand-secondary text-white hover:opacity-90"
+                    className="text-sm font-medium py-2 px-3 rounded-md flex items-center justify-center gap-2 transition-colors bg-brand-primary text-white hover:bg-brand-primary/90"
                 >
                     <PlusCircleIcon className="h-5 w-5"/>
                     Log Progress

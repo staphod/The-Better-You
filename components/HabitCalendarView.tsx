@@ -42,9 +42,9 @@ const HabitCalendarView: React.FC<HabitCalendarViewProps> = ({ habit }) => {
             const dateStr = toYYYYMMDD(date);
             const log = historyByDate.get(dateStr);
             
-            let statusClass = 'bg-gray-100 hover:bg-gray-200';
+            let statusClass = 'bg-slate-100 hover:bg-slate-200';
             if (log) {
-                statusClass = isDayCompleted(habit, log) ? 'bg-green-300' : 'bg-red-200';
+                statusClass = isDayCompleted(habit, log) ? 'bg-emerald-300' : 'bg-red-200';
             }
             
             const isToday = dateStr === todayStr;
@@ -60,28 +60,28 @@ const HabitCalendarView: React.FC<HabitCalendarViewProps> = ({ habit }) => {
     };
     
     return (
-        <div className="bg-brand-surface p-4 rounded-lg shadow-sm">
+        <div className="bg-brand-surface p-4 rounded-lg shadow-sm border border-slate-200">
             <div className="flex justify-between items-center mb-4">
-                <button onClick={goToPreviousMonth} className="p-2 rounded-full hover:bg-gray-100" aria-label="Previous month">
+                <button onClick={goToPreviousMonth} className="p-2 rounded-full hover:bg-slate-100" aria-label="Previous month">
                     &lt;
                 </button>
-                <h3 className="font-semibold text-brand-text-primary">
+                <h3 className="font-semibold text-brand-text">
                     {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </h3>
-                <button onClick={goToNextMonth} className="p-2 rounded-full hover:bg-gray-100" aria-label="Next month">
+                <button onClick={goToNextMonth} className="p-2 rounded-full hover:bg-slate-100" aria-label="Next month">
                     &gt;
                 </button>
             </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-xs text-brand-text-secondary mb-2">
+            <div className="grid grid-cols-7 gap-1 text-center text-xs text-brand-text-muted mb-2">
                 {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day}>{day}</div>)}
             </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-brand-text-primary">
+            <div className="grid grid-cols-7 gap-1 text-center text-brand-text">
                 {renderCalendar()}
             </div>
-             <div className="flex justify-center items-center space-x-4 mt-4 text-xs text-brand-text-secondary">
-                <div className="flex items-center"><span className="w-3 h-3 rounded-full bg-green-300 mr-1.5"></span>Completed</div>
+             <div className="flex justify-center items-center space-x-4 mt-4 text-xs text-brand-text-muted">
+                <div className="flex items-center"><span className="w-3 h-3 rounded-full bg-emerald-300 mr-1.5"></span>Completed</div>
                 <div className="flex items-center"><span className="w-3 h-3 rounded-full bg-red-200 mr-1.5"></span>Missed</div>
-                <div className="flex items-center"><span className="w-3 h-3 rounded-full bg-gray-100 mr-1.5"></span>No Data</div>
+                <div className="flex items-center"><span className="w-3 h-3 rounded-full bg-slate-100 mr-1.5"></span>No Data</div>
             </div>
         </div>
     );

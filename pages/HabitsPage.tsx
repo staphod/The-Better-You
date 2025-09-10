@@ -113,14 +113,14 @@ const HabitsPage: React.FC = () => {
             {showSparks && <Sparks />}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div className="text-left">
-                    <h1 className="text-3xl font-bold text-brand-text-primary">Habits Tracker</h1>
-                    <p className="mt-2 text-lg text-brand-text-secondary">
+                    <h1 className="text-3xl font-bold text-brand-text">Habits Tracker</h1>
+                    <p className="mt-2 text-lg text-brand-text-muted">
                         Build good habits and break bad ones. All data is stored on your device.
                     </p>
                 </div>
                 <button
                     onClick={handleOpenAddModal}
-                    className="w-full sm:w-auto bg-brand-primary text-white font-bold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
+                    className="w-full sm:w-auto bg-brand-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity flex-shrink-0"
                 >
                     + Add New Habit
                 </button>
@@ -140,10 +140,10 @@ const HabitsPage: React.FC = () => {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-16 px-6 bg-brand-surface rounded-lg shadow-sm">
+                <div className="text-center py-16 px-6 bg-brand-surface rounded-lg shadow-sm border border-slate-200">
                     <HabitIcon className="h-16 w-16 text-brand-accent mx-auto mb-4" />
-                    <h2 className="text-xl font-semibold text-brand-text-primary">No habits yet!</h2>
-                    <p className="text-brand-text-secondary mt-2">Click "Add New Habit" to get started on your journey.</p>
+                    <h2 className="text-xl font-semibold text-brand-text">No habits yet!</h2>
+                    <p className="text-brand-text-muted mt-2">Click "Add New Habit" to get started on your journey.</p>
                 </div>
             )}
             

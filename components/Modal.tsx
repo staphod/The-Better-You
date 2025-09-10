@@ -32,17 +32,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
+      className="fixed inset-0 bg-slate-900/50 z-50 flex justify-center items-center backdrop-blur-sm"
       aria-modal="true"
       role="dialog"
       onClick={onClose}
     >
-      <div className={`bg-brand-surface rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto mx-4 p-6 sm:p-8`} onClick={(e) => e.stopPropagation()}>
-        <div className="flex justify-between items-center border-b pb-4 mb-4">
-          <h2 className="text-2xl font-bold text-brand-text-primary">{title}</h2>
+      <div className={`bg-brand-surface rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto mx-4`} onClick={(e) => e.stopPropagation()}>
+        <div className="flex justify-between items-center border-b border-slate-200 p-4 sm:p-6">
+          <h2 className="text-xl font-bold text-brand-text">{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-slate-400 hover:text-slate-600 transition-colors"
             aria-label="Close modal"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,7 +50,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
             </svg>
           </button>
         </div>
-        <div>{children}</div>
+        <div className="p-4 sm:p-6">{children}</div>
       </div>
     </div>
   );

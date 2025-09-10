@@ -21,8 +21,8 @@ const TestsHomePage: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="text-left mb-8">
-        <h1 className="text-3xl font-bold text-brand-text-primary">Discovery Tests</h1>
-        <p className="mt-2 text-lg text-brand-text-secondary">
+        <h1 className="text-3xl font-bold text-brand-text">Discovery Tests</h1>
+        <p className="mt-2 text-lg text-brand-text-muted">
           Engage with our assessments or dive deep into the knowledge behind them.
         </p>
       </div>

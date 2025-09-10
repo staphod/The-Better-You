@@ -13,21 +13,21 @@ interface HabitDetailModalProps {
 }
 
 const StatCard: React.FC<{ icon: React.ReactNode; label: string; value: string | number; color: string }> = ({ icon, label, value, color }) => (
-    <div className="flex items-center p-4 bg-gray-50 rounded-lg">
-        <div className={`mr-4 p-2 rounded-full ${color}`}>
+    <div className="flex items-center p-4 bg-slate-50 rounded-lg border border-slate-200">
+        <div className={`mr-4 p-3 rounded-full ${color}`}>
             {icon}
         </div>
         <div>
-            <p className="text-sm font-medium text-gray-500">{label}</p>
-            <p className="text-2xl font-bold text-gray-800">{value}</p>
+            <p className="text-sm font-medium text-brand-text-muted">{label}</p>
+            <p className="text-2xl font-bold text-brand-text">{value}</p>
         </div>
     </div>
 );
 
 const DetailRow: React.FC<{label: string, value: string | React.ReactNode}> = ({label, value}) => (
     <div>
-        <h4 className="text-sm font-semibold text-brand-text-secondary uppercase tracking-wider">{label}</h4>
-        <p className="text-brand-text-primary mt-1">{value || '-'}</p>
+        <h4 className="text-sm font-semibold text-brand-text-muted uppercase tracking-wider">{label}</h4>
+        <p className="text-brand-text mt-1">{value || <span className="italic text-slate-400">Not set</span>}</p>
     </div>
 );
 
@@ -53,19 +53,19 @@ const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, ha
                     icon={<TrendingUpIcon className="h-6 w-6 text-white"/>}
                     label="Current Streak"
                     value={`${streak} days`}
-                    color="bg-green-500"
+                    color="bg-brand-success"
                />
                <StatCard 
                     icon={<TrendingDownIcon className="h-6 w-6 text-white"/>}
                     label="Total Missed Days"
                     value={failures}
-                    color="bg-red-500"
+                    color="bg-brand-danger"
                />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <div className="lg:col-span-3">
-                    <h3 className="text-lg font-semibold text-brand-text-primary mb-3">Monthly Progress</h3>
+                    <h3 className="text-lg font-semibold text-brand-text mb-3">Monthly Progress</h3>
                     <HabitCalendarView habit={habit} />
                 </div>
                 <div className="lg:col-span-2 space-y-4 pt-10">
@@ -78,7 +78,8 @@ const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, ha
                 <HabitCharts habit={habit} />
             </div>
 
-            <div className="border-t pt-6 space-y-4">
+            <div className="border-t pt-6 space-y-4 bg-slate-50 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold text-brand-text mb-3">Atomic Framework</h3>
                 <DetailRow label="1. Cue (Trigger)" value={habit.cue} />
                 <DetailRow label="2. Craving (Motivation)" value={habit.craving} />
                 <DetailRow label="3. Response (Action)" value={habit.response} />
@@ -87,7 +88,7 @@ const HabitDetailModal: React.FC<HabitDetailModalProps> = ({ isOpen, onClose, ha
              <div className="flex justify-end pt-2">
                 <button
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-white bg-brand-primary border border-transparent rounded-md shadow-sm hover:opacity-90"
+                    className="px-4 py-2 text-sm font-medium text-white bg-brand-primary border border-transparent rounded-md shadow-sm hover:bg-brand-primary/90"
                 >
                     Close
                 </button>

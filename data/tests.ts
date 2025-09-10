@@ -1,5 +1,5 @@
 import type { TestListing } from '@/types';
-import { BrainIcon, OceanIcon, ClockIcon } from '@/components/icons/ModuleIcons';
+import { BrainIcon, OceanIcon, ClockIcon, HeartbeatIcon } from '@/components/icons/ModuleIcons';
 
 export const testListings: TestListing[] = [
   {
@@ -23,4 +23,11 @@ export const testListings: TestListing[] = [
     icon: ClockIcon,
     requires_online: true,
   },
+  {
+    id: 'anxiety-level-test',
+    title: 'Anxiety Level Test',
+    summary: 'Assess your symptoms of general anxiety, social anxiety, and panic.',
+    icon: HeartbeatIcon,
+    requires_online: true,
+  }
 ];

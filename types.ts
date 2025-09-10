@@ -24,11 +24,13 @@ export interface FullTest {
   result_template: {
     [key: string]: {
       explanation: string;
-      strengths: string[];
-      weaknesses: string[];
+      strengths?: string[];
+      weaknesses?: string[];
       famous?: string[];
       best_work?: string[];
       strategies?: string[];
+      advice?: string[];
+      level?: string;
     };
   };
   knowledgeBase: {
@@ -38,9 +40,7 @@ export interface FullTest {
         title: string;
     }[];
   };
-  scoringThresholds?: {
-    [key: string]: { low: number; high: number };
-  };
+  scoringThresholds?: { [key: string]: { low: number; high: number } } | { moderate: number; high: number };
 }
 
 export interface Puzzle {
@@ -138,4 +138,12 @@ export interface CreditCategory {
     url?: string;
     description: string;
   }[];
+}
+
+// --- Diary Types ---
+export interface DiaryEntry {
+  id: string;
+  title: string;
+  content: string; // HTML content from the editor
+  modified: string; // ISO string
 }

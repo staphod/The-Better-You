@@ -285,7 +285,72 @@ const mockTestDb: FullTest[] = [
             { key: "avoider", title: "The Anxious Avoider Procrastinator" }
         ]
     }
-  }
+  },
+  {
+    id: 'anxiety-level-test',
+    title: "Anxiety Level Test",
+    scoringThresholds: { moderate: 45, high: 75 },
+    questions: [
+        // General Anxiety
+        { id: 'g1', text: "I feel nervous, anxious, or on edge.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g2', text: "I am not able to stop or control worrying.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g3', text: "I worry too much about different things.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g4', text: "I have trouble relaxing.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g5', text: "I am so restless that it is hard to sit still.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g6', text: "I become easily annoyed or irritable.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g7', text: "I feel afraid, as if something awful might happen.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g8', text: "My heart races or pounds for no apparent reason.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g9', text: "I experience shortness of breath or a feeling of smothering.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'g10', text: "I have difficulty falling or staying asleep because of my worries.", type: 'likert', options: FIVE_POINT_LIKERT },
+        // Social Anxiety
+        { id: 's1', text: "I am fearful or anxious about social situations where I might be scrutinized by others.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's2', text: "I avoid doing things or speaking to people for fear of embarrassment or humiliation.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's3', text: "I fear that I will act or appear in a way that will be negatively evaluated.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's4', text: "I find it scary to be with people I don't know well.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's5', text: "I am very conscious of my actions when I am in social situations.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's6', text: "I often worry about what other people think of me.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's7', text: "I avoid social events, even ones I might enjoy.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's8', text: "Being the center of attention makes me feel very anxious.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's9', text: "I blush, sweat, or tremble around other people.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 's10', text: "After a social event, I spend a lot of time replaying my interactions in my head.", type: 'likert', options: FIVE_POINT_LIKERT },
+        // Panic Symptoms
+        { id: 'p1', text: "I have had sudden and repeated periods of intense fear or discomfort (panic attacks).", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p2', text: "I experience a feeling of being detached from myself or my surroundings.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p3', text: "I have a fear of losing control or 'going crazy'.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p4', text: "I experience chest pain or discomfort during periods of high anxiety.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p5', text: "I feel dizzy, light-headed, or faint when I'm very anxious.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p6', text: "I worry intensely about when my next panic attack will occur.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p7', text: "I experience numbness or tingling sensations in my body.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p8', text: "I have a fear of dying when I feel panicky.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p9', text: "I avoid places or situations where I've had a panic attack before.", type: 'likert', options: FIVE_POINT_LIKERT },
+        { id: 'p10', text: "I feel a sense of impending doom for no logical reason.", type: 'likert', options: FIVE_POINT_LIKERT },
+    ],
+    result_template: {
+      "low-anxiety": {
+        level: "Low Anxiety",
+        explanation: "Your responses suggest you experience a low level of anxiety symptoms. You generally feel calm and in control, and anxiety does not seem to significantly interfere with your daily life. This is a healthy baseline.",
+        advice: ["Continue practicing healthy coping mechanisms for everyday stress.", "Engage in regular physical activity and mindfulness exercises to maintain your well-being.", "Maintain a strong social support network."]
+      },
+      "moderate-anxiety": {
+        level: "Moderate Anxiety",
+        explanation: "Your responses indicate that you are experiencing a moderate level of anxiety symptoms. While you may be functioning well in many areas, anxiety, worry, or fear is likely causing you some distress and may be interfering with your quality of life at times.",
+        advice: ["Explore relaxation techniques like deep breathing, meditation, or progressive muscle relaxation.", "Identify your anxiety triggers and develop strategies to manage them.", "Consider reducing caffeine and alcohol intake, as they can exacerbate anxiety.", "Speaking with a therapist or counselor could provide you with valuable tools and support."]
+      },
+      "high-anxiety": {
+        level: "High Anxiety",
+        explanation: "Your responses suggest you are experiencing a high level of anxiety symptoms that are likely causing significant distress and impairment in important areas of your life, such as work, school, or relationships. It is highly recommended that you seek professional support.",
+        advice: ["It is very important to speak with a mental health professional (like a therapist, psychologist, or psychiatrist) for a formal assessment and to discuss treatment options.", "Cognitive-Behavioral Therapy (CBT) is a highly effective treatment for anxiety.", "Do not hesitate to reach out to a crisis line if your anxiety feels overwhelming.", "Be kind to yourself; recovery is a journey, and asking for help is a sign of strength."]
+      }
+    },
+    knowledgeBase: {
+        summary: "Anxiety is a normal human emotion, but when it becomes excessive and persistent, it can develop into an anxiety disorder. This test is a screening tool for symptoms related to generalized anxiety, social anxiety, and panic. It is not a diagnosis. The results can help you better understand your experiences and guide you toward appropriate resources.",
+        resultDetails: [
+            { key: "low-anxiety", title: "Low Anxiety" },
+            { key: "moderate-anxiety", title: "Moderate Anxiety" },
+            { key: "high-anxiety", title: "High Anxiety" }
+        ]
+    }
+  },
 ];
 
 export const fetchTestById = (id: string): Promise<FullTest> => {

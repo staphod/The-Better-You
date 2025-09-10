@@ -119,21 +119,21 @@ const PuzzlesPage: React.FC = () => {
     
     const getButtonClass = (option: string) => {
         if (!selectedAnswer) {
-            return 'bg-brand-surface hover:bg-gray-100 text-brand-text-primary transform hover:scale-105';
+            return 'bg-brand-surface hover:bg-slate-100 text-brand-text transform hover:scale-105 border border-slate-200';
         }
         const isCorrectAnswer = option === currentPuzzle?.answer;
         const isSelectedAnswer = option === selectedAnswer;
 
         if (isCorrectAnswer) {
             // Always highlight correct answer in green after selection
-            return 'bg-green-500 text-white shadow-lg animate-tada';
+            return 'bg-brand-success text-white shadow-lg animate-tada border-brand-success';
         }
         if (isSelectedAnswer) { // This means it's the incorrect user choice
             // Highlight user's incorrect choice in red
-            return 'bg-red-500 text-white animate-shake';
+            return 'bg-brand-danger text-white animate-shake border-brand-danger';
         }
         // Fade out other incorrect options
-        return 'bg-brand-surface opacity-50';
+        return 'bg-brand-surface opacity-50 border border-slate-200';
     };
 
     const isCorrect = selectedAnswer === currentPuzzle?.answer;
@@ -142,20 +142,20 @@ const PuzzlesPage: React.FC = () => {
         <div className="max-w-2xl mx-auto text-center">
             {showSparks && <Sparks />}
             <div className="flex justify-between items-center mb-2">
-                <h1 className="text-3xl font-bold text-brand-text-primary text-left">Mind Puzzles</h1>
-                <div className="flex items-center space-x-2 bg-brand-surface px-4 py-2 rounded-full shadow-sm">
-                    <FireIcon className={`h-6 w-6 ${streak > 0 ? 'text-orange-500' : 'text-gray-400'}`} />
-                    <span className="text-xl font-bold text-brand-text-primary">{streak}</span>
-                    <span className="text-sm text-brand-text-secondary">Streak</span>
+                <h1 className="text-3xl font-bold text-brand-text text-left">Mind Puzzles</h1>
+                <div className="flex items-center space-x-2 bg-brand-surface px-4 py-2 rounded-full shadow-sm border border-slate-200">
+                    <FireIcon className={`h-6 w-6 ${streak > 0 ? 'text-brand-accent' : 'text-slate-400'}`} />
+                    <span className="text-xl font-bold text-brand-text">{streak}</span>
+                    <span className="text-sm text-brand-text-muted">Streak</span>
                 </div>
             </div>
-            <p className="text-lg text-brand-text-secondary text-left">
+            <p className="text-lg text-brand-text-muted text-left">
                 Solved: {solvedIds.length}
             </p>
 
             {currentPuzzle ? (
                 <div key={currentPuzzle.id} className="mt-6 bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-puzzle-enter">
-                    <p className="text-xl sm:text-2xl font-medium text-brand-text-primary mb-6 min-h-[6rem] flex items-center justify-center">
+                    <p className="text-xl sm:text-2xl font-medium text-brand-text mb-6 min-h-[6rem] flex items-center justify-center">
                         {currentPuzzle.question}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -173,15 +173,15 @@ const PuzzlesPage: React.FC = () => {
 
                     {selectedAnswer && (
                         <div className="mt-6 text-center animate-fade-in">
-                             <p className={`font-bold text-lg ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                             <p className={`font-bold text-lg ${isCorrect ? 'text-brand-success' : 'text-brand-danger'}`}>
                                 {isCorrect ? 'Correct!' : 'Not quite!'}
                             </p>
                             {!isCorrect && (
-                                <p className="text-brand-text-secondary mt-1">The correct answer was: <span className="font-semibold">{currentPuzzle.answer}</span></p>
+                                <p className="text-brand-text-muted mt-1">The correct answer was: <span className="font-semibold">{currentPuzzle.answer}</span></p>
                             )}
                             <button
                                 onClick={loadNextPuzzle}
-                                className="mt-4 bg-brand-primary text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-opacity"
+                                className="mt-4 bg-brand-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-brand-primary/90 transition-opacity"
                             >
                                 Next Puzzle
                             </button>
@@ -191,7 +191,7 @@ const PuzzlesPage: React.FC = () => {
             ) : (
                 <div className="mt-8 bg-brand-surface p-8 rounded-lg shadow-lg">
                     <h2 className="text-2xl font-bold text-brand-primary">Loading Puzzles...</h2>
-                    <p className="mt-2 text-brand-text-secondary">Getting your next challenge ready!</p>
+                    <p className="mt-2 text-brand-text-muted">Getting your next challenge ready!</p>
                 </div>
             )}
         </div>

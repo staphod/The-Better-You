@@ -18,14 +18,19 @@ import HabitsPage from '@/pages/HabitsPage';
 import ToolsPage from '@/pages/ToolsPage';
 import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
-import CreditsPage from '@/pages/CreditsPage';
+import AboutPage from '@/pages/AboutPage'; // New About Page
+import DiaryPage from '@/pages/DiaryPage'; // New Diary List Page
+import DiaryEntryPage from '@/pages/DiaryEntryPage'; // New Diary Entry Page
 
 // Tools Sub-pages
 import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
 import MentalModelsPage from '@/pages/MentalModelsPage';
 import LifeLawsPage from '@/pages/LifeLawsPage';
 import SixtyMinutesOfSilencePage from '@/pages/tools/SixtyMinutesOfSilencePage';
+import CBTPage from '@/pages/tools/CBTPage';
+import JournalingPage from '@/pages/tools/JournalingPage';
 import FirstPrinciplesPage from '@/pages/mentalmodels/FirstPrinciplesPage';
+import StoicismPage from '@/pages/mentalmodels/StoicismPage';
 import CauseAndEffectPage from '@/pages/laws/CauseAndEffectPage';
 import EntropyPage from '@/pages/laws/EntropyPage';
 import SowingAndReapingPage from '@/pages/laws/SowingAndReapingPage';
@@ -49,18 +54,26 @@ function App() {
 
             <Route path="/puzzles" element={<PuzzlesPage />} />
             <Route path="/habits" element={<HabitsPage />} />
+            
+            {/* New Diary Routes */}
+            <Route path="/diary" element={<DiaryPage />} />
+            <Route path="/diary/entry/:entryId" element={<DiaryEntryPage />} />
+
             <Route path="/tools" element={<ToolsPage />} />
             <Route path="/tools/strategies" element={<ToolsStrategiesPage />} />
             <Route path="/tools/strategies/60-minutes-of-silence" element={<SixtyMinutesOfSilencePage />} />
+            <Route path="/tools/strategies/cbt" element={<CBTPage />} />
+            <Route path="/tools/strategies/journaling" element={<JournalingPage />} />
             <Route path="/tools/models" element={<MentalModelsPage />} />
             <Route path="/tools/models/first-principles" element={<FirstPrinciplesPage />} />
+            <Route path="/tools/models/stoicism" element={<StoicismPage />} />
             <Route path="/tools/laws" element={<LifeLawsPage />} />
             <Route path="/tools/laws/cause-and-effect" element={<CauseAndEffectPage />} />
             <Route path="/tools/laws/entropy" element={<EntropyPage />} />
             <Route path="/tools/laws/sowing-and-reaping" element={<SowingAndReapingPage />} />
             <Route path="/addictions" element={<AddictionsPage />} />
             <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
-            <Route path="/credits" element={<CreditsPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/offline" element={<OfflinePage />} />
           </Routes>
         </Layout>

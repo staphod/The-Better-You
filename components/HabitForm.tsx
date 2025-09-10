@@ -99,20 +99,20 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
             case 'reps':
                 return (
                     <div>
-                        <label htmlFor="goal" className="block text-sm font-medium text-brand-text-secondary">Goal Repetitions</label>
-                        <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                        <label htmlFor="goal" className="block text-sm font-medium text-brand-text-muted">Goal Repetitions</label>
+                        <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text"/>
                     </div>
                 );
             case 'duration':
                 return (
                     <div className="flex gap-4">
                         <div className="flex-grow">
-                            <label htmlFor="goal" className="block text-sm font-medium text-brand-text-secondary">Goal Duration</label>
-                            <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                            <label htmlFor="goal" className="block text-sm font-medium text-brand-text-muted">Goal Duration</label>
+                            <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text"/>
                         </div>
                         <div>
-                             <label htmlFor="unit" className="block text-sm font-medium text-brand-text-secondary">Unit</label>
-                             <select id="unit" value={unit} onChange={e => setUnit(e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary">
+                             <label htmlFor="unit" className="block text-sm font-medium text-brand-text-muted">Unit</label>
+                             <select id="unit" value={unit} onChange={e => setUnit(e.target.value)} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text">
                                 <option value="minutes">Minutes</option>
                                 <option value="hours">Hours</option>
                              </select>
@@ -123,18 +123,18 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
                  return (
                     <div className="flex gap-4">
                         <div className="flex-grow">
-                            <label htmlFor="goal" className="block text-sm font-medium text-brand-text-secondary">Goal Count</label>
-                            <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                            <label htmlFor="goal" className="block text-sm font-medium text-brand-text-muted">Goal Count</label>
+                            <input type="number" id="goal" value={goal} onChange={e => setGoal(Number(e.target.value))} min="1" required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text"/>
                         </div>
                         <div>
-                             <label htmlFor="unit-name" className="block text-sm font-medium text-brand-text-secondary">Unit Name</label>
-                             <input type="text" id="unit-name" value={unit} onChange={e => setUnit(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary" placeholder="e.g., pages"/>
+                             <label htmlFor="unit-name" className="block text-sm font-medium text-brand-text-muted">Unit Name</label>
+                             <input type="text" id="unit-name" value={unit} onChange={e => setUnit(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text" placeholder="e.g., pages"/>
                         </div>
                     </div>
                 );
             case 'daily':
             default:
-                return <p className="text-sm text-gray-500">This is a simple daily habit. Mark it as done each day.</p>;
+                return <p className="text-sm text-brand-text-muted">This is a simple daily habit. Mark it as done each day.</p>;
         }
     };
     
@@ -142,22 +142,22 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
         <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
-                    <label htmlFor="title" className="block text-sm font-medium text-brand-text-secondary">Habit Title</label>
-                    <input type="text" id="title" value={title} onChange={e => setTitle(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
+                    <label htmlFor="title" className="block text-sm font-medium text-brand-text-muted">Habit Title</label>
+                    <input type="text" id="title" value={title} onChange={e => setTitle(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text"/>
                 </div>
                 <div>
-                     <label htmlFor="category" className="block text-sm font-medium text-brand-text-secondary">Category</label>
-                    <select id="category" value={category} onChange={e => setCategory(e.target.value as HabitCategory)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary">
+                     <label htmlFor="category" className="block text-sm font-medium text-brand-text-muted">Category</label>
+                    <select id="category" value={category} onChange={e => setCategory(e.target.value as HabitCategory)} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text">
                         {HABIT_CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                     </select>
                 </div>
                  <div>
-                    <label className="block text-sm font-medium text-brand-text-secondary">Habit Type</label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                        <button type="button" onClick={() => setIsPositive(true)} className={`w-1/2 rounded-l-md px-4 py-2 text-sm font-medium ${isPositive ? 'bg-brand-primary text-white' : 'bg-white hover:bg-gray-50'}`}>
+                    <label className="block text-sm font-medium text-brand-text-muted">Habit Type</label>
+                    <div className="mt-1 flex rounded-md shadow-sm border border-slate-300">
+                        <button type="button" onClick={() => setIsPositive(true)} className={`w-1/2 rounded-l-md px-4 py-2 text-sm font-medium transition-colors ${isPositive ? 'bg-brand-primary text-white' : 'bg-white hover:bg-slate-50 text-brand-text'}`}>
                             Build (Positive)
                         </button>
-                        <button type="button" onClick={() => setIsPositive(false)} className={`w-1/2 rounded-r-md px-4 py-2 text-sm font-medium ${!isPositive ? 'bg-red-500 text-white' : 'bg-white hover:bg-gray-50'}`}>
+                        <button type="button" onClick={() => setIsPositive(false)} className={`w-1/2 rounded-r-md px-4 py-2 text-sm font-medium transition-colors ${!isPositive ? 'bg-brand-danger text-white' : 'bg-white hover:bg-slate-50 text-brand-text'}`}>
                             Break (Negative)
                         </button>
                     </div>
@@ -165,8 +165,8 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
             </div>
             
             <div className="border-t pt-4">
-                 <label htmlFor="measurement-type" className="block text-sm font-medium text-brand-text-secondary">How will you measure this habit?</label>
-                 <select id="measurement-type" value={measurementType} onChange={e => setMeasurementType(e.target.value as MeasurementType)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary">
+                 <label htmlFor="measurement-type" className="block text-sm font-medium text-brand-text-muted">How will you measure this habit?</label>
+                 <select id="measurement-type" value={measurementType} onChange={e => setMeasurementType(e.target.value as MeasurementType)} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text">
                     <option value="daily">Daily Task (Done / Not Done)</option>
                     <option value="reps">Repetitions (e.g., push-ups)</option>
                     <option value="duration">Duration (Time-based)</option>
@@ -176,35 +176,35 @@ const HabitForm: React.FC<HabitFormProps> = ({ onSave, onCancel, initialHabit })
             
             <div>{renderMeasurementInputs()}</div>
 
-            <p className="text-sm text-brand-text-secondary pt-2">Optionally, define the "Atomic Habits" framework:</p>
+            <p className="text-sm text-brand-text-muted pt-2">Optionally, define the "Atomic Habits" framework:</p>
 
             <div>
-                <label htmlFor="cue" className="block text-sm font-medium text-brand-text-secondary">1. Cue (Trigger)</label>
-                <textarea id="cue" value={cue} onChange={e => setCue(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary placeholder-gray-400" placeholder="e.g., After my morning coffee..."></textarea>
+                <label htmlFor="cue" className="block text-sm font-medium text-brand-text-muted">1. Cue (Trigger)</label>
+                <textarea id="cue" value={cue} onChange={e => setCue(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text placeholder-slate-400" placeholder="e.g., After my morning coffee..."></textarea>
             </div>
              <div>
-                <label htmlFor="craving" className="block text-sm font-medium text-brand-text-secondary">2. Craving (Motivation)</label>
-                <textarea id="craving" value={craving} onChange={e => setCraving(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary placeholder-gray-400" placeholder="e.g., I want to feel focused and productive."></textarea>
+                <label htmlFor="craving" className="block text-sm font-medium text-brand-text-muted">2. Craving (Motivation)</label>
+                <textarea id="craving" value={craving} onChange={e => setCraving(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text placeholder-slate-400" placeholder="e.g., I want to feel focused and productive."></textarea>
             </div>
              <div>
-                <label htmlFor="response" className="block text-sm font-medium text-brand-text-secondary">3. Response (Action)</label>
-                <textarea id="response" value={response} onChange={e => setResponse(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary placeholder-gray-400" placeholder="e.g., I will read one page of a book."></textarea>
+                <label htmlFor="response" className="block text-sm font-medium text-brand-text-muted">3. Response (Action)</label>
+                <textarea id="response" value={response} onChange={e => setResponse(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text placeholder-slate-400" placeholder="e.g., I will read one page of a book."></textarea>
             </div>
              <div>
-                <label htmlFor="reward" className="block text-sm font-medium text-brand-text-secondary">4. Reward (Satisfaction)</label>
-                <textarea id="reward" value={reward} onChange={e => setReward(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary placeholder-gray-400" placeholder="e.g., I will enjoy the feeling of learning something new."></textarea>
+                <label htmlFor="reward" className="block text-sm font-medium text-brand-text-muted">4. Reward (Satisfaction)</label>
+                <textarea id="reward" value={reward} onChange={e => setReward(e.target.value)} rows={2} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text placeholder-slate-400" placeholder="e.g., I will enjoy the feeling of learning something new."></textarea>
             </div>
             
             <div>
-                <label htmlFor="reminder" className="block text-sm font-medium text-brand-text-secondary">Reminder Time (Optional)</label>
-                <input type="time" id="reminder" value={reminderTime} onChange={e => setReminderTime(e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text-primary"/>
-                <p className="text-xs text-gray-500 mt-1">Note: Reminders only work if the app is open in a browser tab.</p>
+                <label htmlFor="reminder" className="block text-sm font-medium text-brand-text-muted">Reminder Time (Optional)</label>
+                <input type="time" id="reminder" value={reminderTime} onChange={e => setReminderTime(e.target.value)} className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-primary focus:border-brand-primary bg-white text-brand-text"/>
+                <p className="text-xs text-brand-text-muted mt-1">Note: Reminders only work if the app is open in a browser tab.</p>
             </div>
 
 
             <div className="flex justify-end space-x-4 pt-4">
-                <button type="button" onClick={onCancel} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">Cancel</button>
-                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-brand-primary border border-transparent rounded-md shadow-sm hover:opacity-90">{initialHabit ? 'Save Changes' : 'Add Habit'}</button>
+                <button type="button" onClick={onCancel} className="px-4 py-2 text-sm font-medium text-brand-text bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">Cancel</button>
+                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-brand-primary border border-transparent rounded-md shadow-sm hover:bg-brand-primary/90">{initialHabit ? 'Save Changes' : 'Add Habit'}</button>
             </div>
         </form>
     );

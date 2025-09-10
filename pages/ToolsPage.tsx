@@ -27,8 +27,8 @@ const ToolsPage: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="text-left mb-8">
-        <h1 className="text-3xl font-bold text-brand-text-primary">Tools & Mental Models</h1>
-        <p className="mt-2 text-lg text-brand-text-secondary">
+        <h1 className="text-3xl font-bold text-brand-text">Tools & Mental Models</h1>
+        <p className="mt-2 text-lg text-brand-text-muted">
           Select a category to explore powerful frameworks for thinking and living better.
         </p>
       </div>

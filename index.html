@@ -11,19 +11,29 @@
         theme: {
           extend: {
             colors: {
-              'brand-bg': '#F8F9FA',
+              'brand-bg': '#F8FAFC', // Slate 50
               'brand-surface': '#FFFFFF',
-              'brand-primary': '#4A90E2',
-              'brand-secondary': '#50E3C2',
-              'brand-text-primary': '#333333',
-              'brand-text-secondary': '#777777',
-              'brand-accent': '#F5A623',
+              'brand-primary': '#475569', // Slate 600
+              'brand-accent': '#F59E0B', // Amber 500
+              'brand-text': '#1E293B',   // Slate 800
+              'brand-text-muted': '#64748B', // Slate 500
+              'brand-success': '#10B981', // Emerald 500
+              'brand-danger': '#EF4444',  // Red 500
+              'brand-info': '#3B82F6',   // Blue 500
             },
           },
         },
       }
     </script>
     <style>
+      /* --- Subtle background texture --- */
+      body {
+        background-color: #F8FAFC;
+        background-image:
+          radial-gradient(at 0% 0%, hsla(217, 33%, 95%, 0.4) 0px, transparent 50%),
+          radial-gradient(at 100% 100%, hsla(217, 33%, 95%, 0.4) 0px, transparent 50%);
+      }
+
       .sparks-container {
         position: fixed;
         top: 0;
@@ -53,6 +63,8 @@
           opacity: 0;
         }
       }
+
+      /* --- Updated Loader --- */
       #initial-loader {
         display: flex;
         flex-direction: column;
@@ -60,11 +72,12 @@
         align-items: center;
         height: 100vh;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-        color: #777777;
+        color: #64748B; /* brand-text-muted */
+        background-color: #F8FAFC; /* brand-bg */
       }
       .loader-spinner {
-        border: 4px solid #f3f3f3; /* Light grey */
-        border-top: 4px solid #4A90E2; /* Blue */
+        border: 4px solid #E2E8F0; /* Slate 200 */
+        border-top: 4px solid #475569; /* brand-primary */
         border-radius: 50%;
         width: 40px;
         height: 40px;
@@ -133,7 +146,7 @@
 }
 </script>
 </head>
-  <body class="bg-brand-bg">
+  <body>
     <div id="root">
       <div id="initial-loader">
         <div class="loader-spinner"></div>
@@ -152,19 +165,19 @@
         if (loader && root && root.contains(loader)) {
           if (!navigator.onLine) {
             root.innerHTML = `
-              <div style="text-align: center; padding: 40px; font-family: sans-serif; color: #333;">
-                <svg xmlns="http://www.w3.org/2000/svg" style="height: 6rem; width: 6rem; color: #F5A623; margin: 0 auto 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div style="text-align: center; padding: 40px; font-family: sans-serif; color: #1E293B;">
+                <svg xmlns="http://www.w3.org/2000/svg" style="height: 6rem; width: 6rem; color: #F59E0B; margin: 0 auto 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18.5a.5.5 0 100-1 .5.5 0 000 1z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.556A5.5 5.5 0 0112 15c1.445 0 2.805.523 3.889 1.556M4.5 13a9 9 0 0115 0" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 13L19.5 3m-15 10L19.5 3" />
                 </svg>
                 <h1 style="font-size: 2.25rem; font-weight: bold;">Connection Required</h1>
-                <p style="margin-top: 1rem; font-size: 1.125rem; color: #777;">
+                <p style="margin-top: 1rem; font-size: 1.125rem; color: #64748B;">
                   The application could not be loaded. Please check your internet connection and try reloading the page.
                 </p>
                 <button 
                   onclick="window.location.reload()" 
-                  style="margin-top: 2rem; background-color: #4A90E2; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
+                  style="margin-top: 2rem; background-color: #475569; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
                   onmouseover="this.style.opacity=0.9"
                   onmouseout="this.style.opacity=1"
                 >
@@ -175,14 +188,14 @@
           } else {
             // If the user is online, it's a different kind of error (e.g., CDN down, script error).
             root.innerHTML = `
-              <div style="text-align: center; padding: 40px; font-family: sans-serif; color: #333;">
+              <div style="text-align: center; padding: 40px; font-family: sans-serif; color: #1E293B;">
                  <h1 style="font-size: 2.25rem; font-weight: bold;">Application Error</h1>
-                 <p style="margin-top: 1rem; font-size: 1.125rem; color: #777;">
+                 <p style="margin-top: 1rem; font-size: 1.125rem; color: #64748B;">
                   Something went wrong while loading the application. Please try reloading the page.
                  </p>
                  <button 
                   onclick="window.location.reload()" 
-                  style="margin-top: 2rem; background-color: #4A90E2; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
+                  style="margin-top: 2rem; background-color: #475569; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
                   onmouseover="this.style.opacity=0.9"
                   onmouseout="this.style.opacity=1"
                 >

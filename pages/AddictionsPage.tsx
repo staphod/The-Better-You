@@ -6,11 +6,11 @@ import type { Addiction, AddictionCategory } from '@/types';
 import { AddictionIcon } from '@/components/icons/ModuleIcons';
 
 const Accordion: React.FC<{ title: string; children: React.ReactNode; isOpen: boolean; onToggle: () => void }> = ({ title, children, isOpen, onToggle }) => (
-  <div className="border border-gray-200 rounded-lg">
+  <div className="border border-slate-200 rounded-lg bg-brand-surface shadow-sm">
     <h2>
       <button
         type="button"
-        className="flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 bg-gray-50 hover:bg-gray-100"
+        className="flex items-center justify-between w-full p-5 font-medium text-left text-brand-text bg-slate-50 hover:bg-slate-100 transition-colors"
         onClick={onToggle}
         aria-expanded={isOpen}
       >
@@ -19,7 +19,7 @@ const Accordion: React.FC<{ title: string; children: React.ReactNode; isOpen: bo
       </button>
     </h2>
     {isOpen && (
-      <div className="p-5 border-t border-gray-200 bg-white">
+      <div className="p-5 border-t border-slate-200 bg-white">
         {children}
       </div>
     )}
@@ -31,7 +31,7 @@ const AddictionItem: React.FC<{ addiction: Addiction }> = ({ addiction }) => {
   return (
     <Link to={`/addiction/${addiction.id}`} className="block p-4 -mx-4 rounded-lg hover:bg-brand-bg transition-colors">
       <h3 className="font-semibold text-brand-primary">{addiction.title}</h3>
-      <p className="text-sm text-brand-text-secondary mt-1">{addiction.description.split('.')[0]}.</p>
+      <p className="text-sm text-brand-text-muted mt-1">{addiction.description.split('.')[0]}.</p>
     </Link>
   );
 };
@@ -58,9 +58,9 @@ const AddictionsPage: React.FC = () => {
       <div className="text-left mb-8">
         <div className="flex items-center gap-3">
            <AddictionIcon className="h-10 w-10 text-brand-primary"/>
-           <h1 className="text-3xl font-bold text-brand-text-primary">Addiction Awareness</h1>
+           <h1 className="text-3xl font-bold text-brand-text">Addiction Awareness</h1>
         </div>
-        <p className="mt-2 text-lg text-brand-text-secondary">
+        <p className="mt-2 text-lg text-brand-text-muted">
           Take a confidential self-assessment to better understand your habits. These tests are for educational purposes and are not a substitute for professional medical advice.
           <span className="block text-sm mt-2">An internet connection is required to load individual assessments.</span>
         </p>

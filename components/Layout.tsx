@@ -10,35 +10,37 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { Link } = ReactRouterDom;
 
   return (
-    <div className="min-h-screen bg-brand-bg text-brand-text-primary font-sans">
-      <header className="bg-brand-surface shadow-md sticky top-0 z-10">
+    <div className="min-h-screen bg-transparent text-brand-text font-sans">
+      <header className="bg-brand-surface/80 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <Link to="/" className="text-2xl font-bold text-brand-primary hover:opacity-80 transition-opacity">
+            <Link to="/" className="text-2xl font-bold text-brand-primary hover:text-brand-accent transition-colors">
               The Better You
             </Link>
             <div
-              className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium"
+              className="flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-medium bg-slate-100"
               title={isOnline ? "You are online" : "You are offline"}
             >
-              <span className="hidden sm:inline text-brand-text-secondary">Status:</span>
+              <span className="hidden sm:inline text-brand-text-muted">Status:</span>
               {isOnline ? (
-                <WifiIcon className="h-5 w-5 text-green-500" />
+                <WifiIcon className="h-5 w-5 text-brand-success" />
               ) : (
-                <WifiOffIcon className="h-5 w-5 text-red-500" />
+                <WifiOffIcon className="h-5 w-5 text-brand-danger" />
               )}
             </div>
           </div>
         </div>
       </header>
       <main className="container mx-auto p-4 sm:p-6 lg:p-8">
-        {children}
+        <div className="max-w-7xl mx-auto">
+            {children}
+        </div>
       </main>
-      <footer className="text-center py-4 text-brand-text-secondary text-sm">
+      <footer className="text-center py-6 text-brand-text-muted text-sm">
         <div className="mb-2">
-            <Link to="/credits" className="inline-flex items-center gap-1 text-gray-500 hover:text-brand-primary transition-colors">
+            <Link to="/about" className="inline-flex items-center gap-1 text-brand-text-muted hover:text-brand-primary transition-colors">
                 <HeartIcon className="h-4 w-4" />
-                <span>Credits</span>
+                <span>About This App</span>
             </Link>
         </div>
         <p>&copy; {new Date().getFullYear()} The Better You. All Rights Reserved.</p>

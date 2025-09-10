@@ -13,6 +13,9 @@ import ToolsPage from '@/pages/ToolsPage';
 import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import CreditsPage from '@/pages/CreditsPage';
+import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
+import MentalModelsPage from '@/pages/MentalModelsPage';
+import LifeLawsPage from '@/pages/LifeLawsPage';
 
 function App() {
   const { HashRouter, Routes, Route } = ReactRouterDom;
@@ -27,6 +30,9 @@ function App() {
             <Route path="/puzzles" element={<PuzzlesPage />} />
             <Route path="/habits" element={<HabitsPage />} />
             <Route path="/tools" element={<ToolsPage />} />
+            <Route path="/tools/strategies" element={<ToolsStrategiesPage />} />
+            <Route path="/tools/models" element={<MentalModelsPage />} />
+            <Route path="/tools/laws" element={<LifeLawsPage />} />
             <Route path="/addictions" element={<AddictionsPage />} />
             <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
             <Route path="/credits" element={<CreditsPage />} />

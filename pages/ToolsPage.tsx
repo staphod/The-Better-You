@@ -1,23 +1,42 @@
 import React from 'react';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
-import { ToolsIcon } from '@/components/icons/ModuleIcons';
+import ModuleCard from '@/components/ModuleCard';
+import { ToolsIcon, NetworkIcon, ScaleIcon } from '@/components/icons/ModuleIcons';
 
 const ToolsPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
+  const subModules = [
+    {
+      to: "/tools/strategies",
+      title: "Tools & Strategies",
+      description: "Discover practical tools and effective strategies for better decision-making and self-improvement.",
+      icon: <ToolsIcon />,
+    },
+    {
+      to: "/tools/models",
+      title: "Mental Models",
+      description: "Explore a library of powerful mental models to improve your thinking and understand the world.",
+      icon: <NetworkIcon />,
+    },
+    {
+      to: "/tools/laws",
+      title: "Life Laws & Principles",
+      description: "Learn timeless laws and principles that govern success, happiness, and human behavior.",
+      icon: <ScaleIcon />,
+    },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center text-center h-full max-w-md mx-auto">
-        <ToolsIcon className="h-24 w-24 text-brand-accent mb-6" />
-        <h1 className="text-4xl font-bold text-brand-text-primary">Tools & Mental Models</h1>
-        <p className="mt-4 text-lg text-brand-text-secondary">
-            This module is under construction. Get ready to explore powerful mental models and tools to enhance your thinking.
+    <div className="space-y-8">
+      <div className="text-left mb-8">
+        <h1 className="text-3xl font-bold text-brand-text-primary">Tools & Mental Models</h1>
+        <p className="mt-2 text-lg text-brand-text-secondary">
+          Select a category to explore powerful frameworks for thinking and living better.
         </p>
-        <Link 
-            to="/" 
-            className="mt-8 bg-brand-primary text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity"
-        >
-            Back to Home
-        </Link>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {subModules.map(({ to, title, description, icon }) => (
+          <ModuleCard key={to} to={to} title={title} description={description} icon={icon} />
+        ))}
+      </div>
     </div>
   );
 };

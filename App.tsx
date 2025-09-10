@@ -12,7 +12,7 @@ import TestPage from '@/pages/TestPage';
 import KnowledgeBaseListPage from '@/pages/KnowledgeBaseListPage';
 import KnowledgeBaseDetailPage from '@/pages/KnowledgeBaseDetailPage';
 
-import PuzzlesPage from '@/pages/PuzzlesPage';
+import PuzzlesPage from '@/pages/PzzlesPage';
 import OfflinePage from '@/pages/OfflinePage';
 import HabitsPage from '@/pages/HabitsPage';
 import ToolsPage from '@/pages/ToolsPage';
@@ -27,6 +27,8 @@ import LifeLawsPage from '@/pages/LifeLawsPage';
 import SixtyMinutesOfSilencePage from '@/pages/tools/SixtyMinutesOfSilencePage';
 import FirstPrinciplesPage from '@/pages/mentalmodels/FirstPrinciplesPage';
 import CauseAndEffectPage from '@/pages/laws/CauseAndEffectPage';
+import EntropyPage from '@/pages/laws/EntropyPage';
+import SowingAndReapingPage from '@/pages/laws/SowingAndReapingPage';
 
 
 function App() {
@@ -54,6 +56,8 @@ function App() {
             <Route path="/tools/models/first-principles" element={<FirstPrinciplesPage />} />
             <Route path="/tools/laws" element={<LifeLawsPage />} />
             <Route path="/tools/laws/cause-and-effect" element={<CauseAndEffectPage />} />
+            <Route path="/tools/laws/entropy" element={<EntropyPage />} />
+            <Route path="/tools/laws/sowing-and-reaping" element={<SowingAndReapingPage />} />
             <Route path="/addictions" element={<AddictionsPage />} />
             <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
             <Route path="/credits" element={<CreditsPage />} />

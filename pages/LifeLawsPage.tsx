@@ -32,6 +32,16 @@ const LifeLawsPage: React.FC = () => {
       to: "/tools/laws/cause-and-effect",
       title: "The Law of Cause and Effect",
       description: "Understand the fundamental principle that every action creates a specific, corresponding result."
+    },
+    {
+      to: "/tools/laws/entropy",
+      title: "The Law of Entropy",
+      description: "Why systems tend towards disorder and how constant effort is required for growth."
+    },
+    {
+      to: "/tools/laws/sowing-and-reaping",
+      title: "The Law of Sowing and Reaping",
+      description: "Explore the timeless agricultural principle of planting seeds for a future harvest."
     }
   ];
 

@@ -1,5 +1,5 @@
 import type { TestListing } from '@/types';
-import { BrainIcon, OceanIcon } from '@/components/icons/ModuleIcons';
+import { BrainIcon, OceanIcon, ClockIcon } from '@/components/icons/ModuleIcons';
 
 export const testListings: TestListing[] = [
   {
@@ -10,10 +10,17 @@ export const testListings: TestListing[] = [
     requires_online: true,
   },
   {
-    id: 'big-five-ocean',
-    title: 'Big Five Personality Test',
-    summary: 'Measure your levels of Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism.',
+    id: 'big-five-ipip-120',
+    title: 'Big Five Personality Test (120 Qs)',
+    summary: 'A comprehensive measure of Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism.',
     icon: OceanIcon,
+    requires_online: true,
+  },
+  {
+    id: 'procrastination-type',
+    title: 'Procrastination Type Test',
+    summary: 'Identify your procrastination archetype and get tailored strategies to overcome it.',
+    icon: ClockIcon,
     requires_online: true,
   },
 ];

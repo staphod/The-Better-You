@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 export interface TestListing {
   id: string;
@@ -13,6 +13,8 @@ export interface Question {
   text: string;
   type: 'likert';
   options: { text: string; value: number }[];
+  category?: string;
+  reverse?: boolean;
 }
 
 export interface FullTest {
@@ -22,10 +24,11 @@ export interface FullTest {
   result_template: {
     [key: string]: {
       explanation: string;
-      best_work: string[];
       strengths: string[];
       weaknesses: string[];
-      famous: string[];
+      famous?: string[];
+      best_work?: string[];
+      strategies?: string[];
     };
   };
   knowledgeBase: {
@@ -34,6 +37,9 @@ export interface FullTest {
         key: string;
         title: string;
     }[];
+  };
+  scoringThresholds?: {
+    [key: string]: { low: number; high: number };
   };
 }
 

@@ -19,27 +19,39 @@ const ResultDetailCard: React.FC<{ title: string, result: any }> = ({ title, res
             <div>
                 <h4 className="font-semibold text-brand-text-primary mb-1">Strengths</h4>
                 <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.strengths.map((s: string) => <li key={s}>{s}</li>)}
+                    {result.strengths?.map((s: string) => <li key={s}>{s}</li>)}
                 </ul>
             </div>
             <div>
                 <h4 className="font-semibold text-brand-text-primary mb-1">Weaknesses</h4>
                 <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.weaknesses.map((w: string) => <li key={w}>{w}</li>)}
+                    {result.weaknesses?.map((w: string) => <li key={w}>{w}</li>)}
                 </ul>
             </div>
-             <div>
-                <h4 className="font-semibold text-brand-text-primary mb-1">Best Job Fits</h4>
-                <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.best_work.map((j: string) => <li key={j}>{j}</li>)}
-                </ul>
-            </div>
-            <div>
-                <h4 className="font-semibold text-brand-text-primary mb-1">Famous Examples</h4>
-                <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
-                    {result.famous.map((p: string) => <li key={p}>{p}</li>)}
-                </ul>
-            </div>
+             {result.best_work && (
+                <div>
+                    <h4 className="font-semibold text-brand-text-primary mb-1">Best Job Fits</h4>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.best_work.map((j: string) => <li key={j}>{j}</li>)}
+                    </ul>
+                </div>
+            )}
+            {result.famous && (
+                <div>
+                    <h4 className="font-semibold text-brand-text-primary mb-1">Famous Examples</h4>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.famous.map((p: string) => <li key={p}>{p}</li>)}
+                    </ul>
+                </div>
+            )}
+            {result.strategies && (
+                 <div className="md:col-span-2">
+                    <h4 className="font-semibold text-brand-text-primary mb-1">Tailored Strategies</h4>
+                    <ul className="list-disc list-inside space-y-1 text-brand-text-secondary">
+                        {result.strategies.map((s: string) => <li key={s}>{s}</li>)}
+                    </ul>
+                </div>
+            )}
         </div>
     </div>
 );
@@ -80,6 +92,48 @@ const KnowledgeBaseDetailPage: React.FC = () => {
     if (loading) return <LoadingSpinner />;
     if (error) return <p className="text-center text-red-500">{error}</p>;
     if (!test) return <p className="text-center">Article not found.</p>;
+
+    const isDimensional = !!test.scoringThresholds;
+    
+    const renderContent = () => {
+        if (isDimensional) {
+            return (
+                <div className="space-y-8">
+                    {test.knowledgeBase.resultDetails.map(trait => (
+                        <div key={trait.key}>
+                            <h2 className="text-2xl font-bold text-brand-text-primary mb-4 pb-2 border-b-2 border-brand-primary">{trait.title}</h2>
+                            <div className="space-y-4">
+                                <ResultDetailCard 
+                                    title={`High ${trait.title}`}
+                                    result={test.result_template[`${trait.key}_high`]}
+                                />
+                                <ResultDetailCard 
+                                    title={`Average ${trait.title}`}
+                                    result={test.result_template[`${trait.key}_average`]}
+                                />
+                                <ResultDetailCard 
+                                    title={`Low ${trait.title}`}
+                                    result={test.result_template[`${trait.key}_low`]}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        } else {
+            return (
+                 <div className="space-y-6">
+                    {test.knowledgeBase.resultDetails.map(detail => (
+                        <ResultDetailCard 
+                            key={detail.key}
+                            title={detail.title}
+                            result={test.result_template[detail.key]}
+                        />
+                    ))}
+                </div>
+            );
+        }
+    }
     
     return (
         <div className="max-w-4xl mx-auto bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg">
@@ -96,15 +150,7 @@ const KnowledgeBaseDetailPage: React.FC = () => {
             </div>
 
             <h2 className="text-2xl font-bold text-brand-text-primary mt-8 mb-4">Possible Results Explained</h2>
-            <div className="space-y-6">
-                {test.knowledgeBase.resultDetails.map(detail => (
-                    <ResultDetailCard 
-                        key={detail.key}
-                        title={detail.title}
-                        result={test.result_template[detail.key]}
-                    />
-                ))}
-            </div>
+            {renderContent()}
 
             <div className="mt-8 text-center">
                  <Link to={`/test/${test.id}`} className="inline-block bg-brand-primary text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity">

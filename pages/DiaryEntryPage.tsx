@@ -7,6 +7,7 @@ const RichTextEditor: React.FC<{ value: string; onChange: (value: string) => voi
     const editorRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
+        // Set the initial HTML content when the component loads or the entry changes.
         if (editorRef.current && value !== editorRef.current.innerHTML) {
             editorRef.current.innerHTML = value;
         }
@@ -21,6 +22,10 @@ const RichTextEditor: React.FC<{ value: string; onChange: (value: string) => voi
     const handleFormat = (command: string) => {
         document.execCommand(command, false, undefined);
         editorRef.current?.focus();
+        // Ensure state is updated after a format command is executed
+        if (editorRef.current) {
+            onChange(editorRef.current.innerHTML);
+        }
     };
 
     return (
@@ -35,7 +40,6 @@ const RichTextEditor: React.FC<{ value: string; onChange: (value: string) => voi
                 onInput={handleInput}
                 contentEditable={true}
                 className="prose max-w-none p-4 min-h-[300px] focus:outline-none"
-                dangerouslySetInnerHTML={{ __html: value }}
             />
         </div>
     );

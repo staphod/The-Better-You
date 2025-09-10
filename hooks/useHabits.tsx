@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { Habit, HabitMeasurement } from '@/types';
+import { useState, useEffect, useCallback } from 'react';
+import type { Habit } from '@/types';
 
 const HABITS_STORAGE_KEY = 'the-better-you-habits';
 
@@ -41,24 +41,24 @@ export const useHabits = () => {
         localStorage.setItem(HABITS_STORAGE_KEY, JSON.stringify(habits));
     }, [habits]);
 
-    const addHabit = (newHabitData: Omit<Habit, 'id' | 'history'>) => {
+    const addHabit = useCallback((newHabitData: Omit<Habit, 'id' | 'history'>) => {
         const newHabit: Habit = {
             id: crypto.randomUUID(),
             ...newHabitData,
             history: [],
         };
         setHabits(prev => [...prev, newHabit]);
-    };
+    }, []);
     
-    const updateHabit = (updatedHabit: Habit) => {
+    const updateHabit = useCallback((updatedHabit: Habit) => {
         setHabits(prev => prev.map(h => h.id === updatedHabit.id ? updatedHabit : h));
-    };
+    }, []);
 
-    const deleteHabit = (id: string) => {
+    const deleteHabit = useCallback((id: string) => {
         setHabits(prev => prev.filter(habit => habit.id !== id));
-    };
+    }, []);
 
-    const logHabit = (id: string, value: number) => {
+    const logHabit = useCallback((id: string, value: number) => {
         const todayStr = toYYYYMMDD(new Date());
 
         setHabits(prev => prev.map(habit => {
@@ -70,7 +70,7 @@ export const useHabits = () => {
             }
             return habit;
         }));
-    };
+    }, []);
     
     return { habits, addHabit, updateHabit, deleteHabit, logHabit };
 };

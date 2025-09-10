@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { DiaryEntry } from '@/types';
 
 const DIARY_STORAGE_KEY = 'the-better-you-diary';
@@ -22,7 +22,7 @@ export const useDiary = () => {
         localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(entries));
     }, [entries]);
 
-    const addEntry = (newEntryData: Omit<DiaryEntry, 'id'|'modified'>) => {
+    const addEntry = useCallback((newEntryData: Omit<DiaryEntry, 'id'|'modified'>) => {
         const newEntry: DiaryEntry = {
             id: crypto.randomUUID(),
             ...newEntryData,
@@ -30,19 +30,19 @@ export const useDiary = () => {
         };
         setEntries(prev => [newEntry, ...prev]);
         return newEntry;
-    };
+    }, []);
     
-    const updateEntry = (updatedEntry: DiaryEntry) => {
+    const updateEntry = useCallback((updatedEntry: DiaryEntry) => {
         setEntries(prev => prev.map(e => e.id === updatedEntry.id ? { ...updatedEntry, modified: new Date().toISOString() } : e));
-    };
+    }, []);
 
-    const deleteEntry = (id: string) => {
+    const deleteEntry = useCallback((id: string) => {
         setEntries(prev => prev.filter(entry => entry.id !== id));
-    };
+    }, []);
     
-    const getEntryById = (id: string) => {
+    const getEntryById = useCallback((id: string) => {
         return entries.find(entry => entry.id === id);
-    };
+    }, [entries]);
 
     return { entries, addEntry, updateEntry, deleteEntry, getEntryById };
 };

@@ -12,7 +12,7 @@ const SupportPage: React.FC = () => {
       <div className="prose prose-slate max-w-none text-brand-text-muted prose-headings:text-brand-text prose-strong:text-brand-text prose-a:text-brand-info">
         <p className="lead">"My name is Staphod Cylas."</p>
         <p>
-          My journey with this app began with a simple yet powerful vision: to provide a tool that empowers people to gain the knowledge and ability to achieve deep self-awareness and personal growth. I built this app completely free, with no ads, to ensure that your private journey of self-discovery remains just that—private and accessible to everyone.
+          My journey with this app began with a simple yet powerful vision: to provide a tool that empowers people to gain the knowledge and ability to achieve deep self-awareness and personal growth. To keep the app accessible and sustainable, its core features are free, supported by user contributions and a few non-intrusive ads. My commitment is to ensure your private journey of self-discovery remains just that—private.
         </p>
         <p>
           This app is more than just code; it's a passion project that I built entirely on my smartphone, a Tecno Pop 8. While this has been a testament to what's possible, it also comes with its limitations. As a web-based application, we face challenges in implementing more advanced, privacy-preserving features and ensuring a seamless offline-first experience.
@@ -51,8 +51,8 @@ const SupportPage: React.FC = () => {
           <ul className="space-y-4 text-brand-text break-words">
             <li><strong>M-Pesa:</strong> <code>0742985445</code></li>
             <li><strong>CRDB Bank:</strong> <code>01520000NXT00</code></li>
-            <li><strong>Patreon:</strong> <a href="https://patreon.com/SmileSphere?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink" target="_blank" rel="noopener noreferrer">patreon.com/SmileSphere</a></li>
-            <li><strong>Airtm:</strong> <a href="https://airtm.me/staphod" target="_blank" rel="noopener noreferrer">airtm.me/staphod</a></li>
+            <li><strong>Patreon:</strong> <a href="https://patreon.com/SmileSphere?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink" target="_blank" rel="noopener noreferrer">Click here to support on Patreon</a></li>
+            <li><strong>Airtm:</strong> <a href="https://airtm.me/staphod" target="_blank" rel="noopener noreferrer">Click here to donate via Airtm</a></li>
             <li><strong>Bitcoin:</strong> <code>1L5Rcs67933Dxrbq1ksY4DTpoRg9fvZS2R</code></li>
             <li>
               <strong>Paypal:</strong> <a href="https://www.paypal.com/paypalme/staphodcylas" target="_blank" rel="noopener noreferrer" title="staphodcylas01@gmail.com">Click here to donate</a>

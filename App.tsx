@@ -21,6 +21,7 @@ import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import AboutPage from '@/pages/AboutPage'; // New About Page
 import DiaryPage from '@/pages/DiaryPage'; // New Diary List Page
 import DiaryEntryPage from '@/pages/DiaryEntryPage'; // New Diary Entry Page
+import SupportPage from '@/pages/SupportPage'; // New Support Page
 
 // Tools Sub-pages
 import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
@@ -74,6 +75,7 @@ function App() {
             <Route path="/addictions" element={<AddictionsPage />} />
             <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/support" element={<SupportPage />} />
             <Route path="/offline" element={<OfflinePage />} />
           </Routes>
         </Layout>

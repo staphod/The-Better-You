@@ -30,7 +30,13 @@ export interface FullTest {
       best_work?: string[];
       strategies?: string[];
       advice?: string[];
+      nextSteps?: {
+          text: string;
+          link: string; // Path within the app
+      }[];
       level?: string;
+      basic_fear?: string;
+      basic_desire?: string;
     };
   };
   knowledgeBase: {
@@ -40,8 +46,18 @@ export interface FullTest {
         title: string;
     }[];
   };
-  scoringThresholds?: { [key: string]: { low: number; high: number } } | { moderate: number; high: number };
+  scoringThresholds?: { [key: string]: { low: number; high: number } } | { [level: string]: number };
 }
+
+export interface TestHistoryItem {
+  id: string; // Unique ID for the history entry
+  testId: string;
+  testTitle: string;
+  dateCompleted: string; // ISO string
+  result: any; // The full result object
+  summary: string; // A concise summary for display
+}
+
 
 export interface Puzzle {
   id: number;
@@ -146,4 +162,14 @@ export interface DiaryEntry {
   title: string;
   content: string; // HTML content from the editor
   modified: string; // ISO string
+}
+
+// --- Mood Tracker Types ---
+export type Mood = 'Happy' | 'Calm' | 'Neutral' | 'Anxious' | 'Sad';
+
+export interface MoodLog {
+  id: string;
+  mood: Mood;
+  note: string;
+  date: string; // ISO string
 }

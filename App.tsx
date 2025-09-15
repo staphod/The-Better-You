@@ -9,6 +9,8 @@ import HomePage from '@/pages/HomePage';
 import TestsHomePage from '@/pages/TestsHomePage';
 import TestsListPage from '@/pages/TestsListPage';
 import TestPage from '@/pages/TestPage';
+import TestHistoryPage from '@/pages/TestHistoryPage';
+import TestHistoryDetailPage from '@/pages/TestHistoryDetailPage';
 import KnowledgeBaseListPage from '@/pages/KnowledgeBaseListPage';
 import KnowledgeBaseDetailPage from '@/pages/KnowledgeBaseDetailPage';
 
@@ -20,8 +22,10 @@ import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import AboutPage from '@/pages/AboutPage'; // New About Page
 import DiaryPage from '@/pages/DiaryPage'; // New Diary List Page
+import DiaryDetailPage from '@/pages/DiaryDetailPage'; // New Diary Detail Page
 import DiaryEntryPage from '@/pages/DiaryEntryPage'; // New Diary Entry Page
 import SupportPage from '@/pages/SupportPage'; // New Support Page
+import MoodTrackerPage from '@/pages/MoodTrackerPage'; // New Mood Tracker Page
 
 // Tools Sub-pages
 import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
@@ -50,6 +54,8 @@ function App() {
             <Route path="/tests" element={<TestsHomePage />} />
             <Route path="/tests/list" element={<TestsListPage />} />
             <Route path="/test/:testId" element={<TestPage />} />
+            <Route path="/tests/history" element={<TestHistoryPage />} />
+            <Route path="/tests/history/:historyId" element={<TestHistoryDetailPage />} />
             <Route path="/tests/knowledge-base" element={<KnowledgeBaseListPage />} />
             <Route path="/tests/knowledge-base/:testId" element={<KnowledgeBaseDetailPage />} />
 
@@ -58,7 +64,11 @@ function App() {
             
             {/* New Diary Routes */}
             <Route path="/diary" element={<DiaryPage />} />
+            <Route path="/diary/detail/:entryId" element={<DiaryDetailPage />} />
             <Route path="/diary/entry/:entryId" element={<DiaryEntryPage />} />
+            
+            {/* New Mood Tracker Route */}
+            <Route path="/mood" element={<MoodTrackerPage />} />
 
             <Route path="/tools" element={<ToolsPage />} />
             <Route path="/tools/strategies" element={<ToolsStrategiesPage />} />

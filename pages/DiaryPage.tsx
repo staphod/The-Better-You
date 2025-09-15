@@ -35,7 +35,7 @@ const DiaryPage: React.FC = () => {
           {entries.map(entry => (
             <div key={entry.id} className="bg-brand-surface p-4 rounded-lg shadow-sm border border-slate-200 group">
               <div className="flex justify-between items-start">
-                <Link to={`/diary/entry/${entry.id}`} className="flex-grow">
+                <Link to={`/diary/detail/${entry.id}`} className="flex-grow">
                   <h2 className="font-bold text-lg text-brand-primary group-hover:text-brand-accent">{entry.title}</h2>
                   <p className="text-sm text-brand-text-muted mt-1">
                     Last modified: {new Date(entry.modified).toLocaleString()}

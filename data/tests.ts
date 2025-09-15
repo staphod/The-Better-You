@@ -1,13 +1,20 @@
 import type { TestListing } from '@/types';
-import { BrainIcon, OceanIcon, ClockIcon, HeartbeatIcon, NetworkIcon } from '@/components/icons/ModuleIcons';
+import { BrainIcon, OceanIcon, ClockIcon, HeartbeatIcon, NetworkIcon, ScaleIcon } from '@/components/icons/ModuleIcons';
 import { FireIcon } from '@/components/icons/StatusIcons';
 
 export const testListings: TestListing[] = [
   {
-    id: 'mbti-architect',
-    title: 'MBTI Personality: The Architect',
-    summary: 'Discover your strategic and independent personality traits.',
-    icon: BrainIcon,
+    id: '16-personality-types',
+    title: '16 Personality Types Test (84 Qs)',
+    summary: 'Discover your 5-letter personality type (e.g., INTP-A) and understand your unique strengths.',
+    icon: NetworkIcon,
+    requires_online: true,
+  },
+  {
+    id: 'imposter-syndrome-test',
+    title: 'Imposter Syndrome Test',
+    summary: 'Assess feelings of being a "fraud" and difficulty internalizing your accomplishments.',
+    icon: ScaleIcon,
     requires_online: true,
   },
   {
@@ -58,5 +65,12 @@ export const testListings: TestListing[] = [
     summary: 'Measure your risk of burnout by assessing exhaustion, cynicism, and efficacy.',
     icon: FireIcon,
     requires_online: true,
-  }
+  },
+  {
+    id: 'mbti-architect',
+    title: 'MBTI Personality: The Architect',
+    summary: 'Discover your strategic and independent personality traits.',
+    icon: BrainIcon,
+    requires_online: true,
+  },
 ];

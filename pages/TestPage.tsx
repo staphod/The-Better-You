@@ -67,8 +67,37 @@ const TestPage: React.FC = () => {
         let finalResult: any = null;
         let finalSummary: string = 'Completed';
 
+        // --- 16 Personality Types Test ---
+        if (test.id === '16-personality-types') {
+            const scores: { [key: string]: number } = { mind: 0, energy: 0, nature: 0, tactics: 0, identity: 0 };
+            test.questions.forEach(q => {
+                if (q.category && finalAnswers[q.id] !== undefined) {
+                    const value = finalAnswers[q.id];
+                    const score = q.reverse ? -value : value;
+                    scores[q.category] += score;
+                }
+            });
+
+            const mind = scores.mind >= 0 ? 'E' : 'I';
+            const energy = scores.energy >= 0 ? 'N' : 'S';
+            const nature = scores.nature >= 0 ? 'T' : 'F';
+            const tactics = scores.tactics >= 0 ? 'J' : 'P';
+            const identity = scores.identity >= 0 ? 'A' : 'T';
+            
+            const finalTypeCode = `${mind}${energy}${nature}${tactics}`;
+            const identityText = test.result_template[identity].explanation;
+            
+            const baseResult = test.result_template[finalTypeCode] || test.result_template["DEFAULT"];
+            
+            finalResult = {
+                ...baseResult,
+                level: `${finalTypeCode}-${identity}`,
+                explanation: `${baseResult.explanation}\n\nAs a(n) ${finalTypeCode}-${identity}, you are ${identity === 'A' ? 'Assertive' : 'Turbulent'}. ${identityText}`
+            };
+            finalSummary = `Result: ${finalTypeCode}-${identity}`;
+        
         // --- Dimensional Test (e.g., Big Five) ---
-        if (thresholds && 'O' in thresholds) {
+        } else if (thresholds && 'O' in thresholds) {
             const scores: { [key: string]: number } = {};
             const levels: { [key: string]: string } = {};
 
@@ -92,23 +121,25 @@ const TestPage: React.FC = () => {
             finalResult = { scores, levels };
             finalSummary = `O: ${levels.O}, C: ${levels.C}, E: ${levels.E}, A: ${levels.A}, N: ${levels.N}`;
 
-        // --- Single Score with Levels (e.g., Anxiety, IQ Test) ---
+        // --- Single Score with Levels (e.g., Anxiety, Imposter Syndrome) ---
         } else if (thresholds && !('O' in thresholds)) {
              const totalScore = Object.values(finalAnswers).reduce((sum, val) => sum + val, 0);
-             // Assumes resultDetails are ordered in the data file from highest tier to lowest tier
              const resultLevels = test.knowledgeBase.resultDetails;
              
-             let determinedResultKey = resultLevels[resultLevels.length - 1].key; // Default to the lowest tier
+             let determinedResultKey = resultLevels[resultLevels.length - 1].key;
 
              for (const level of resultLevels) {
                  const minScore = (thresholds as Record<string, number>)[level.key];
-                 // Note: minScore can be 0, so check for undefined. The lowest tier won't have a threshold.
                  if (minScore !== undefined && totalScore >= minScore) {
                      determinedResultKey = level.key;
-                     break; // Found the highest applicable tier
+                     break; 
                  }
              }
              finalResult = test.result_template[determinedResultKey];
+             if (!finalResult) {
+                setError("Could not determine a result from the score.");
+                return;
+             }
              finalSummary = `Result: ${finalResult.level}`;
 
         // --- Archetype Test (e.g., Procrastination, Enneagram) ---
@@ -129,20 +160,28 @@ const TestPage: React.FC = () => {
                 }
             }
             
-            if (resultKey && test.result_template[resultKey]) {
+            if (resultKey) {
                 finalResult = test.result_template[resultKey];
-                finalSummary = `Result: ${finalResult.level}`;
+                if (!finalResult) {
+                    setError("Could not determine a result from the category scores.");
+                    return;
+                }
+                finalSummary = `Result: ${finalResult.level || 'Completed'}`;
             } else {
-                setError("Could not determine a result.");
+                setError("Could not determine a result category.");
                 return;
             }
         
-        // --- Simple Score Test (e.g., MBTI) ---
+        // --- Simple Score Test (e.g., MBTI Architect) ---
         } else {
             const totalScore = Object.values(finalAnswers).reduce((sum, val) => sum + val, 0);
             const resultKey = totalScore >= 0 ? "high-score" : "low-score";
             finalResult = test.result_template[resultKey];
-            finalSummary = "Completed"; // Less specific summary here
+            if (!finalResult) {
+                setError("Could not determine a result for the final score.");
+                return;
+            }
+            finalSummary = "Completed";
         }
 
         setResult(finalResult);
@@ -261,10 +300,10 @@ const TestPage: React.FC = () => {
     const currentQuestion = test.questions[currentQuestionIndex];
     const progress = ((currentQuestionIndex) / test.questions.length) * 100; // Start from 0 for a better feel
     const isLikert5 = currentQuestion.options.length === 5;
-    const isIQTest = test.id === 'general-iq-test';
+    const isLikert7 = currentQuestion.options.length === 7;
 
     return (
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto">
              <div className="bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg">
                 <div className="mb-6">
                     <p className="text-sm text-brand-text-muted text-center mb-2">Question {currentQuestionIndex + 1} of {test.questions.length}</p>
@@ -277,20 +316,11 @@ const TestPage: React.FC = () => {
                     <p className="font-semibold text-xl text-center text-brand-text mb-8 min-h-[6rem] flex items-center justify-center">
                         {currentQuestion.text}
                     </p>
-                    <div className={isLikert5 ? "grid grid-cols-1 gap-3" : (isIQTest ? "grid grid-cols-2 gap-4" : "flex justify-center space-x-2 sm:space-x-4")}>
+                    <div className={isLikert7 ? "grid grid-cols-1 gap-2" : (isLikert5 ? "grid grid-cols-1 gap-3" : "flex justify-center space-x-2 sm:space-x-4")}>
                         {currentQuestion.options.map(opt => {
                              let buttonClass = 'bg-slate-100 hover:bg-slate-200 text-brand-text';
                              if (isAnswered) {
-                                 const isCorrect = isIQTest && opt.value === 1;
-                                 const isSelected = chosenAnswerValue === opt.value;
-
-                                 if (isIQTest) {
-                                     if(isCorrect) buttonClass = 'bg-brand-success text-white scale-105 shadow-lg';
-                                     else if(isSelected && !isCorrect) buttonClass = 'bg-brand-danger text-white scale-105 shadow-lg';
-                                     else buttonClass = 'bg-slate-100 opacity-50';
-                                 } else {
-                                     buttonClass = isSelected ? 'bg-brand-primary text-white scale-105 shadow-lg' : 'bg-slate-100 opacity-50';
-                                 }
+                                buttonClass = chosenAnswerValue === opt.value ? 'bg-brand-primary text-white scale-105 shadow-lg' : 'bg-slate-100 opacity-50';
                              }
                             return (
                                <button 

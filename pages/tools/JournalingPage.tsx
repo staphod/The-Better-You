@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import { PencilIcon } from '@/components/icons/ModuleIcons';
+import { journalPrompts } from '@/data/journalPrompts';
 
 const JournalingPage: React.FC = () => {
   const { Link } = ReactRouterDom;
+  const [activeCategory, setActiveCategory] = useState(journalPrompts[0].title);
 
   return (
     <div className="max-w-3xl mx-auto bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
@@ -35,28 +37,37 @@ const JournalingPage: React.FC = () => {
           <h2 className="text-2xl font-semibold text-brand-text mb-3">Journaling Prompts to Get You Started</h2>
           <p>The blank page can be intimidating. Use these prompts as a starting point. Don't worry about grammar or making it perfect—just write.</p>
 
-          <h3 className="font-bold text-brand-text mt-4">Gratitude Journaling (To cultivate positivity)</h3>
-          <ul className="list-disc list-inside mt-2 space-y-1 pl-4 text-sm">
-            <li>What are three small things that brought me joy today?</li>
-            <li>Who is someone I am grateful for and why?</li>
-            <li>What is a skill or quality I have that I am thankful for?</li>
-          </ul>
+          <div className="my-4 border-b border-gray-200">
+            <nav className="-mb-px flex space-x-4" aria-label="Tabs">
+              {journalPrompts.map((category) => (
+                <button
+                  key={category.title}
+                  onClick={() => setActiveCategory(category.title)}
+                  className={`whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeCategory === category.title
+                      ? 'border-brand-primary text-brand-primary'
+                      : 'border-transparent text-brand-text-muted hover:text-brand-text hover:border-gray-300'
+                  }`}
+                >
+                  {category.title}
+                </button>
+              ))}
+            </nav>
+          </div>
           
-          <h3 className="font-bold text-brand-text mt-4">Self-Reflection (To understand yourself)</h3>
-          <ul className="list-disc list-inside mt-2 space-y-1 pl-4 text-sm">
-            <li>When did I feel most alive and engaged today?</li>
-            <li>What was my biggest challenge today, and how did I handle it?</li>
-            <li>What is one thing I would like to do differently tomorrow?</li>
-            <li>What is a limiting belief I hold, and where did it come from?</li>
-          </ul>
+          <div className="mt-4">
+            {journalPrompts.map((category) => (
+              <div key={category.title} className={activeCategory === category.title ? 'block' : 'hidden'}>
+                <p className="text-sm italic text-brand-text-muted mb-3">{category.description}</p>
+                <ul className="list-disc list-inside space-y-2 pl-2">
+                  {category.prompts.map((prompt, index) => (
+                    <li key={index}>{prompt}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
           
-          <h3 className="font-bold text-brand-text mt-4">Problem-Solving (To find clarity)</h3>
-           <ul className="list-disc list-inside mt-2 space-y-1 pl-4 text-sm">
-            <li>What is the problem I'm facing, stated in a single sentence?</li>
-            <li>What are 5 potential solutions, no matter how wild?</li>
-            <li>What is the smallest possible step I can take right now to move forward?</li>
-          </ul>
-
         </section>
       </div>
 

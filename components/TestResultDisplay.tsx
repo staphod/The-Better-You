@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import type { FullTest } from '@/types';
+import { useTheme } from '@/hooks/useTheme';
 import { ClipboardIcon, CheckCircleIcon, LightbulbIcon, ShieldCheckIcon } from '@/components/icons/StatusIcons';
 
 // Let TypeScript know that 'Chart' is a global variable from the imported CDN script
@@ -9,6 +10,7 @@ declare var Chart: any;
 const RadarChart: React.FC<{ scores: Record<string, number> }> = ({ scores }) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     const chartInstance = useRef<any>(null);
+    const { mode } = useTheme();
 
     useEffect(() => {
         if (typeof Chart === 'undefined') return;
@@ -16,6 +18,15 @@ const RadarChart: React.FC<{ scores: Record<string, number> }> = ({ scores }) =>
             chartInstance.current.destroy();
         }
         if (chartRef.current) {
+            const isDark = mode === 'dark';
+            const gridColor = isDark ? 'rgba(51, 65, 85, 0.5)' : 'rgba(226, 232, 240, 0.8)';
+            const pointLabelColor = isDark ? '#E2E8F0' : '#1E293B';
+            const ticksColor = isDark ? '#94A3B8' : '#64748B';
+            const ticksBackdropColor = isDark ? '#0F172A' : '#F8FAFC';
+            const primaryColor = isDark ? '#CBD5E1' : '#475569';
+            const primaryColorBg = isDark ? 'rgba(203, 213, 225, 0.2)' : 'rgba(71, 85, 105, 0.2)';
+
+
             const ctx = chartRef.current.getContext('2d');
             const labels = ['Openness', 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism'];
             const data = [scores.O, scores.C, scores.E, scores.A, scores.N];
@@ -28,12 +39,12 @@ const RadarChart: React.FC<{ scores: Record<string, number> }> = ({ scores }) =>
                         label: 'Your Score',
                         data: data,
                         fill: true,
-                        backgroundColor: 'rgba(71, 85, 105, 0.2)',
-                        borderColor: '#475569',
-                        pointBackgroundColor: '#475569',
+                        backgroundColor: primaryColorBg,
+                        borderColor: primaryColor,
+                        pointBackgroundColor: primaryColor,
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#475569'
+                        pointHoverBorderColor: primaryColor,
                     }]
                 },
                 options: {
@@ -47,21 +58,21 @@ const RadarChart: React.FC<{ scores: Record<string, number> }> = ({ scores }) =>
                     scales: {
                         r: {
                             angleLines: {
-                                color: '#E2E8F0'
+                                color: gridColor
                             },
                             grid: {
-                                color: '#E2E8F0'
+                                color: gridColor
                             },
                             pointLabels: {
                                 font: {
                                     size: 12,
                                     weight: 'bold'
                                 },
-                                color: '#1E293B'
+                                color: pointLabelColor
                             },
                             ticks: {
-                                backdropColor: '#F8FAFC',
-                                color: '#64748B',
+                                backdropColor: ticksBackdropColor,
+                                color: ticksColor,
                             },
                             min: 0,
                             max: 96, // 24 questions * 4 max points
@@ -80,7 +91,7 @@ const RadarChart: React.FC<{ scores: Record<string, number> }> = ({ scores }) =>
                 chartInstance.current.destroy();
             }
         };
-    }, [scores]);
+    }, [scores, mode]);
 
     return <div className="h-64 sm:h-96"><canvas ref={chartRef}></canvas></div>;
 };
@@ -88,7 +99,7 @@ const RadarChart: React.FC<{ scores: Record<string, number> }> = ({ scores }) =>
 const TraitResultCard: React.FC<{ title: string; level: string; data: any }> = ({ title, level, data }) => {
     const { Link } = ReactRouterDom;
     return (
-        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+        <div className="bg-brand-bg p-4 rounded-lg border border-brand-border">
             <h3 className="text-xl font-bold text-brand-primary mb-2">{title}: <span className="text-brand-accent">{level}</span></h3>
             <p className="text-sm text-brand-text-muted mb-3">{data.explanation}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
@@ -106,7 +117,7 @@ const TraitResultCard: React.FC<{ title: string; level: string; data: any }> = (
                 </div>
             </div>
             {data.nextSteps && (
-                <div className="mt-4 pt-3 border-t border-slate-200">
+                <div className="mt-4 pt-3 border-t border-brand-border">
                     <h4 className="font-semibold text-brand-text mb-2">What's Next?</h4>
                     <div className="space-y-2">
                         {data.nextSteps.map((step: {text: string, link: string}) => (
@@ -167,7 +178,7 @@ const TestResultDisplay: React.FC<{
             ) : (
                  <div className="space-y-6 mt-4">
                     {result.level && (
-                        <div className="text-center mb-6 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                        <div className="text-center mb-6 p-4 rounded-lg bg-brand-bg border border-brand-border">
                             <ShieldCheckIcon className={`h-12 w-12 mx-auto mb-2 ${riskColors[result.level] || 'text-brand-text'}`} />
                             <h3 className={`text-xl font-bold ${riskColors[result.level] || 'text-brand-text'}`}>{result.level}</h3>
                         </div>
@@ -177,11 +188,11 @@ const TestResultDisplay: React.FC<{
                     
                      {result.basic_fear && result.basic_desire && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-                            <div className="bg-red-50 p-3 rounded-lg">
+                            <div className="bg-red-500/10 p-3 rounded-lg">
                                 <h4 className="font-semibold text-brand-danger">Basic Fear</h4>
                                 <p className="text-sm text-brand-text-muted">{result.basic_fear}</p>
                             </div>
-                            <div className="bg-emerald-50 p-3 rounded-lg">
+                            <div className="bg-emerald-500/10 p-3 rounded-lg">
                                 <h4 className="font-semibold text-brand-success">Basic Desire</h4>
                                 <p className="text-sm text-brand-text-muted">{result.basic_desire}</p>
                             </div>
@@ -242,11 +253,11 @@ const TestResultDisplay: React.FC<{
                     )}
 
                     {result.nextSteps && (
-                        <div className="pt-6 border-t border-slate-200">
+                        <div className="pt-6 border-t border-brand-border">
                            <h3 className="font-semibold text-brand-primary mb-3 text-lg">What's Next?</h3>
                            <div className="space-y-3">
                                 {result.nextSteps.map((step: { text: string; link: string }) => (
-                                    <Link key={step.link} to={step.link} className="block group p-3 bg-slate-50 rounded-md hover:bg-slate-100 transition-colors">
+                                    <Link key={step.link} to={step.link} className="block group p-3 bg-brand-bg rounded-md hover:bg-brand-bg/80 transition-colors">
                                         <p className="font-semibold text-brand-info group-hover:underline">&rarr; {step.text}</p>
                                     </Link>
                                 ))}
@@ -266,15 +277,15 @@ const TestResultDisplay: React.FC<{
                 </Link>
             </div>
              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <button onClick={onRetake} className="w-full flex justify-center items-center space-x-2 bg-slate-200 text-brand-text font-bold py-3 px-4 rounded-lg hover:bg-slate-300 transition-colors">
+                <button onClick={onRetake} className="w-full flex justify-center items-center space-x-2 bg-brand-bg border border-brand-border text-brand-text font-bold py-3 px-4 rounded-lg hover:brightness-95 transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" /></svg>
                     <span>Retake</span>
                 </button>
-                <button onClick={onCopy} className="w-full flex justify-center items-center space-x-2 bg-brand-surface border border-slate-300 text-brand-text font-bold py-3 px-4 rounded-lg hover:bg-slate-100 transition-colors">
+                <button onClick={onCopy} className="w-full flex justify-center items-center space-x-2 bg-brand-surface border border-brand-border text-brand-text font-bold py-3 px-4 rounded-lg hover:bg-brand-bg transition-colors">
                    {copied ? <CheckCircleIcon className="h-5 w-5 text-brand-success"/> : <ClipboardIcon className="h-5 w-5" />}
                    <span>{copied ? 'Copied!' : 'Copy'}</span>
                 </button>
-                 <button onClick={onSaveToDiary} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
+                 <button onClick={onSaveToDiary} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-opacity disabled:opacity-50">
                    {savedToDiary ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
                    <span>{savedToDiary ? 'Saved!' : 'Save to Diary'}</span>
                 </button>

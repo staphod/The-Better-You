@@ -5,33 +5,130 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Better You</title>
+    <!-- Theme loader script to prevent FOUC -->
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('app-theme') || 'default';
+          const mode = localStorage.getItem('app-mode') || 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-mode', mode);
+        } catch (e) {
+          console.error('Failed to load theme from localStorage', e);
+        }
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      // Updated Tailwind config to use CSS variables for dynamic theming
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              'brand-bg': '#F8FAFC', // Slate 50
-              'brand-surface': '#FFFFFF',
-              'brand-primary': '#475569', // Slate 600
-              'brand-accent': '#F59E0B', // Amber 500
-              'brand-text': '#1E293B',   // Slate 800
-              'brand-text-muted': '#64748B', // Slate 500
-              'brand-success': '#10B981', // Emerald 500
-              'brand-danger': '#EF4444',  // Red 500
-              'brand-info': '#3B82F6',   // Blue 500
+              'brand-bg': 'var(--brand-bg)',
+              'brand-surface': 'var(--brand-surface)',
+              'brand-primary': 'var(--brand-primary)',
+              'brand-accent': 'var(--brand-accent)',
+              'brand-text': 'var(--brand-text)',
+              'brand-text-muted': 'var(--brand-text-muted)',
+              'brand-success': 'var(--brand-success)',
+              'brand-danger': 'var(--brand-danger)',
+              'brand-info': 'var(--brand-info)',
             },
           },
         },
       }
     </script>
     <style>
-      /* --- Subtle background texture --- */
+      /* --- Theme CSS Variables --- */
+      /* Default Theme */
+      html[data-theme="default"][data-mode="light"] {
+        --brand-bg: #F8FAFC;
+        --brand-surface: #FFFFFF;
+        --brand-primary: #475569;
+        --brand-accent: #F59E0B;
+        --brand-text: #1E293B;
+        --brand-text-muted: #64748B;
+        --brand-success: #10B981;
+        --brand-danger: #EF4444;
+        --brand-info: #3B82F6;
+        --brand-border: #E2E8F0;
+      }
+      html[data-theme="default"][data-mode="dark"] {
+        --brand-bg: #0F172A;
+        --brand-surface: #1E293B;
+        --brand-primary: #CBD5E1;
+        --brand-accent: #FBBF24;
+        --brand-text: #E2E8F0;
+        --brand-text-muted: #94A3B8;
+        --brand-success: #34D399;
+        --brand-danger: #F87171;
+        --brand-info: #60A5FA;
+        --brand-border: #334155;
+      }
+      /* Forest Theme */
+      html[data-theme="forest"][data-mode="light"] {
+        --brand-bg: #F0FDF4;
+        --brand-surface: #FFFFFF;
+        --brand-primary: #3F6212;
+        --brand-accent: #CA8A04;
+        --brand-text: #14532D;
+        --brand-text-muted: #57534E;
+        --brand-success: #15803D;
+        --brand-danger: #B91C1C;
+        --brand-info: #1D4ED8;
+        --brand-border: #D1D5DB;
+      }
+      html[data-theme="forest"][data-mode="dark"] {
+        --brand-bg: #14532D;
+        --brand-surface: #1A2E20;
+        --brand-primary: #BEF264;
+        --brand-accent: #FACC15;
+        --brand-text: #ECFCCB;
+        --brand-text-muted: #A3E635;
+        --brand-success: #4ADE80;
+        --brand-danger: #F87171;
+        --brand-info: #60A5FA;
+        --brand-border: #44403C;
+      }
+      /* Ocean Theme */
+      html[data-theme="ocean"][data-mode="light"] {
+        --brand-bg: #EFF6FF;
+        --brand-surface: #FFFFFF;
+        --brand-primary: #1E40AF;
+        --brand-accent: #0891B2;
+        --brand-text: #111827;
+        --brand-text-muted: #4B5563;
+        --brand-success: #059669;
+        --brand-danger: #DC2626;
+        --brand-info: #2563EB;
+        --brand-border: #DBEAFE;
+      }
+      html[data-theme="ocean"][data-mode="dark"] {
+        --brand-bg: #111827;
+        --brand-surface: #0c203d;
+        --brand-primary: #93C5FD;
+        --brand-accent: #67E8F9;
+        --brand-text: #F9FAFB;
+        --brand-text-muted: #9CA3AF;
+        --brand-success: #34D399;
+        --brand-danger: #F87171;
+        --brand-info: #60A5FA;
+        --brand-border: #374151;
+      }
+
+      /* --- Subtle background texture & Transitions --- */
       body {
-        background-color: #F8FAFC;
+        background-color: var(--brand-bg);
         background-image:
           radial-gradient(at 0% 0%, hsla(217, 33%, 95%, 0.4) 0px, transparent 50%),
           radial-gradient(at 100% 100%, hsla(217, 33%, 95%, 0.4) 0px, transparent 50%);
+        color: var(--brand-text);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+       /* Ensure elements transition smoothly */
+      *:not(.no-transition) {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
       }
 
       .sparks-container {
@@ -64,7 +161,7 @@
         }
       }
 
-      /* --- Updated Loader --- */
+      /* --- Updated Loader using CSS variables --- */
       #initial-loader {
         display: flex;
         flex-direction: column;
@@ -72,12 +169,12 @@
         align-items: center;
         height: 100vh;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-        color: #64748B; /* brand-text-muted */
-        background-color: #F8FAFC; /* brand-bg */
+        color: var(--brand-text-muted);
+        background-color: var(--brand-bg);
       }
       .loader-spinner {
-        border: 4px solid #E2E8F0; /* Slate 200 */
-        border-top: 4px solid #475569; /* brand-primary */
+        border: 4px solid var(--brand-border);
+        border-top: 4px solid var(--brand-primary);
         border-radius: 50%;
         width: 40px;
         height: 40px;
@@ -155,55 +252,50 @@
     </div>
     <script type="module" src="/index.tsx"></script>
     <script>
-      // This script checks if the React app has loaded. If not, it displays a fallback message.
-      // This is crucial for offline reloads where CDN scripts might fail to load.
       setTimeout(() => {
         const loader = document.getElementById('initial-loader');
         const root = document.getElementById('root');
         
-        // If the loader is still in the DOM after 4 seconds, the app likely failed to mount.
         if (loader && root && root.contains(loader)) {
-          if (!navigator.onLine) {
-            root.innerHTML = `
-              <div style="text-align: center; padding: 40px; font-family: sans-serif; color: #1E293B;">
-                <svg xmlns="http://www.w3.org/2000/svg" style="height: 6rem; width: 6rem; color: #F59E0B; margin: 0 auto 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isOffline = !navigator.onLine;
+
+          const bgColor = isDarkMode ? '#0F172A' : '#F8FAFC';
+          const textColor = isDarkMode ? '#E2E8F0' : '#1E293B';
+          const mutedColor = isDarkMode ? '#94A3B8' : '#64748B';
+          const primaryColor = isDarkMode ? '#334155' : '#475569';
+          
+          let title, message;
+
+          if (isOffline) {
+            title = 'Connection Required';
+            message = 'The application could not be loaded. Please check your internet connection and try reloading the page.';
+          } else {
+            title = 'Application Error';
+            message = 'Something went wrong while loading the application. Please try reloading the page.';
+          }
+
+          root.innerHTML = `
+            <div style="background-color: ${bgColor}; color: ${textColor}; text-align: center; padding: 40px; font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+              ${isOffline ? `<svg xmlns="http://www.w3.org/2000/svg" style="height: 6rem; width: 6rem; color: #F59E0B; margin: 0 auto 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18.5a.5.5 0 100-1 .5.5 0 000 1z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.556A5.5 5.5 0 0112 15c1.445 0 2.805.523 3.889 1.556M4.5 13a9 9 0 0115 0" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 13L19.5 3m-15 10L19.5 3" />
-                </svg>
-                <h1 style="font-size: 2.25rem; font-weight: bold;">Connection Required</h1>
-                <p style="margin-top: 1rem; font-size: 1.125rem; color: #64748B;">
-                  The application could not be loaded. Please check your internet connection and try reloading the page.
-                </p>
-                <button 
-                  onclick="window.location.reload()" 
-                  style="margin-top: 2rem; background-color: #475569; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
-                  onmouseover="this.style.opacity=0.9"
-                  onmouseout="this.style.opacity=1"
-                >
-                  Reload
-                </button>
-              </div>
-            `;
-          } else {
-            // If the user is online, it's a different kind of error (e.g., CDN down, script error).
-            root.innerHTML = `
-              <div style="text-align: center; padding: 40px; font-family: sans-serif; color: #1E293B;">
-                 <h1 style="font-size: 2.25rem; font-weight: bold;">Application Error</h1>
-                 <p style="margin-top: 1rem; font-size: 1.125rem; color: #64748B;">
-                  Something went wrong while loading the application. Please try reloading the page.
-                 </p>
-                 <button 
-                  onclick="window.location.reload()" 
-                  style="margin-top: 2rem; background-color: #475569; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
-                  onmouseover="this.style.opacity=0.9"
-                  onmouseout="this.style.opacity=1"
-                >
-                  Reload
-                </button>
-              </div>
-            `;
-          }
+                </svg>` : ''}
+              <h1 style="font-size: 2.25rem; font-weight: bold;">${title}</h1>
+              <p style="margin-top: 1rem; font-size: 1.125rem; color: ${mutedColor}; max-width: 500px;">
+                ${message}
+              </p>
+              <button 
+                onclick="window.location.reload()" 
+                style="margin-top: 2rem; background-color: ${primaryColor}; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
+                onmouseover="this.style.opacity=0.9"
+                onmouseout="this.style.opacity=1"
+              >
+                Reload
+              </button>
+            </div>
+          `;
         }
       }, 4000);
     </script>

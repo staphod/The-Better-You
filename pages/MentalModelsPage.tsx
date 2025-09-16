@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactRouterDom from 'react-router-dom';
-import { NetworkIcon, AtomIcon, PillarIcon } from '@/components/icons/ModuleIcons';
+import { NetworkIcon, AtomIcon, PillarIcon, BrainIcon, ScaleIcon, ToolsIcon, ClockIcon, OceanIcon, HeartbeatIcon } from '@/components/icons/ModuleIcons';
+import { ShieldCheckIcon } from '@/components/icons/StatusIcons';
 
 const ModelCard: React.FC<{ to: string; title: string; description: string; icon: React.ReactNode; }> = ({ to, title, description, icon }) => {
   const { Link } = ReactRouterDom;
@@ -39,6 +40,72 @@ const MentalModelsPage: React.FC = () => {
       title: "Stoicism: The Art of Resilience",
       description: "Build inner peace and resilience by focusing on what you can control.",
       icon: <PillarIcon />
+    },
+    {
+      to: "/tools/models/second-order-thinking",
+      title: "Second-Order Thinking",
+      description: "Always ask: “And then what?” Look at the consequences of consequences.",
+      icon: <NetworkIcon />
+    },
+    {
+      to: "/tools/models/inversion",
+      title: "Inversion",
+      description: "Instead of asking “How do I succeed?”, ask “How could I fail?” and then avoid those things.",
+      icon: <BrainIcon />
+    },
+    {
+      to: "/tools/models/opportunity-cost",
+      title: "Opportunity Cost",
+      description: "Every choice has a cost: what you give up by not choosing the next best option.",
+      icon: <ScaleIcon />
+    },
+    {
+      to: "/tools/models/occams-razor",
+      title: "Occam’s Razor",
+      description: "The simplest explanation is often the best one—don’t overcomplicate unnecessarily.",
+      icon: <ToolsIcon />
+    },
+    {
+      to: "/tools/models/hanlons-razor",
+      title: "Hanlon’s Razor",
+      description: "Never attribute to malice what can be explained by incompetence or ignorance.",
+      icon: <BrainIcon />
+    },
+    {
+      to: "/tools/models/confirmation-bias",
+      title: "Confirmation Bias",
+      description: "Our tendency to seek evidence that confirms our beliefs while ignoring contradictory data.",
+      icon: <AtomIcon />
+    },
+    {
+      to: "/tools/models/availability-heuristic",
+      title: "Availability Heuristic",
+      description: "We judge things as more likely if they’re easier to recall—though memory doesn’t equal probability.",
+      icon: <ClockIcon />
+    },
+    {
+      to: "/tools/models/survivorship-bias",
+      title: "Survivorship Bias",
+      description: "We see winners and forget losers, leading to overly optimistic conclusions.",
+      icon: <OceanIcon />
+    },
+    {
+      to: "/tools/models/loss-aversion",
+      title: "Loss Aversion",
+      description: "Losses feel more painful than equivalent gains feel good, affecting our decisions.",
+      icon: <HeartbeatIcon />
+    },
+    {
+      to: "/tools/models/circle-of-competence",
+      title: "Circle of Competence",
+      description: "Know what you truly understand—and stay within that zone when making decisions.",
+      icon: <ShieldCheckIcon />
+    },
+    {
+      to: "/tools/models/bayesian-thinking",
+      title: "Bayesian Thinking",
+      description: "Update your beliefs continuously as new evidence comes in, instead of holding them rigidly.",
+      icon: <ToolsIcon />
     }
   ];
 

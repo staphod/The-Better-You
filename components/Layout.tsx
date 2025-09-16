@@ -4,6 +4,7 @@ import React from 'react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 // FIX: Using namespace import for react-router-dom to fix module resolution issues.
 import * as ReactRouterDom from 'react-router-dom';
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { WifiIcon, WifiOffIcon, HeartIcon } from '@/components/icons/StatusIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -11,14 +12,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { Link } = ReactRouterDom;
 
   return (
-    <div className="min-h-screen bg-transparent text-brand-text font-sans">
-      <header className="bg-brand-surface/80 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-20">
+    <div className="min-h-screen bg-brand-bg text-brand-text font-sans">
+      <header className="bg-brand-surface/80 backdrop-blur-lg border-b border-brand-border sticky top-0 z-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <Link to="/" className="text-2xl font-bold text-brand-primary hover:text-brand-accent transition-colors">
               The Better You
             </Link>
             <div className="flex items-center space-x-4">
+              <ThemeSwitcher />
               <Link
                 to="/support"
                 className="text-brand-text-muted hover:text-brand-danger transition-colors"
@@ -27,7 +29,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <HeartIcon className="h-6 w-6" />
               </Link>
               <div
-                className="flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-medium bg-slate-100"
+                className="flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-medium bg-brand-bg"
                 title={isOnline ? "You are online" : "You are offline"}
               >
                 <span className="hidden sm:inline text-brand-text-muted">Status:</span>

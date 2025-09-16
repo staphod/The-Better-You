@@ -76,6 +76,13 @@ const laws = [
       description: "Whatever you believe with feeling becomes your reality.",
       icon: <HeartbeatIcon className="h-6 w-6" />,
     },
+    {
+      category: "Fundamental Laws",
+      to: "/tools/laws/tipping-point",
+      title: "The Law of the Tipping Point",
+      description: "One single drop can change everything. Each small action matters.",
+      icon: <AtomIcon className="h-6 w-6" />,
+    },
     // --- Productivity & Success ---
     {
       category: "Productivity & Success",
@@ -756,6 +763,14 @@ const laws = [
       description: "Live today fully—it won’t return. The present moment is all you ever have.",
       icon: <ClockIcon className="h-6 w-6" />,
     },
+    // --- Humanized Academia ---
+    {
+      category: "Humanized Academia",
+      to: "/tools/laws/newtons-laws-of-motion",
+      title: "Newton's Laws of Motion",
+      description: "Applying physics principles to understand inertia, force, and momentum in life.",
+      icon: <AtomIcon className="h-6 w-6" />,
+    },
 ];
 
 const categories = [
@@ -768,6 +783,7 @@ const categories = [
     "Decision & Problem Solving",
     "Character & Integrity",
     "Happiness & Life",
+    "Humanized Academia",
 ];
 
 const LifeLawsPage: React.FC = () => {

@@ -158,6 +158,8 @@ import LawOfContributionPage from './pages/laws/LawOfContributionPage';
 import LawOfHopePage from './pages/laws/LawOfHopePage';
 import LawOfLovePage from './pages/laws/LawOfLovePage';
 import LawOfLivingInTheNowPage from './pages/laws/LawOfLivingInTheNowPage';
+import NewtonsLawsOfMotionPage from './pages/laws/NewtonsLawsOfMotionPage';
+import LawOfTippingPointPage from './pages/laws/LawOfTippingPointPage';
 
 
 function App() {
@@ -320,6 +322,8 @@ function App() {
               <Route path="/tools/laws/hope" element={<LawOfHopePage />} />
               <Route path="/tools/laws/love" element={<LawOfLovePage />} />
               <Route path="/tools/laws/living-in-the-now" element={<LawOfLivingInTheNowPage />} />
+              <Route path="/tools/laws/tipping-point" element={<LawOfTippingPointPage />} />
+              <Route path="/tools/laws/newtons-laws-of-motion" element={<NewtonsLawsOfMotionPage />} />
               <Route path="/addictions" element={<AddictionsPage />} />
               <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
               <Route path="/about" element={<AboutPage />} />

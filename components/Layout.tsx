@@ -6,6 +6,7 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import * as ReactRouterDom from 'react-router-dom';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { WifiIcon, WifiOffIcon, HeartIcon } from '@/components/icons/StatusIcons';
+import { TelegramIcon, AiIcon } from '@/components/icons/SocialIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isOnline } = useOnlineStatus();
@@ -55,7 +56,21 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <span>About This App</span>
             </Link>
         </div>
-        <p>&copy; {new Date().getFullYear()} The Better You. All Rights Reserved.</p>
+        <p className="mb-4">&copy; {new Date().getFullYear()} The Better You. All Rights Reserved.</p>
+        <div className="flex justify-center items-start space-x-8">
+            <a href="http://t.me/thebetteryoubot/beyou" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center space-y-1 text-brand-text-muted hover:text-brand-primary transition-colors w-24" title="The Better You Telegram Bot">
+                <TelegramIcon className="h-6 w-6" />
+                <span className="text-xs text-center">Telegram Bot</span>
+            </a>
+            <a href="https://t.me/btybey" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center space-y-1 text-brand-text-muted hover:text-brand-primary transition-colors w-24" title="The Better You Telegram Channel">
+                <TelegramIcon className="h-6 w-6" />
+                <span className="text-xs text-center">Telegram Channel</span>
+            </a>
+             <a href="https://purposeai.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center space-y-1 text-brand-text-muted hover:text-brand-primary transition-colors w-24" title="Purpose AI: Best AI for personal growth">
+                <AiIcon className="h-6 w-6" />
+                <span className="text-xs text-center">Purpose AI</span>
+            </a>
+        </div>
       </footer>
     </div>
   );

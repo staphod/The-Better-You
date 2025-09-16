@@ -300,34 +300,5 @@
         }
       }, 4000);
     </script>
-    <script>
-      (function() {
-        // Monetag ads - only load and initialize if running inside Telegram
-        if (window.Telegram && window.Telegram.WebApp) {
-          var script = document.createElement('script');
-          script.src = '//libtl.com/sdk.js';
-          script.setAttribute('data-zone', '9886447');
-          script.setAttribute('data-sdk', 'show_9886447');
-          script.async = true;
-          
-          script.onload = function() {
-            if (typeof show_9886447 === 'function') {
-              show_9886447({
-                type: 'inApp',
-                inAppSettings: {
-                  frequency: 2,
-                  capping: 0.1,
-                  interval: 30,
-                  timeout: 5,
-                  everyPage: false
-                }
-              });
-            }
-          };
-          
-          document.head.appendChild(script);
-        }
-      })();
-    </script>
   </body>
 </html>

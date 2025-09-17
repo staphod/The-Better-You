@@ -59,11 +59,24 @@ export interface TestHistoryItem {
 }
 
 
+// --- Puzzle Types ---
 export interface Puzzle {
   id: number;
   question: string;
   options: string[];
   answer: string;
+}
+
+export interface SequencingItem {
+  id: string;
+  content: string;
+}
+
+export interface SequencingPuzzle {
+  id: number;
+  category: string;
+  instruction: string;
+  items: string[]; // Items in correct order
 }
 
 // A log entry for a specific day in a habit's history.

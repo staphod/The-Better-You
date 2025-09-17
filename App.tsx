@@ -16,6 +16,11 @@ import KnowledgeBaseListPage from '@/pages/KnowledgeBaseListPage';
 import KnowledgeBaseDetailPage from '@/pages/KnowledgeBaseDetailPage';
 
 import PuzzlesPage from '@/pages/PuzzlesPage';
+import RiddlesPage from '@/pages/puzzles/RiddlesPage';
+import SequencingPage from '@/pages/puzzles/SequencingPage';
+import DotConnectionPage from '@/pages/puzzles/DotConnectionPage';
+import OneLineDrawingPage from '@/pages/puzzles/OneLineDrawingPage';
+
 import OfflinePage from '@/pages/OfflinePage';
 import HabitsPage from '@/pages/HabitsPage';
 import ToolsPage from '@/pages/ToolsPage';
@@ -181,7 +186,13 @@ function App() {
               <Route path="/tests/knowledge-base" element={<KnowledgeBaseListPage />} />
               <Route path="/tests/knowledge-base/:testId" element={<KnowledgeBaseDetailPage />} />
 
+              {/* Updated Puzzle Routes */}
               <Route path="/puzzles" element={<PuzzlesPage />} />
+              <Route path="/puzzles/riddles" element={<RiddlesPage />} />
+              <Route path="/puzzles/sequencing" element={<SequencingPage />} />
+              <Route path="/puzzles/dot-connection" element={<DotConnectionPage />} />
+              <Route path="/puzzles/one-line-drawing" element={<OneLineDrawingPage />} />
+
               <Route path="/habits" element={<HabitsPage />} />
               
               {/* New Diary Routes */}

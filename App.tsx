@@ -18,7 +18,8 @@ import KnowledgeBaseDetailPage from '@/pages/KnowledgeBaseDetailPage';
 import PuzzlesPage from '@/pages/PuzzlesPage';
 import RiddlesPage from '@/pages/puzzles/RiddlesPage';
 import SequencingPage from '@/pages/puzzles/SequencingPage';
-import DotConnectionPage from '@/pages/puzzles/DotConnectionPage';
+import CognitiveClashHomePage from '@/pages/puzzles/CognitiveClashHomePage';
+import CognitiveClashGamePage from '@/pages/puzzles/CognitiveClashGamePage';
 import OneLineDrawingPage from '@/pages/puzzles/OneLineDrawingPage';
 
 import OfflinePage from '@/pages/OfflinePage';
@@ -190,7 +191,8 @@ function App() {
               <Route path="/puzzles" element={<PuzzlesPage />} />
               <Route path="/puzzles/riddles" element={<RiddlesPage />} />
               <Route path="/puzzles/sequencing" element={<SequencingPage />} />
-              <Route path="/puzzles/dot-connection" element={<DotConnectionPage />} />
+              <Route path="/puzzles/cognitive-clash" element={<CognitiveClashHomePage />} />
+              <Route path="/puzzles/cognitive-clash/game/:mode" element={<CognitiveClashGamePage />} />
               <Route path="/puzzles/one-line-drawing" element={<OneLineDrawingPage />} />
 
               <Route path="/habits" element={<HabitsPage />} />

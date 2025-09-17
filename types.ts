@@ -79,6 +79,51 @@ export interface SequencingPuzzle {
   items: string[]; // Items in correct order
 }
 
+// --- Dot Connection Puzzle Types ---
+// FIX: Add DotPuzzle interface for dot connection game
+export interface DotPuzzle {
+  id: number;
+  size: number;
+  pairs: {
+    color: string;
+    dots: { x: number; y: number }[];
+  }[];
+  solution: Record<string, { x: number; y: number }[]>;
+}
+
+// --- Cognitive Clash Puzzle Types ---
+export type ChallengeType =
+  | 'STROOP'          // Tap the word "Red" (text is 'Red', color is blue)
+  | 'COMMAND_DO'      // Tap the GREEN button, Tap the UP arrow
+  | 'COMMAND_NOT'     // Do NOT tap the RED button, Do NOT tap the DOWN arrow
+  | 'COMMAND_ANY'     // Tap ANY button
+  | 'COMMAND_NOTHING' // Do NOTHING
+  | 'ASSOCIATION';    // "Lion": ["Animal", "Bird"]
+
+export interface WordAssociation {
+    prompt: string;
+    options: [string, string];
+    answer: string;
+}
+
+export interface CognitiveClashChoice {
+  id: string;
+  text?: string;
+  icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  isEmoji?: boolean;
+  // Styling will be handled by the generator
+  color?: string; // hex color for text or icon
+  bgColor?: string; // tailwind class for bg
+}
+
+export interface CognitiveClashChallenge {
+  type: ChallengeType;
+  instruction: string;
+  choices: CognitiveClashChoice[];
+  correctChoiceId: string | null; // The `id` of the correct choice. `null` for NOTHING. For NOT, it's the ID to avoid.
+}
+
+
 // A log entry for a specific day in a habit's history.
 export interface HabitLog {
   date: string; // 'YYYY-MM-DD'

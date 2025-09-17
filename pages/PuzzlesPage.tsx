@@ -1,7 +1,7 @@
 import React from 'react';
 import ModuleCard from '@/components/ModuleCard';
 import { PuzzleIcon } from '@/components/icons/ModuleIcons';
-import { SequencingIcon, DotsIcon, OneLineIcon } from '@/components/icons/PuzzleIcons';
+import { SequencingIcon, CognitiveClashIcon, OneLineIcon } from '@/components/icons/PuzzleIcons';
 
 const PuzzlesPage: React.FC = () => {
     const puzzleModules = [
@@ -18,10 +18,10 @@ const PuzzlesPage: React.FC = () => {
             icon: <SequencingIcon />,
         },
         {
-            to: "/puzzles/dot-connection",
-            title: "Dot Connection",
-            description: "Coming Soon! Connect the dots without crossing lines in this spatial reasoning challenge.",
-            icon: <DotsIcon />,
+            to: "/puzzles/cognitive-clash",
+            title: "Cognitive Clash",
+            description: "Test your mental agility with games of color, word, and directional conflict.",
+            icon: <CognitiveClashIcon />,
         },
         {
             to: "/puzzles/one-line-drawing",

@@ -41,7 +41,7 @@ const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ isOpen, onClose }) => {
 
              <Instruction title='Instruction: "Nothing"'>
                 You must <strong className="text-brand-text">DO NOTHING</strong>. Do not tap any buttons and let the timer run out to win.
-            </"Instruction>
+            </Instruction>
 
             <Instruction title='Instruction: "Cow"'>
                 This is a word association puzzle. Choose the word from the options that is most closely related to the prompt word. (e.g., Cow &rarr; Walk)

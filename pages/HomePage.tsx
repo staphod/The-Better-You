@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import * as ReactRouterDom from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
 import PinModal from '@/components/PinModal';
+import PurposeAiModal from '@/components/PurposeAiModal';
+import { AiIcon } from '@/components/icons/SocialIcons';
 import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon, DiaryIcon, MoodIcon } from '@/components/icons/ModuleIcons';
 
 const APP_PIN_KEY = 'the-better-you-pin';
@@ -12,6 +14,7 @@ const HomePage: React.FC = () => {
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);
   const [pinModalMode, setPinModalMode] = useState<'set' | 'enter'>('enter');
   const [destination, setDestination] = useState('');
+  const [isPurposeAiModalOpen, setIsPurposeAiModalOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -89,6 +92,8 @@ const HomePage: React.FC = () => {
         onSuccess={handlePinSuccess}
         storedPin={pin}
       />
+      <PurposeAiModal isOpen={isPurposeAiModalOpen} onClose={() => setIsPurposeAiModalOpen(false)} />
+
       <div className="text-center">
         <h1 className="text-4xl font-extrabold text-brand-text tracking-tight sm:text-5xl md:text-6xl">
           Welcome to Your Journey
@@ -127,11 +132,42 @@ const HomePage: React.FC = () => {
       </div>
       
       {/* Public Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {publicModules.map(({ to, title, description, icon }) => (
-          <ModuleCard key={to} to={to} title={title} description={description} icon={icon} />
-        ))}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-brand-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+            <h2 className="text-xl font-bold text-brand-text">Core Modules</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {publicModules.map(({ to, title, description, icon }) => (
+            <ModuleCard key={to} to={to} title={title} description={description} icon={icon} />
+          ))}
+        </div>
       </div>
+
+      {/* Featured Tool Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-brand-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+            <h2 className="text-xl font-bold text-brand-text">Featured Tool</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <button 
+            onClick={() => setIsPurposeAiModalOpen(true)}
+            className="block group text-left"
+          >
+            <div className="bg-brand-surface rounded-xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 ease-in-out p-6 flex flex-col h-full transform hover:-translate-y-1">
+              <div className="flex items-center justify-start mb-4">
+                <div className="bg-brand-primary/10 text-brand-primary rounded-lg p-3">
+                  <AiIcon className="h-6 w-6" />
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-brand-text mb-2 group-hover:text-brand-primary transition-colors">Purpose AI</h3>
+              <p className="text-brand-text-muted flex-grow text-base">An AI-powered tool to help you find your purpose and achieve personal growth. Click to explore.</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
     </div>
   );
 };

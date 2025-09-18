@@ -91,6 +91,14 @@ export interface DotPuzzle {
   solution: Record<string, { x: number; y: number }[]>;
 }
 
+// --- One Line Drawing Puzzle ---
+export interface OneLinePuzzle {
+  id: number;
+  nodes: { x: number; y: number }[]; // Coordinates on a conceptual grid (e.g., 0-4)
+  edges: [number, number][]; // Pairs of node indices
+  startNode?: number; // Optional required start node index
+}
+
 // --- Cognitive Clash Puzzle Types ---
 export type ChallengeType =
   | 'STROOP'          // Tap the word "Red" (text is 'Red', color is blue)

@@ -26,7 +26,7 @@ const PuzzlesPage: React.FC = () => {
         {
             to: "/puzzles/one-line-drawing",
             title: "One-Line Drawing",
-            description: "Coming Soon! Trace complex shapes with a single, continuous line without lifting your finger.",
+            description: "Trace complex shapes with a single, continuous line without lifting your finger.",
             icon: <OneLineIcon />,
         },
     ];

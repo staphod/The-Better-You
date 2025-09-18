@@ -3,8 +3,10 @@ import * as ReactRouterDom from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
 import PinModal from '@/components/PinModal';
 import PurposeAiModal from '@/components/PurposeAiModal';
+import DailyAffirmation from '@/components/DailyAffirmation';
+import DailyReflection from '@/components/DailyReflection';
 import { AiIcon } from '@/components/icons/SocialIcons';
-import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon, DiaryIcon, MoodIcon } from '@/components/icons/ModuleIcons';
+import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon, DiaryIcon, MoodIcon, ClockIcon } from '@/components/icons/ModuleIcons';
 
 const APP_PIN_KEY = 'the-better-you-pin';
 
@@ -101,6 +103,18 @@ const HomePage: React.FC = () => {
         <p className="mt-4 max-w-2xl mx-auto text-xl text-brand-text-muted">
           Explore your personality, build better habits, and sharpen your mind.
         </p>
+      </div>
+      
+      {/* Today's Focus Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+            <ClockIcon className="h-5 w-5 text-brand-text-muted" />
+            <h2 className="text-xl font-bold text-brand-text">Today's Focus</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <DailyAffirmation />
+          <DailyReflection />
+        </div>
       </div>
 
       {/* Private Section */}

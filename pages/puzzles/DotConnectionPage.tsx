@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { dotPuzzles } from '@/data/dotPuzzles';
 import type { DotPuzzle } from '@/types';
 import DotConnectionPuzzle, { DotConnectionPuzzleRef } from '@/components/DotConnectionPuzzle';
@@ -8,7 +8,6 @@ import { DotsIcon } from '@/components/icons/PuzzleIcons';
 import { LightbulbIcon } from '@/components/icons/StatusIcons';
 
 const DotConnectionPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const puzzleRef = useRef<DotConnectionPuzzleRef>(null);
   const [currentPuzzle, setCurrentPuzzle] = useState<DotPuzzle | null>(null);
   const [showSparks, setShowSparks] = useState(false);

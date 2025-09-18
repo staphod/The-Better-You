@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer, useRef } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { generateCognitiveClashChallenge } from '@/data/cognitiveClashChallenges';
 import type { CognitiveClashChallenge, CognitiveClashChoice } from '@/types';
 import { InfoIcon } from '@/components/icons/PuzzleIcons';
@@ -73,7 +73,6 @@ const gameReducer = (state: State, action: Action): State => {
 };
 
 const CognitiveClashGamePage: React.FC = () => {
-  const { Link, useParams } = ReactRouterDom;
   const { mode = 'mixed' } = useParams<{ mode: string }>();
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);

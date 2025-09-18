@@ -1,9 +1,8 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { BookOpenIcon } from '@/components/icons/ModuleIcons';
 
 const MasteryJournalPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 animate-fade-in">

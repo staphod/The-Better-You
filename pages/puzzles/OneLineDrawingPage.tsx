@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { oneLinePuzzles } from '@/data/oneLinePuzzles';
 import type { OneLinePuzzle } from '@/types';
 import OneLinePuzzleComponent, { OneLinePuzzleRef } from '@/components/OneLinePuzzle';
@@ -7,7 +7,6 @@ import Sparks from '@/components/Sparks';
 import { OneLineIcon } from '@/components/icons/PuzzleIcons';
 
 const OneLineDrawingPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const puzzleRef = useRef<OneLinePuzzleRef>(null);
   const [currentPuzzle, setCurrentPuzzle] = useState<OneLinePuzzle | null>(null);
   const [showSparks, setShowSparks] = useState(false);

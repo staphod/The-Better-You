@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { puzzles } from '@/data/puzzles';
 import type { Puzzle } from '@/types';
 import { FireIcon } from '@/components/icons/StatusIcons';
@@ -39,7 +39,6 @@ const saveStreak = (streak: number) => saveToStorage(PUZZLE_STREAK_KEY, streak);
 const shuffleArray = <T,>(array: T[]): T[] => [...array].sort(() => Math.random() - 0.5);
 
 const RiddlesPage: React.FC = () => {
-    const { Link } = ReactRouterDom;
     const [solvedIds, setSolvedIds] = useState<number[]>([]);
     const [streak, setStreak] = useState<number>(0);
     const [currentPuzzle, setCurrentPuzzle] = useState<Puzzle | null>(null);

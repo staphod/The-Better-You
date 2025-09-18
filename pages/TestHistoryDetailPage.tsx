@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { FullTest, TestHistoryItem } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -14,7 +14,6 @@ const LoadingSpinner: React.FC = () => (
 );
 
 const TestHistoryDetailPage: React.FC = () => {
-    const { useParams, useNavigate, Link } = ReactRouterDom;
     const { historyId } = useParams<{ historyId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();

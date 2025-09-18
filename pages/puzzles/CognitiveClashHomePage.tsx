@@ -1,10 +1,9 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
 import { CognitiveClashIcon, VisualClashIcon, WordClashIcon } from '@/components/icons/PuzzleIcons';
 
 const CognitiveClashHomePage: React.FC = () => {
-    const { Link } = ReactRouterDom;
 
     const gameModes = [
         {

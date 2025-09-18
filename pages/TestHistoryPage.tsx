@@ -1,10 +1,9 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTestHistory } from '@/hooks/useTestHistory';
 import { ClockIcon } from '@/components/icons/ModuleIcons';
 
 const TestHistoryPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const { history } = useTestHistory();
 
   return (

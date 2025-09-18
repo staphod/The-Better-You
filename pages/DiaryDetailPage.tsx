@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDiary } from '@/hooks/useDiary';
 import type { DiaryEntry } from '@/types';
 
 const DiaryDetailPage: React.FC = () => {
-    const { useParams, useNavigate, Link } = ReactRouterDom;
     const { entryId } = useParams<{ entryId: string }>();
     const navigate = useNavigate();
     const { getEntryById } = useDiary();

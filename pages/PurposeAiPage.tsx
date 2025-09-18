@@ -1,9 +1,8 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AiIcon } from '@/components/icons/SocialIcons';
 
 const PurposeAiPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 animate-fade-in">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMood } from '@/hooks/useMood';
 import { useDiary } from '@/hooks/useDiary';
 import type { Mood } from '@/types';
@@ -15,7 +15,7 @@ const moods: { name: Mood; emoji: string; color: string }[] = [
 ];
 
 const MoodTrackerPage: React.FC = () => {
-  const navigate = ReactRouterDom.useNavigate();
+  const navigate = useNavigate();
   const { moodLogs, addMoodLog, deleteMoodLog } = useMood();
   const { addEntry } = useDiary();
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);

@@ -276,4 +276,20 @@ const TestResultDisplay: React.FC<{
             </div>
              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <button onClick={onRetake} className="w-full flex justify-center items-center space-x-2 bg-brand-bg border border-brand-border text-brand-text font-bold py-3 px-4 rounded-lg hover:brightness-95 transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" /></svg>
+                    <span>Retake Test</span>
+                </button>
+                <button onClick={onCopy} className="w-full flex justify-center items-center space-x-2 bg-brand-surface border border-brand-border text-brand-text font-bold py-3 px-4 rounded-lg hover:bg-brand-bg transition-colors">
+                   {copied ? <CheckCircleIcon className="h-5 w-5 text-brand-success"/> : <ClipboardIcon className="h-5 w-5" />}
+                   <span>{copied ? 'Copied!' : 'Copy Results'}</span>
+                </button>
+                <button onClick={onSaveToDiary} disabled={savedToDiary} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
+                   {savedToDiary ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
+                   <span>{savedToDiary ? 'Saved!' : 'Save to Diary'}</span>
+                </button>
+            </div>
+        </div>
+    );
+};
+// FIX: Add default export to make the component importable.
+export default TestResultDisplay;

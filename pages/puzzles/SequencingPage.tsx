@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { sequencingPuzzles } from '@/data/sequencingPuzzles';
 import type { SequencingPuzzle, SequencingItem } from '@/types';
 import Sparks from '@/components/Sparks';
@@ -14,7 +14,6 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 const SequencingPage: React.FC = () => {
-    const { Link } = ReactRouterDom;
     const [currentPuzzle, setCurrentPuzzle] = useState<SequencingPuzzle | null>(null);
     const [userOrder, setUserOrder] = useState<SequencingItem[]>([]);
     const [gameState, setGameState] = useState<'playing' | 'correct' | 'incorrect'>('playing');

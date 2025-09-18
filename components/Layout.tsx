@@ -1,12 +1,10 @@
-
-
 import React from 'react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 // FIX: Using namespace import for react-router-dom to fix module resolution issues.
 import * as ReactRouterDom from 'react-router-dom';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { WifiIcon, WifiOffIcon, HeartIcon } from '@/components/icons/StatusIcons';
-import { TelegramIcon } from '@/components/icons/SocialIcons';
+import { TelegramIcon, FacebookIcon } from '@/components/icons/SocialIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isOnline } = useOnlineStatus();
@@ -65,6 +63,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <a href="https://t.me/btybey" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center space-y-1 text-brand-text-muted hover:text-brand-primary transition-colors w-24" title="The Better You Telegram Channel">
                 <TelegramIcon className="h-6 w-6" />
                 <span className="text-xs text-center">Telegram Channel</span>
+            </a>
+            <a href="https://www.facebook.com/groups/1121035335352327/?ref=share&mibextid=NSMWBT" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center space-y-1 text-brand-text-muted hover:text-brand-primary transition-colors w-24" title="The Better You Facebook Group">
+                <FacebookIcon className="h-6 w-6" />
+                <span className="text-xs text-center">Facebook Group</span>
             </a>
         </div>
       </footer>

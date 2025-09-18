@@ -1,12 +1,11 @@
 import React from 'react';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
+// FIX: Using named import for react-router-dom to fix module resolution issues.
+import { Link } from 'react-router-dom';
 import { testListings } from '@/data/tests';
 import type { TestListing } from '@/types';
 import { BookOpenIcon } from '@/components/icons/ModuleIcons';
 
 const KnowledgeBaseItem: React.FC<{ test: TestListing }> = ({ test }) => {
-  const { Link } = ReactRouterDom;
   return (
     <Link to={`/tests/knowledge-base/${test.id}`} className="block group">
         <div className="flex items-center p-4 sm:p-6 border border-slate-200 rounded-lg bg-brand-surface shadow-sm transition-all duration-200 group-hover:border-brand-primary group-hover:shadow-md">
@@ -30,7 +29,6 @@ const KnowledgeBaseItem: React.FC<{ test: TestListing }> = ({ test }) => {
 };
 
 const KnowledgeBaseListPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-left mb-8">

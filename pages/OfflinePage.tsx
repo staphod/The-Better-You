@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
+// FIX: Using named imports for react-router-dom to fix module resolution issues.
+import { Link, useNavigate } from 'react-router-dom';
 import { WifiOffIcon } from '@/components/icons/StatusIcons';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 const OfflinePage: React.FC = () => {
-  const { Link, useNavigate } = ReactRouterDom;
   const { isOnline } = useOnlineStatus();
   const navigate = useNavigate();
 

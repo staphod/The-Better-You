@@ -1,38 +1,17 @@
 
-import React, { useState } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+
+
+
+import React from 'react';
+import { Link } from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
-import Modal from '@/components/Modal';
-import PurposeAiModal from '@/components/PurposeAiModal';
 import DailyAffirmation from '@/components/DailyAffirmation';
 import DailyQuote from '@/components/DailyQuote';
 import { AiIcon } from '@/components/icons/SocialIcons';
 import { BrainIcon, ToolsIcon, AddictionIcon, PuzzleIcon, BookOpenIcon } from '@/components/icons/ModuleIcons';
 import { LightbulbIcon } from '@/components/icons/StatusIcons';
 
-interface MasteryJournalModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const MasteryJournalModal: React.FC<MasteryJournalModalProps> = ({ isOpen, onClose }) => {
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Staphod's Diary - Mastery Journal" size="5xl">
-      <div className="w-full h-[80vh] bg-slate-100 flex items-center justify-center rounded-md overflow-hidden">
-        <iframe
-          src="https://staphod-s-diary.vercel.app/"
-          title="Staphod's Diary - Mastery Journal"
-          className="w-full h-full border-0"
-          sandbox="allow-scripts allow-same-origin allow-forms"
-        ></iframe>
-      </div>
-    </Modal>
-  );
-};
-
 const HomePage: React.FC = () => {
-  const [isPurposeAiModalOpen, setIsPurposeAiModalOpen] = useState(false);
-  const [isMasteryJournalModalOpen, setIsMasteryJournalModalOpen] = useState(false);
 
   const publicModules = [
     {
@@ -63,9 +42,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="space-y-12">
-      <MasteryJournalModal isOpen={isMasteryJournalModalOpen} onClose={() => setIsMasteryJournalModalOpen(false)} />
-      <PurposeAiModal isOpen={isPurposeAiModalOpen} onClose={() => setIsPurposeAiModalOpen(false)} />
-
       <div className="text-center">
         <h1 className="text-4xl font-extrabold text-brand-text tracking-tight sm:text-5xl md:text-6xl">
           Welcome to Your Journey
@@ -77,8 +53,8 @@ const HomePage: React.FC = () => {
       
       {/* New Mastery Journal Section */}
       <div>
-        <button 
-            onClick={() => setIsMasteryJournalModalOpen(true)}
+        <Link 
+            to="/mastery-journal"
             className="w-full text-left group relative overflow-hidden bg-brand-surface rounded-xl border-2 border-transparent hover:border-brand-primary shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out p-6 flex flex-col sm:flex-row sm:items-center transform hover:-translate-y-1"
         >
             <div className="bg-brand-primary/10 text-brand-primary rounded-lg p-4 mb-4 sm:mb-0 sm:mr-6">
@@ -87,10 +63,10 @@ const HomePage: React.FC = () => {
             <div className="flex-grow">
               <h2 className="text-2xl font-bold text-brand-text mb-1 group-hover:text-brand-primary transition-colors">Staphod's Diary - Mastery Journal</h2>
               <p className="text-brand-text-muted text-base">
-                An all-in-one, offline-first private journal. Includes a diary, habit tracker, mood log, and daily reflections to accelerate your journey to self-mastery. Click to open.
+                An all-in-one, offline-first private journal. Includes a diary, habit tracker, mood log, and daily reflections to accelerate your journey to self-mastery. Click to explore.
               </p>
             </div>
-        </button>
+        </Link>
       </div>
       
       {/* Public Section */}
@@ -113,8 +89,8 @@ const HomePage: React.FC = () => {
             <h2 className="text-xl font-bold text-brand-text">Featured Tool</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <button 
-            onClick={() => setIsPurposeAiModalOpen(true)}
+          <Link 
+            to="/purpose-ai"
             className="block group text-left"
           >
             <div className="bg-brand-surface rounded-xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 ease-in-out p-6 flex flex-col h-full transform hover:-translate-y-1">
@@ -126,7 +102,7 @@ const HomePage: React.FC = () => {
               <h3 className="text-xl font-bold text-brand-text mb-2 group-hover:text-brand-primary transition-colors">Purpose AI</h3>
               <p className="text-brand-text-muted flex-grow text-base">An AI-powered tool to help you find your purpose and achieve personal growth. Click to explore.</p>
             </div>
-          </button>
+          </Link>
         </div>
       </div>
 

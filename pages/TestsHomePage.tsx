@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
 import PinModal from '@/components/PinModal';
 import { BrainIcon, BookOpenIcon, ClockIcon } from '@/components/icons/ModuleIcons';
@@ -7,7 +7,6 @@ import { BrainIcon, BookOpenIcon, ClockIcon } from '@/components/icons/ModuleIco
 const APP_PIN_KEY = 'the-better-you-pin';
 
 const TestsHomePage: React.FC = () => {
-  const { useNavigate } = ReactRouterDom;
   const navigate = useNavigate();
   const [pin, setPin] = useState<string | null>(null);
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);

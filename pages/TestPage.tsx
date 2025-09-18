@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
+// FIX: Using named imports for react-router-dom to fix module resolution issues.
+import { useParams, useNavigate } from 'react-router-dom';
 import type { FullTest, Question } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -16,7 +16,6 @@ const LoadingSpinner: React.FC = () => (
 );
 
 const TestPage: React.FC = () => {
-    const { useParams, useNavigate } = ReactRouterDom;
     const { testId } = useParams<{ testId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();

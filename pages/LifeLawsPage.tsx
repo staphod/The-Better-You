@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ScaleIcon, ToolsIcon, NetworkIcon, BrainIcon, FeatherIcon, AtomIcon, PillarIcon, ClockIcon, HeartbeatIcon, PencilIcon, OceanIcon, BookOpenIcon, CrownIcon, BicycleIcon, LeafIcon } from '@/components/icons/ModuleIcons';
 import { LightbulbIcon, TrendingUpIcon, ShieldCheckIcon, HeartIcon } from '@/components/icons/StatusIcons';
 
 const LawCard: React.FC<{ to: string; title: string; description: string; icon: React.ReactNode; }> = ({ to, title, description, icon }) => {
-  const { Link } = ReactRouterDom;
   return (
     <Link to={to} className="block group">
       <div className="flex items-center p-6 bg-brand-surface rounded-lg shadow-sm hover:shadow-lg transition-shadow border border-slate-200 group-hover:border-brand-primary">
@@ -787,7 +786,6 @@ const categories = [
 ];
 
 const LifeLawsPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const [searchQuery, setSearchQuery] = useState('');
   
   const filteredLaws = useMemo(() => {

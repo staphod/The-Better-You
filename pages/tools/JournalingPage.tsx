@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PencilIcon } from '@/components/icons/ModuleIcons';
 import { journalPrompts } from '@/data/journalPrompts';
 
 const JournalingPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const [activeCategory, setActiveCategory] = useState(journalPrompts[0].title);
 
   return (

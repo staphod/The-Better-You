@@ -1,10 +1,9 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDiary } from '@/hooks/useDiary';
 import { DiaryIcon } from '@/components/icons/ModuleIcons';
 
 const DiaryPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const { entries, deleteEntry } = useDiary();
 
   const handleDelete = (id: string) => {

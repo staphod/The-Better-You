@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { FullTest } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -69,7 +69,6 @@ const ResultDetailCard: React.FC<{ title: string, result: any }> = ({ title, res
 );
 
 const KnowledgeBaseDetailPage: React.FC = () => {
-    const { useParams, useNavigate, Link } = ReactRouterDom;
     const { testId } = useParams<{ testId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();

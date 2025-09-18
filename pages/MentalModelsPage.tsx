@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { NetworkIcon, AtomIcon, PillarIcon, BrainIcon, ScaleIcon, ToolsIcon, ClockIcon, OceanIcon, HeartbeatIcon } from '@/components/icons/ModuleIcons';
 import { ShieldCheckIcon } from '@/components/icons/StatusIcons';
 
 const ModelCard: React.FC<{ to: string; title: string; description: string; icon: React.ReactNode; }> = ({ to, title, description, icon }) => {
-  const { Link } = ReactRouterDom;
   return (
     <Link to={to} className="block group">
       <div className="flex items-center p-6 bg-brand-surface rounded-lg shadow-sm hover:shadow-lg transition-shadow border border-slate-200 group-hover:border-brand-primary">
@@ -107,7 +106,6 @@ const models = [
 ];
 
 const MentalModelsPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredModels = useMemo(() => {

@@ -1,9 +1,8 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FeatherIcon } from '@/components/icons/ModuleIcons';
 
 const CBTPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
 
   const cognitiveDistortions = [
     { name: "All-or-Nothing Thinking", description: "Seeing things in black-and-white categories. If your performance falls short of perfect, you see yourself as a total failure.", example: "Example: 'I got a B on the test, so I'm a complete idiot.'" },

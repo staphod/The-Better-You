@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDiary } from '@/hooks/useDiary';
 import { DiaryEntry } from '@/types';
 
@@ -47,7 +47,6 @@ const RichTextEditor: React.FC<{ value: string; onChange: (value: string) => voi
 
 
 const DiaryEntryPage: React.FC = () => {
-    const { useParams, useNavigate } = ReactRouterDom;
     const { entryId } = useParams<{ entryId: string }>();
     const navigate = useNavigate();
     const { getEntryById, addEntry, updateEntry } = useDiary();

@@ -1,7 +1,7 @@
 import React from 'react';
 import ModuleCard from '@/components/ModuleCard';
 import { PuzzleIcon } from '@/components/icons/ModuleIcons';
-import { SequencingIcon, CognitiveClashIcon, OneLineIcon } from '@/components/icons/PuzzleIcons';
+import { SequencingIcon, CognitiveClashIcon, OneLineIcon, DotsIcon } from '@/components/icons/PuzzleIcons';
 
 const PuzzlesPage: React.FC = () => {
     const puzzleModules = [

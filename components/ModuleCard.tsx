@@ -1,9 +1,10 @@
 
 
 
+
 import React from 'react';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
+// FIX: Using named import for react-router-dom to fix module resolution issues.
+import { Link } from 'react-router-dom';
 
 interface ModuleCardProps {
   to: string;
@@ -13,7 +14,6 @@ interface ModuleCardProps {
 }
 
 const ModuleCard: React.FC<ModuleCardProps> = ({ to, title, description, icon }) => {
-  const { Link } = ReactRouterDom;
 
   return (
     <Link to={to} className="block group">

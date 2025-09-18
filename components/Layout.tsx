@@ -1,14 +1,13 @@
 import React from 'react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
+// FIX: Using named imports for react-router-dom to fix module resolution issues.
+import { Link } from 'react-router-dom';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { WifiIcon, WifiOffIcon, HeartIcon } from '@/components/icons/StatusIcons';
 import { TelegramIcon, FacebookIcon } from '@/components/icons/SocialIcons';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isOnline } = useOnlineStatus();
-  const { Link } = ReactRouterDom;
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text font-sans">

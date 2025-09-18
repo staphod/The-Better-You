@@ -1,7 +1,10 @@
 
+
+
+
 import React from 'react';
-// FIX: Using namespace import for react-router-dom to fix module resolution issues.
-import * as ReactRouterDom from 'react-router-dom';
+// FIX: Using named imports for react-router-dom to fix module resolution issues.
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { OnlineStatusProvider } from '@/hooks/useOnlineStatus';
 import { ThemeProvider } from '@/hooks/useTheme';
 import Layout from '@/components/Layout';
@@ -29,6 +32,9 @@ import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import AboutPage from '@/pages/AboutPage'; // New About Page
 import SupportPage from '@/pages/SupportPage'; // New Support Page
+import MasteryJournalPage from '@/pages/MasteryJournalPage'; // New Embedded App Page
+import PurposeAiPage from '@/pages/PurposeAiPage'; // New Embedded App Page
+
 
 // Tools Sub-pages
 import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
@@ -165,7 +171,6 @@ import LawOfTippingPointPage from './pages/laws/LawOfTippingPointPage';
 
 
 function App() {
-  const { HashRouter, Routes, Route } = ReactRouterDom;
   return (
     <OnlineStatusProvider>
       <ThemeProvider>
@@ -327,6 +332,8 @@ function App() {
               <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/support" element={<SupportPage />} />
+              <Route path="/mastery-journal" element={<MasteryJournalPage />} />
+              <Route path="/purpose-ai" element={<PurposeAiPage />} />
               <Route path="/offline" element={<OfflinePage />} />
             </Routes>
           </Layout>

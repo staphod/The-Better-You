@@ -4,9 +4,10 @@ import ModuleCard from '@/components/ModuleCard';
 import PinModal from '@/components/PinModal';
 import PurposeAiModal from '@/components/PurposeAiModal';
 import DailyAffirmation from '@/components/DailyAffirmation';
-import DailyReflection from '@/components/DailyReflection';
+import DailyQuote from '@/components/DailyQuote';
 import { AiIcon } from '@/components/icons/SocialIcons';
-import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon, DiaryIcon, MoodIcon, ClockIcon } from '@/components/icons/ModuleIcons';
+import { BrainIcon, HabitIcon, ToolsIcon, AddictionIcon, PuzzleIcon, DiaryIcon, MoodIcon, FeatherIcon } from '@/components/icons/ModuleIcons';
+import { LightbulbIcon } from '@/components/icons/StatusIcons';
 
 const APP_PIN_KEY = 'the-better-you-pin';
 
@@ -74,13 +75,15 @@ const HomePage: React.FC = () => {
   ];
 
   const PrivateModuleButton: React.FC<{title: string; description: string; icon: React.ReactNode; onClick: () => void;}> = ({ title, description, icon, onClick }) => (
-    <button onClick={onClick} className="w-full text-left group bg-brand-surface rounded-xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 ease-in-out p-6 flex items-start text-left h-full">
-        <div className="flex-shrink-0 bg-brand-primary/10 text-brand-primary rounded-lg p-3">
-            {icon}
-        </div>
-        <div className="ml-4">
-            <h3 className="text-xl font-bold text-brand-text mb-1 group-hover:text-brand-primary transition-colors">{title}</h3>
-            <p className="text-brand-text-muted text-base">{description}</p>
+    <button onClick={onClick} className="w-full text-left group">
+        <div className="bg-brand-surface rounded-xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 ease-in-out p-6 flex flex-col h-full transform hover:-translate-y-1">
+          <div className="flex items-center justify-start mb-4">
+            <div className="bg-brand-primary/10 text-brand-primary rounded-lg p-3">
+              {icon}
+            </div>
+          </div>
+          <h3 className="text-xl font-bold text-brand-text mb-2 group-hover:text-brand-primary transition-colors">{title}</h3>
+          <p className="text-brand-text-muted flex-grow text-base">{description}</p>
         </div>
     </button>
   );
@@ -105,25 +108,13 @@ const HomePage: React.FC = () => {
         </p>
       </div>
       
-      {/* Today's Focus Section */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-            <ClockIcon className="h-5 w-5 text-brand-text-muted" />
-            <h2 className="text-xl font-bold text-brand-text">Today's Focus</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <DailyAffirmation />
-          <DailyReflection />
-        </div>
-      </div>
-
       {/* Private Section */}
       <div className="space-y-4">
           <div className="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-brand-text-muted" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5.02.997.997 0 001 6v5a1 1 0 001 1h.538l.044.025a12.003 12.003 0 0114.836 0l.044-.025H18a1 1 0 001-1V6a.997.997 0 00-1.166-.976A11.954 11.954 0 0110 1.944zM10 14a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /><path d="M10 18.01a14.004 14.004 0 00-8.391 2.653.997.997 0 00.22 1.666C3.12 22.825 6.425 24 10 24s6.88-1.175 8.17-1.671a.997.997 0 00.221-1.666A14.004 14.004 0 0010 18.01z" /></svg>
             <h2 className="text-xl font-bold text-brand-text">Private Sanctum</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
              <PrivateModuleButton
                 title="Habits Tracker"
                 description="Build good habits. Kept private and secure with your PIN."
@@ -141,6 +132,12 @@ const HomePage: React.FC = () => {
                 description="Log your daily mood and add notes to track your emotional state."
                 icon={<MoodIcon />}
                 onClick={() => handlePrivateAccess('/mood')}
+             />
+             <PrivateModuleButton
+                title="Daily Reflection"
+                description="A private space to answer daily prompts and track your thoughts."
+                icon={<FeatherIcon />}
+                onClick={() => handlePrivateAccess('/reflection')}
              />
           </div>
       </div>
@@ -179,6 +176,18 @@ const HomePage: React.FC = () => {
               <p className="text-brand-text-muted flex-grow text-base">An AI-powered tool to help you find your purpose and achieve personal growth. Click to explore.</p>
             </div>
           </button>
+        </div>
+      </div>
+
+       {/* Inspiration Corner Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+            <LightbulbIcon className="h-5 w-5 text-brand-text-muted" />
+            <h2 className="text-xl font-bold text-brand-text">Inspiration Corner</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <DailyQuote />
+          <DailyAffirmation />
         </div>
       </div>
 

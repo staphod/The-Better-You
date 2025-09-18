@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { reflectionPrompts } from '@/data/reflectionPrompts';
+// FIX: Import `allPrompts` which is a flat array of strings, instead of `reflectionPrompts`.
+import { allPrompts } from '@/data/reflectionPrompts';
 
 const getDayOfYear = () => {
     const now = new Date();
@@ -22,7 +23,8 @@ const DailyReflection: React.FC = () => {
     
     const dailyPrompt = useMemo(() => {
         const dayIndex = getDayOfYear();
-        return reflectionPrompts[dayIndex % reflectionPrompts.length];
+        // FIX: Use `allPrompts` to select a single prompt string, which is a valid ReactNode.
+        return allPrompts[dayIndex % allPrompts.length];
     }, []);
 
     useEffect(() => {

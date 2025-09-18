@@ -1,3 +1,4 @@
+
 import React from 'react';
 // FIX: Using namespace import for react-router-dom to fix module resolution issues.
 import * as ReactRouterDom from 'react-router-dom';
@@ -33,6 +34,7 @@ import DiaryDetailPage from '@/pages/DiaryDetailPage'; // New Diary Detail Page
 import DiaryEntryPage from '@/pages/DiaryEntryPage'; // New Diary Entry Page
 import SupportPage from '@/pages/SupportPage'; // New Support Page
 import MoodTrackerPage from '@/pages/MoodTrackerPage'; // New Mood Tracker Page
+import DailyReflectionPage from '@/pages/DailyReflectionPage'; // New Daily Reflection Page
 
 // Tools Sub-pages
 import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
@@ -204,6 +206,9 @@ function App() {
               
               {/* New Mood Tracker Route */}
               <Route path="/mood" element={<MoodTrackerPage />} />
+
+              {/* New Daily Reflection Route */}
+              <Route path="/reflection" element={<DailyReflectionPage />} />
 
               <Route path="/tools" element={<ToolsPage />} />
               <Route path="/tools/strategies" element={<ToolsStrategiesPage />} />

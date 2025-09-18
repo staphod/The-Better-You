@@ -24,17 +24,11 @@ import CognitiveClashGamePage from '@/pages/puzzles/CognitiveClashGamePage';
 import OneLineDrawingPage from '@/pages/puzzles/OneLineDrawingPage';
 
 import OfflinePage from '@/pages/OfflinePage';
-import HabitsPage from '@/pages/HabitsPage';
 import ToolsPage from '@/pages/ToolsPage';
 import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import AboutPage from '@/pages/AboutPage'; // New About Page
-import DiaryPage from '@/pages/DiaryPage'; // New Diary List Page
-import DiaryDetailPage from '@/pages/DiaryDetailPage'; // New Diary Detail Page
-import DiaryEntryPage from '@/pages/DiaryEntryPage'; // New Diary Entry Page
 import SupportPage from '@/pages/SupportPage'; // New Support Page
-import MoodTrackerPage from '@/pages/MoodTrackerPage'; // New Mood Tracker Page
-import DailyReflectionPage from '@/pages/DailyReflectionPage'; // New Daily Reflection Page
 
 // Tools Sub-pages
 import ToolsStrategiesPage from '@/pages/ToolsStrategiesPage';
@@ -196,19 +190,6 @@ function App() {
               <Route path="/puzzles/cognitive-clash" element={<CognitiveClashHomePage />} />
               <Route path="/puzzles/cognitive-clash/game/:mode" element={<CognitiveClashGamePage />} />
               <Route path="/puzzles/one-line-drawing" element={<OneLineDrawingPage />} />
-
-              <Route path="/habits" element={<HabitsPage />} />
-              
-              {/* New Diary Routes */}
-              <Route path="/diary" element={<DiaryPage />} />
-              <Route path="/diary/detail/:entryId" element={<DiaryDetailPage />} />
-              <Route path="/diary/entry/:entryId" element={<DiaryEntryPage />} />
-              
-              {/* New Mood Tracker Route */}
-              <Route path="/mood" element={<MoodTrackerPage />} />
-
-              {/* New Daily Reflection Route */}
-              <Route path="/reflection" element={<DailyReflectionPage />} />
 
               <Route path="/tools" element={<ToolsPage />} />
               <Route path="/tools/strategies" element={<ToolsStrategiesPage />} />

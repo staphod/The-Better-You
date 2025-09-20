@@ -1,48 +1,49 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { DiaryEntry } from '@/types';
+import type { CollectionItem } from '@/types';
 
-const DIARY_STORAGE_KEY = 'the-better-you-diary';
+const COLLECTION_STORAGE_KEY = 'the-better-you-user-collection';
 
-const getStoredDiary = (): DiaryEntry[] => {
+const getStoredCollection = (): CollectionItem[] => {
     try {
-        const storedDiaryJSON = localStorage.getItem(DIARY_STORAGE_KEY);
-        if (!storedDiaryJSON) return [];
-        const entries = JSON.parse(storedDiaryJSON);
-        return Array.isArray(entries) ? entries : [];
+        const storedJSON = localStorage.getItem(COLLECTION_STORAGE_KEY);
+        if (!storedJSON) return [];
+        const items = JSON.parse(storedJSON);
+        return Array.isArray(items) ? items : [];
     } catch (error) {
-        console.error("Failed to parse diary entries from localStorage", error);
+        console.error("Failed to parse collection items from localStorage", error);
         return [];
     }
 };
 
-export const useDiary = () => {
-    const [entries, setEntries] = useState<DiaryEntry[]>(getStoredDiary);
+export const useUserCollection = () => {
+    const [items, setItems] = useState<CollectionItem[]>(getStoredCollection);
 
     useEffect(() => {
-        localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(entries));
-    }, [entries]);
+        localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify(items));
+    }, [items]);
 
-    const addEntry = useCallback((newEntryData: Omit<DiaryEntry, 'id'|'modified'>) => {
-        const newEntry: DiaryEntry = {
+    const addItem = useCallback((itemData: Omit<CollectionItem, 'id'|'dateSaved'>) => {
+        const newItem: CollectionItem = {
             id: crypto.randomUUID(),
-            ...newEntryData,
-            modified: new Date().toISOString(),
+            ...itemData,
+            dateSaved: new Date().toISOString(),
         };
-        setEntries(prev => [newEntry, ...prev]);
-        return newEntry;
+        setItems(prev => [newItem, ...prev]);
+        return newItem;
     }, []);
     
-    const updateEntry = useCallback((updatedEntry: DiaryEntry) => {
-        setEntries(prev => prev.map(e => e.id === updatedEntry.id ? { ...updatedEntry, modified: new Date().toISOString() } : e));
+    const updateItem = useCallback((updatedItem: CollectionItem) => {
+        const newItem = { ...updatedItem, dateSaved: new Date().toISOString() };
+        setItems(prev => prev.map(item => item.id === updatedItem.id ? newItem : item));
     }, []);
 
-    const deleteEntry = useCallback((id: string) => {
-        setEntries(prev => prev.filter(entry => entry.id !== id));
+    const getItemById = useCallback((id: string) => {
+        return items.find(item => item.id === id);
+    }, [items]);
+
+    const deleteItem = useCallback((id: string) => {
+        setItems(prev => prev.filter(item => item.id !== id));
     }, []);
     
-    const getEntryById = useCallback((id: string) => {
-        return entries.find(entry => entry.id === id);
-    }, [entries]);
-
-    return { entries, addEntry, updateEntry, deleteEntry, getEntryById };
+    return { items, addItem, deleteItem, updateItem, getItemById };
 };

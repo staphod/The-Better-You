@@ -137,9 +137,9 @@ const TestResultDisplay: React.FC<{
     onCopy: () => void; 
     copied: boolean; 
     onRetake: () => void;
-    onSaveToDiary: () => void;
-    savedToDiary: boolean;
-}> = ({ result, test, onCopy, copied, onRetake, onSaveToDiary, savedToDiary }) => {
+    onSaveToCollection: () => void;
+    savedToCollection: boolean;
+}> = ({ result, test, onCopy, copied, onRetake, onSaveToCollection, savedToCollection }) => {
     const isDimensional = test.scoringThresholds && 'O' in test.scoringThresholds;
 
     const riskColors: Record<string, string> = {
@@ -283,9 +283,9 @@ const TestResultDisplay: React.FC<{
                    {copied ? <CheckCircleIcon className="h-5 w-5 text-brand-success"/> : <ClipboardIcon className="h-5 w-5" />}
                    <span>{copied ? 'Copied!' : 'Copy Results'}</span>
                 </button>
-                <button onClick={onSaveToDiary} disabled={savedToDiary} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
-                   {savedToDiary ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
-                   <span>{savedToDiary ? 'Saved!' : 'Save to Diary'}</span>
+                <button onClick={onSaveToCollection} disabled={savedToCollection} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
+                   {savedToCollection ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
+                   <span>{savedToCollection ? 'Saved!' : 'Save to Collection'}</span>
                 </button>
             </div>
         </div>

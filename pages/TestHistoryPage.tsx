@@ -1,10 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTestHistory } from '@/hooks/useTestHistory';
 import { ClockIcon } from '@/components/icons/ModuleIcons';
+import PinModal from '@/components/PinModal';
+
+const APP_PIN_KEY = 'the-better-you-pin';
 
 const TestHistoryPage: React.FC = () => {
   const { history } = useTestHistory();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pin, setPin] = useState<string | null>(null);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(true);
+  const [pinModalMode, setPinModalMode] = useState<'set' | 'enter'>('enter');
+  
+  useEffect(() => {
+    try {
+        const storedPin = localStorage.getItem(APP_PIN_KEY);
+        setPin(storedPin);
+        if (!storedPin) {
+            setPinModalMode('set');
+        } else {
+            setPinModalMode('enter');
+        }
+    } catch (e) { 
+        console.error("Could not read PIN from localStorage", e); 
+        setPinModalMode('set');
+    }
+  }, []);
+
+  const handlePinSuccess = (newPin?: string) => {
+    if (pinModalMode === 'set' && newPin) {
+        try {
+            localStorage.setItem(APP_PIN_KEY, newPin);
+            setPin(newPin);
+        } catch(e) { console.error("Could not save PIN to localStorage", e); }
+    }
+    setIsPinModalOpen(false);
+    setIsAuthenticated(true);
+  };
+  
+  if (!isAuthenticated) {
+      return (
+          <PinModal
+            mode={pinModalMode}
+            isOpen={isPinModalOpen}
+            onClose={() => { /* Cannot close PIN for this page */ }}
+            onSuccess={handlePinSuccess}
+            storedPin={pin}
+          />
+      );
+  }
 
   return (
     <div className="max-w-4xl mx-auto">

@@ -1,5 +1,12 @@
 import React from 'react';
 
+export interface CollectionItem {
+  id: string;
+  title: string;
+  content: string; // HTML content
+  dateSaved: string; // ISO string
+}
+
 export interface TestListing {
   id: string;
   title: string;

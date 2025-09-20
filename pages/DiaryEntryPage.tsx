@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDiary } from '@/hooks/useDiary';
-import { DiaryEntry } from '@/types';
+// FIX: The 'useDiary' hook was renamed to 'useUserCollection'.
+import { useUserCollection } from '@/hooks/useDiary';
+// FIX: The 'DiaryEntry' type was replaced by 'CollectionItem'. Using an alias for compatibility.
+import type { CollectionItem as DiaryEntry } from '@/types';
 
 const RichTextEditor: React.FC<{ value: string; onChange: (value: string) => void; }> = ({ value, onChange }) => {
     const editorRef = useRef<HTMLDivElement>(null);
@@ -49,7 +51,8 @@ const RichTextEditor: React.FC<{ value: string; onChange: (value: string) => voi
 const DiaryEntryPage: React.FC = () => {
     const { entryId } = useParams<{ entryId: string }>();
     const navigate = useNavigate();
-    const { getEntryById, addEntry, updateEntry } = useDiary();
+    // FIX: Using the correct hook 'useUserCollection' and aliasing its methods for compatibility.
+    const { getItemById: getEntryById, addItem: addEntry, updateItem: updateEntry } = useUserCollection();
 
     const [entry, setEntry] = useState<Partial<DiaryEntry>>({ title: '', content: '' });
     const [isSaving, setIsSaving] = useState(false);
@@ -60,7 +63,7 @@ const DiaryEntryPage: React.FC = () => {
             if (existingEntry) {
                 setEntry(existingEntry);
             } else {
-                navigate('/diary'); // Not found
+                navigate('/collection'); // Not found, redirect to the collection page
             }
         } else {
             setEntry({ title: '', content: '' });
@@ -76,20 +79,20 @@ const DiaryEntryPage: React.FC = () => {
         if (entry.id) {
             updateEntry(entry as DiaryEntry);
         } else {
-            addEntry({ title: entry.title || 'Untitled', content: entry.content || '' });
+            const newEntry = addEntry({ title: entry.title || 'Untitled', content: entry.content || '' });
         }
         
         setTimeout(() => {
             setIsSaving(false);
-            navigate('/diary');
+            navigate('/collection');
         }, 500); // Give user feedback
     };
 
     return (
         <div className="max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-6">
-                <button onClick={() => navigate('/diary')} className="text-brand-primary hover:underline">
-                    &larr; Back to Diary
+                <button onClick={() => navigate('/collection')} className="text-brand-primary hover:underline">
+                    &larr; Back to Collection
                 </button>
                 <button
                     onClick={handleSave}

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMood } from '@/hooks/useMood';
-import { useDiary } from '@/hooks/useDiary';
+// FIX: The 'useDiary' hook was renamed to 'useUserCollection'. Aliasing addItem to addEntry.
+import { useUserCollection } from '@/hooks/useDiary';
 import type { Mood } from '@/types';
-import { MoodIcon } from '@/components/icons/ModuleIcons';
+// FIX: 'MoodIcon' is not an exported member of ModuleIcons. Using 'HeartIcon' from StatusIcons instead and aliasing it.
+import { HeartIcon as MoodIcon } from '@/components/icons/StatusIcons';
 import { TrashIcon } from '@/components/icons/StatusIcons';
 
 const moods: { name: Mood; emoji: string; color: string }[] = [
@@ -17,7 +19,7 @@ const moods: { name: Mood; emoji: string; color: string }[] = [
 const MoodTrackerPage: React.FC = () => {
   const navigate = useNavigate();
   const { moodLogs, addMoodLog, deleteMoodLog } = useMood();
-  const { addEntry } = useDiary();
+  const { addItem: addEntry } = useUserCollection();
   const [selectedMood, setSelectedMood] = useState<Mood | null>(null);
   const [note, setNote] = useState('');
 
@@ -36,7 +38,9 @@ const MoodTrackerPage: React.FC = () => {
           title: `Mood Log: ${new Date(log.date).toLocaleDateString()}`,
           content: `<h3>Feeling: ${log.mood}</h3><p>${log.note}</p>`
       });
-      navigate(`/diary/entry/${newEntry.id}`);
+      // This page seems to be a work-in-progress, but the original code had this navigation
+      // which assumes a Diary feature that has been refactored. We'll leave it out for now.
+      // navigate(`/diary/entry/${newEntry.id}`);
   };
 
   return (
@@ -101,7 +105,7 @@ const MoodTrackerPage: React.FC = () => {
                       {log.note && <p className="mt-3 text-brand-text-muted pl-1 italic">"{log.note}"</p>}
                     </div>
                     <div className="flex-shrink-0 flex items-center gap-1">
-                        <button onClick={() => expandInDiary(log)} className="text-xs font-semibold text-brand-primary hover:underline p-2">Expand in Diary</button>
+                        <button onClick={() => expandInDiary(log)} className="text-xs font-semibold text-brand-primary hover:underline p-2">Add to Collection</button>
                         <button onClick={() => deleteMoodLog(log.id)} className="p-2 text-slate-400 hover:text-brand-danger rounded-full" aria-label="Delete log">
                            <TrashIcon className="h-4 w-4" />
                         </button>

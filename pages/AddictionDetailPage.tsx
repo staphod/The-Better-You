@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { Addiction } from '@/types';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useDiary } from '@/hooks/useDiary';
+import { useUserCollection } from '@/hooks/useDiary';
 import { fetchAddictionById } from '@/services/api';
 import { ClipboardIcon, CheckCircleIcon, ShieldCheckIcon, LightbulbIcon, LifebuoyIcon } from '@/components/icons/StatusIcons';
 
@@ -18,9 +18,9 @@ const AddictionResult: React.FC<{
     onCopy: () => void; 
     copied: boolean; 
     onRetake: () => void;
-    onSaveToDiary: () => void;
-    savedToDiary: boolean;
-}> = ({ result, onCopy, copied, onRetake, onSaveToDiary, savedToDiary }) => {
+    onSaveToCollection: () => void;
+    savedToCollection: boolean;
+}> = ({ result, onCopy, copied, onRetake, onSaveToCollection, savedToCollection }) => {
     const riskColors: Record<string, string> = {
         "Low Risk": "text-brand-success",
         "Healthy Use": "text-brand-success",
@@ -80,9 +80,9 @@ const AddictionResult: React.FC<{
                    {copied ? <CheckCircleIcon className="h-5 w-5 text-brand-success"/> : <ClipboardIcon className="h-5 w-5" />}
                    <span>{copied ? 'Copied!' : 'Copy'}</span>
                 </button>
-                <button onClick={onSaveToDiary} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
-                   {savedToDiary ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
-                   <span>{savedToDiary ? 'Saved!' : 'Save to Diary'}</span>
+                <button onClick={onSaveToCollection} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
+                   {savedToCollection ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
+                   <span>{savedToCollection ? 'Saved!' : 'Save to Collection'}</span>
                 </button>
             </div>
         </div>
@@ -93,7 +93,7 @@ const AddictionDetailPage: React.FC = () => {
     const { addictionId } = useParams<{ addictionId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();
-    const { addEntry } = useDiary();
+    const { addItem: addToCollection } = useUserCollection();
 
     const [addiction, setAddiction] = useState<Addiction | null>(null);
     const [loading, setLoading] = useState(true);
@@ -104,7 +104,7 @@ const AddictionDetailPage: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [result, setResult] = useState<any | null>(null);
     const [copied, setCopied] = useState(false);
-    const [savedToDiary, setSavedToDiary] = useState(false);
+    const [savedToCollection, setSavedToCollection] = useState(false);
     const [isAnswered, setIsAnswered] = useState(false);
     const [chosenAnswerValue, setChosenAnswerValue] = useState<number | null>(null);
 
@@ -181,19 +181,19 @@ Resources: ${result.helplines.map((h: any) => `${h.name} (${h.url})`).join(', ')
         });
     }, [result, addiction]);
 
-     const handleSaveToDiary = useCallback(() => {
+     const handleSaveToCollection = useCallback(() => {
         if (!result || !addiction) return;
         
         const content = `<h3>${result.level}</h3><p>${result.explanation}</p><h4>Advice</h4><ul>${result.advice.map((a: string) => `<li>${a}</li>`).join('')}</ul>`;
 
-        addEntry({
+        addToCollection({
             title: `Assessment Results: ${addiction.title}`,
             content: content
         });
-        setSavedToDiary(true);
-        setTimeout(() => setSavedToDiary(false), 2000);
+        setSavedToCollection(true);
+        setTimeout(() => setSavedToCollection(false), 2000);
 
-    }, [result, addiction, addEntry]);
+    }, [result, addiction, addToCollection]);
     
     const handleRetake = () => {
         setAnswers({});
@@ -220,7 +220,7 @@ Resources: ${result.helplines.map((h: any) => `${h.name} (${h.url})`).join(', ')
     }
     
     if (quizState === 'completed' && result) {
-        return <AddictionResult result={result} onCopy={handleCopy} copied={copied} onRetake={handleRetake} onSaveToDiary={handleSaveToDiary} savedToDiary={savedToDiary}/>;
+        return <AddictionResult result={result} onCopy={handleCopy} copied={copied} onRetake={handleRetake} onSaveToCollection={handleSaveToCollection} savedToCollection={savedToCollection}/>;
     }
 
     if (quizState === 'in-progress') {

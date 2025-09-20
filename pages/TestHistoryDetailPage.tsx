@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { FullTest, TestHistoryItem } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useDiary } from '@/hooks/useDiary';
+import { useUserCollection } from '@/hooks/useDiary';
 import { useTestHistory } from '@/hooks/useTestHistory';
 import TestResultDisplay from '@/components/TestResultDisplay';
 
@@ -17,7 +17,7 @@ const TestHistoryDetailPage: React.FC = () => {
     const { historyId } = useParams<{ historyId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();
-    const { addEntry } = useDiary();
+    const { addItem: addToCollection } = useUserCollection();
     const { getHistoryItemById } = useTestHistory();
 
     const [test, setTest] = useState<FullTest | null>(null);
@@ -26,7 +26,7 @@ const TestHistoryDetailPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     
     const [copied, setCopied] = useState(false);
-    const [savedToDiary, setSavedToDiary] = useState(false);
+    const [savedToCollection, setSavedToCollection] = useState(false);
 
     useEffect(() => {
         if (!historyId) {
@@ -81,7 +81,7 @@ const TestHistoryDetailPage: React.FC = () => {
         });
     }, [historyItem, test]);
     
-    const handleSaveToDiary = useCallback(() => {
+    const handleSaveToCollection = useCallback(() => {
         if (!historyItem || !test) return;
         
         const isDimensional = test.scoringThresholds && 'O' in test.scoringThresholds;
@@ -103,13 +103,13 @@ const TestHistoryDetailPage: React.FC = () => {
             }
         }
 
-        addEntry({
+        addToCollection({
             title: `Test Results (from ${new Date(historyItem.dateCompleted).toLocaleDateString()}): ${test.title}`,
             content: content
         });
-        setSavedToDiary(true);
-        setTimeout(() => setSavedToDiary(false), 2000);
-    }, [historyItem, test, addEntry]);
+        setSavedToCollection(true);
+        setTimeout(() => setSavedToCollection(false), 2000);
+    }, [historyItem, test, addToCollection]);
 
     const handleRetake = useCallback(() => {
         if (test) {
@@ -130,8 +130,8 @@ const TestHistoryDetailPage: React.FC = () => {
                 onCopy={handleCopy}
                 copied={copied}
                 onRetake={handleRetake}
-                onSaveToDiary={handleSaveToDiary}
-                savedToDiary={savedToDiary}
+                onSaveToCollection={handleSaveToCollection}
+                savedToCollection={savedToCollection}
             />
         </div>
     );

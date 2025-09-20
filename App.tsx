@@ -1,7 +1,5 @@
 
 
-
-
 import React from 'react';
 // FIX: Using named imports for react-router-dom to fix module resolution issues.
 import { HashRouter, Routes, Route } from 'react-router-dom';
@@ -32,8 +30,8 @@ import AddictionsPage from '@/pages/AddictionsPage';
 import AddictionDetailPage from '@/pages/AddictionDetailPage';
 import AboutPage from '@/pages/AboutPage'; // New About Page
 import SupportPage from '@/pages/SupportPage'; // New Support Page
-import MasteryJournalPage from '@/pages/MasteryJournalPage'; // New Embedded App Page
 import PurposeAiPage from '@/pages/PurposeAiPage'; // New Embedded App Page
+import UserCollectionPage from '@/pages/DiaryPage'; // Repurposed for User Collection
 
 
 // Tools Sub-pages
@@ -43,7 +41,7 @@ import LifeLawsPage from '@/pages/LifeLawsPage';
 import SixtyMinutesOfSilencePage from '@/pages/tools/SixtyMinutesOfSilencePage';
 import CBTPage from '@/pages/tools/CBTPage';
 import JournalingPage from '@/pages/tools/JournalingPage';
-import Buffetts525StrategyPage from '@/pages/tools/Buffetts5-25StrategyPage';
+import Buffetts525StrategyPage from '@/pages/tools/Buffetts525StrategyPage';
 import BruceLeesSimplicityPage from '@/pages/tools/BruceLeesSimplicityPage';
 import FirstPrinciplesPage from '@/pages/mentalmodels/FirstPrinciplesPage';
 import StoicismPage from '@/pages/mentalmodels/StoicismPage';
@@ -332,8 +330,8 @@ function App() {
               <Route path="/addiction/:addictionId" element={<AddictionDetailPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/support" element={<SupportPage />} />
-              <Route path="/mastery-journal" element={<MasteryJournalPage />} />
               <Route path="/purpose-ai" element={<PurposeAiPage />} />
+              <Route path="/collection" element={<UserCollectionPage />} />
               <Route path="/offline" element={<OfflinePage />} />
             </Routes>
           </Layout>

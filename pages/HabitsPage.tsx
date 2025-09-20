@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { HabitIcon } from '@/components/icons/ModuleIcons';
+// FIX: Using TargetIcon as HabitIcon as it is not an exported member of ModuleIcons.
+import { TargetIcon as HabitIcon } from '@/components/icons/ModuleIcons';
 import { useHabits } from '@/hooks/useHabits';
 import Modal from '@/components/Modal';
 import HabitForm from '@/components/HabitForm';

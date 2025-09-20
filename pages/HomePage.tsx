@@ -1,7 +1,4 @@
 
-
-
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
@@ -9,7 +6,7 @@ import DailyAffirmation from '@/components/DailyAffirmation';
 import DailyQuote from '@/components/DailyQuote';
 import { AiIcon } from '@/components/icons/SocialIcons';
 import { BrainIcon, ToolsIcon, AddictionIcon, PuzzleIcon, BookOpenIcon } from '@/components/icons/ModuleIcons';
-import { LightbulbIcon } from '@/components/icons/StatusIcons';
+import { LightbulbIcon, ShieldCheckIcon } from '@/components/icons/StatusIcons';
 
 const HomePage: React.FC = () => {
 
@@ -49,24 +46,6 @@ const HomePage: React.FC = () => {
         <p className="mt-4 max-w-2xl mx-auto text-xl text-brand-text-muted">
           Explore your personality, build better habits, and sharpen your mind.
         </p>
-      </div>
-      
-      {/* New Mastery Journal Section */}
-      <div>
-        <Link 
-            to="/mastery-journal"
-            className="w-full text-left group relative overflow-hidden bg-brand-surface rounded-xl border-2 border-transparent hover:border-brand-primary shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out p-6 flex flex-col sm:flex-row sm:items-center transform hover:-translate-y-1"
-        >
-            <div className="bg-brand-primary/10 text-brand-primary rounded-lg p-4 mb-4 sm:mb-0 sm:mr-6">
-                <BookOpenIcon className="h-10 w-10" />
-            </div>
-            <div className="flex-grow">
-              <h2 className="text-2xl font-bold text-brand-text mb-1 group-hover:text-brand-primary transition-colors">Staphod's Diary - Mastery Journal</h2>
-              <p className="text-brand-text-muted text-base">
-                An all-in-one, offline-first private journal. Includes a diary, habit tracker, mood log, and daily reflections to accelerate your journey to self-mastery. Click to explore.
-              </p>
-            </div>
-        </Link>
       </div>
       
       {/* Public Section */}
@@ -115,6 +94,22 @@ const HomePage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <DailyQuote />
           <DailyAffirmation />
+        </div>
+      </div>
+      
+      {/* New User Collection Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+            <ShieldCheckIcon className="h-5 w-5 text-brand-text-muted" />
+            <h2 className="text-xl font-bold text-brand-text">Private Collection</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <ModuleCard 
+                to="/collection"
+                title="User Collection"
+                description="Your private, PIN-protected collection of saved test results and insights."
+                icon={<BookOpenIcon />}
+            />
         </div>
       </div>
 

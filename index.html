@@ -248,57 +248,9 @@
     <div id="root">
       <div id="initial-loader">
         <div class="loader-spinner"></div>
-        <p>Loading The Better You...</p>
+        <p>Loading new content, please wait a moment...</p>
       </div>
     </div>
     <script type="module" src="/index.tsx"></script>
-    <script>
-      setTimeout(() => {
-        const loader = document.getElementById('initial-loader');
-        const root = document.getElementById('root');
-        
-        if (loader && root && root.contains(loader)) {
-          const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const isOffline = !navigator.onLine;
-
-          const bgColor = isDarkMode ? '#0F172A' : '#F8FAFC';
-          const textColor = isDarkMode ? '#E2E8F0' : '#1E293B';
-          const mutedColor = isDarkMode ? '#94A3B8' : '#64748B';
-          const primaryColor = isDarkMode ? '#334155' : '#475569';
-          
-          let title, message;
-
-          if (isOffline) {
-            title = 'Connection Required';
-            message = 'The application could not be loaded. Please check your internet connection and try reloading the page.';
-          } else {
-            title = 'Application Error';
-            message = 'Something went wrong while loading the application. Please try reloading the page.';
-          }
-
-          root.innerHTML = `
-            <div style="background-color: ${bgColor}; color: ${textColor}; text-align: center; padding: 40px; font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-              ${isOffline ? `<svg xmlns="http://www.w3.org/2000/svg" style="height: 6rem; width: 6rem; color: #F59E0B; margin: 0 auto 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18.5a.5.5 0 100-1 .5.5 0 000 1z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.556A5.5 5.5 0 0112 15c1.445 0 2.805.523 3.889 1.556M4.5 13a9 9 0 0115 0" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 13L19.5 3m-15 10L19.5 3" />
-                </svg>` : ''}
-              <h1 style="font-size: 2.25rem; font-weight: bold;">${title}</h1>
-              <p style="margin-top: 1rem; font-size: 1.125rem; color: ${mutedColor}; max-width: 500px;">
-                ${message}
-              </p>
-              <button 
-                onclick="window.location.reload()" 
-                style="margin-top: 2rem; background-color: ${primaryColor}; color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; transition: opacity 0.2s;"
-                onmouseover="this.style.opacity=0.9"
-                onmouseout="this.style.opacity=1"
-              >
-                Reload
-              </button>
-            </div>
-          `;
-        }
-      }, 2000);
-    </script>
   </body>
 </html>

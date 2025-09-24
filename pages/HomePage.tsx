@@ -1,12 +1,13 @@
 
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ModuleCard from '@/components/ModuleCard';
 import DailyAffirmation from '@/components/DailyAffirmation';
 import DailyQuote from '@/components/DailyQuote';
 import { AiIcon } from '@/components/icons/SocialIcons';
-import { BrainIcon, ToolsIcon, AddictionIcon, PuzzleIcon, BookOpenIcon } from '@/components/icons/ModuleIcons';
-import { LightbulbIcon, ShieldCheckIcon } from '@/components/icons/StatusIcons';
+import { BrainIcon, ToolsIcon, AddictionIcon, PuzzleIcon } from '@/components/icons/ModuleIcons';
+import { LightbulbIcon } from '@/components/icons/StatusIcons';
 
 const HomePage: React.FC = () => {
 
@@ -97,22 +98,6 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       
-      {/* New User Collection Section */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-            <ShieldCheckIcon className="h-5 w-5 text-brand-text-muted" />
-            <h2 className="text-xl font-bold text-brand-text">Private Collection</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ModuleCard 
-                to="/collection"
-                title="User Collection"
-                description="Your private, PIN-protected collection of saved test results and insights."
-                icon={<BookOpenIcon />}
-            />
-        </div>
-      </div>
-
     </div>
   );
 };

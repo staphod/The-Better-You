@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { FullTest, TestHistoryItem } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useUserCollection } from '@/hooks/useDiary';
 import { useTestHistory } from '@/hooks/useTestHistory';
 import TestResultDisplay from '@/components/TestResultDisplay';
 
@@ -17,7 +16,6 @@ const TestHistoryDetailPage: React.FC = () => {
     const { historyId } = useParams<{ historyId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();
-    const { addItem: addToCollection } = useUserCollection();
     const { getHistoryItemById } = useTestHistory();
 
     const [test, setTest] = useState<FullTest | null>(null);
@@ -26,7 +24,6 @@ const TestHistoryDetailPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     
     const [copied, setCopied] = useState(false);
-    const [savedToCollection, setSavedToCollection] = useState(false);
 
     useEffect(() => {
         if (!historyId) {
@@ -81,36 +78,6 @@ const TestHistoryDetailPage: React.FC = () => {
         });
     }, [historyItem, test]);
     
-    const handleSaveToCollection = useCallback(() => {
-        if (!historyItem || !test) return;
-        
-        const isDimensional = test.scoringThresholds && 'O' in test.scoringThresholds;
-        let content = ``;
-
-        if (isDimensional) {
-            content = Object.keys(historyItem.result.levels).map(traitKey => {
-                const traitData = test.result_template[`${traitKey}_${historyItem.result.levels[traitKey].toLowerCase()}`];
-                const traitTitle = test.knowledgeBase.resultDetails.find(d => d.key === traitKey)?.title || traitKey;
-                return `<h3>${traitTitle}: ${historyItem.result.levels[traitKey]}</h3><p>${traitData.explanation}</p>`;
-            }).join('');
-        } else {
-            content = `<h3>${historyItem.result.level || 'Result'}</h3><p>${historyItem.result.explanation}</p>`;
-            if(historyItem.result.advice) {
-                content += `<h4>Advice</h4><ul>${historyItem.result.advice.map((a: string) => `<li>${a}</li>`).join('')}</ul>`;
-            }
-             if(historyItem.result.strategies) {
-                content += `<h4>Strategies</h4><ul>${historyItem.result.strategies.map((s: string) => `<li>${s}</li>`).join('')}</ul>`;
-            }
-        }
-
-        addToCollection({
-            title: `Test Results (from ${new Date(historyItem.dateCompleted).toLocaleDateString()}): ${test.title}`,
-            content: content
-        });
-        setSavedToCollection(true);
-        setTimeout(() => setSavedToCollection(false), 2000);
-    }, [historyItem, test, addToCollection]);
-
     const handleRetake = useCallback(() => {
         if (test) {
             navigate(`/test/${test.id}`);
@@ -130,8 +97,6 @@ const TestHistoryDetailPage: React.FC = () => {
                 onCopy={handleCopy}
                 copied={copied}
                 onRetake={handleRetake}
-                onSaveToCollection={handleSaveToCollection}
-                savedToCollection={savedToCollection}
             />
         </div>
     );

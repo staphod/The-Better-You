@@ -1,12 +1,5 @@
 import React from 'react';
 
-export interface CollectionItem {
-  id: string;
-  title: string;
-  content: string; // HTML content
-  dateSaved: string; // ISO string
-}
-
 export interface TestListing {
   id: string;
   title: string;
@@ -166,19 +159,20 @@ export interface Addiction {
   scoringThresholds: { moderate: number; high: number }; // moderate score >= moderate, high score >= high
 }
 
+// FIX: Added missing type definitions for Habits, Moods, Collections, Credits, and Reflections.
 // --- Habit Tracker Types ---
 export const HABIT_CATEGORIES = [
   'Health',
-  'Learning',
-  'Mindfulness',
   'Fitness',
   'Productivity',
+  'Learning',
+  'Mindfulness',
   'Social',
   'Finance',
   'Other',
 ] as const;
 
-export type HabitCategory = (typeof HABIT_CATEGORIES)[number];
+export type HabitCategory = typeof HABIT_CATEGORIES[number];
 
 export type MeasurementType = 'daily' | 'reps' | 'duration' | 'count';
 
@@ -197,7 +191,7 @@ export interface Habit {
   id: string;
   title: string;
   category: HabitCategory;
-  isPositive: boolean;
+  isPositive: boolean; // true for building a good habit, false for breaking a bad one
   cue: string;
   craving: string;
   response: string;
@@ -205,18 +199,6 @@ export interface Habit {
   reminderTime: string | null;
   measurement: HabitMeasurement;
   history: HabitLog[];
-}
-
-// --- Credits Page Types ---
-export interface CreditItem {
-  name: string;
-  description: string;
-  url?: string;
-}
-
-export interface CreditCategory {
-  title: string;
-  items: CreditItem[];
 }
 
 // --- Mood Tracker Types ---
@@ -229,7 +211,27 @@ export interface MoodLog {
   note: string;
 }
 
-// --- Journaling Types ---
+// --- User Collection / Diary Types ---
+export interface CollectionItem {
+  id: string;
+  title: string;
+  content: string;
+  dateSaved: string; // ISO string
+}
+
+// --- Credits Page Types ---
+export interface Credit {
+  name: string;
+  description: string;
+  url?: string;
+}
+
+export interface CreditCategory {
+  title: string;
+  items: Credit[];
+}
+
+// --- Journal Prompts Types ---
 export interface ReflectionPromptCategory {
   title: string;
   description: string;

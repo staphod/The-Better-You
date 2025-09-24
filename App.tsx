@@ -32,7 +32,6 @@ const AddictionDetailPage = lazy(() => import('@/pages/AddictionDetailPage'));
 const AboutPage = lazy(() => import('@/pages/AboutPage'));
 const SupportPage = lazy(() => import('@/pages/SupportPage'));
 const PurposeAiPage = lazy(() => import('@/pages/PurposeAiPage'));
-const UserCollectionPage = lazy(() => import('@/pages/DiaryPage'));
 
 // Tools Sub-pages
 const ToolsStrategiesPage = lazy(() => import('@/pages/ToolsStrategiesPage'));
@@ -328,7 +327,6 @@ function App() {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/support" element={<SupportPage />} />
                 <Route path="/purpose-ai" element={<PurposeAiPage />} />
-                <Route path="/collection" element={<UserCollectionPage />} />
                 <Route path="/offline" element={<OfflinePage />} />
               </Routes>
             </Suspense>

@@ -3,7 +3,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { Addiction } from '@/types';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useUserCollection } from '@/hooks/useDiary';
 import { fetchAddictionById } from '@/services/api';
 import { ClipboardIcon, CheckCircleIcon, ShieldCheckIcon, LightbulbIcon, LifebuoyIcon } from '@/components/icons/StatusIcons';
 
@@ -18,9 +17,7 @@ const AddictionResult: React.FC<{
     onCopy: () => void; 
     copied: boolean; 
     onRetake: () => void;
-    onSaveToCollection: () => void;
-    savedToCollection: boolean;
-}> = ({ result, onCopy, copied, onRetake, onSaveToCollection, savedToCollection }) => {
+}> = ({ result, onCopy, copied, onRetake }) => {
     const riskColors: Record<string, string> = {
         "Low Risk": "text-brand-success",
         "Healthy Use": "text-brand-success",
@@ -69,7 +66,7 @@ const AddictionResult: React.FC<{
                 </div>
             </div>
             
-             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                <button onClick={onRetake} className="w-full flex justify-center items-center space-x-2 bg-slate-200 text-brand-text font-bold py-3 px-4 rounded-lg hover:bg-slate-300 transition-colors">
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                    <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
@@ -80,10 +77,6 @@ const AddictionResult: React.FC<{
                    {copied ? <CheckCircleIcon className="h-5 w-5 text-brand-success"/> : <ClipboardIcon className="h-5 w-5" />}
                    <span>{copied ? 'Copied!' : 'Copy'}</span>
                 </button>
-                <button onClick={onSaveToCollection} className="w-full flex justify-center items-center space-x-2 bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-brand-primary/90 transition-opacity disabled:opacity-50">
-                   {savedToCollection ? <CheckCircleIcon className="h-5 w-5"/> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>}
-                   <span>{savedToCollection ? 'Saved!' : 'Save to Collection'}</span>
-                </button>
             </div>
         </div>
     );
@@ -93,7 +86,6 @@ const AddictionDetailPage: React.FC = () => {
     const { addictionId } = useParams<{ addictionId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();
-    const { addItem: addToCollection } = useUserCollection();
 
     const [addiction, setAddiction] = useState<Addiction | null>(null);
     const [loading, setLoading] = useState(true);
@@ -104,7 +96,6 @@ const AddictionDetailPage: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [result, setResult] = useState<any | null>(null);
     const [copied, setCopied] = useState(false);
-    const [savedToCollection, setSavedToCollection] = useState(false);
     const [isAnswered, setIsAnswered] = useState(false);
     const [chosenAnswerValue, setChosenAnswerValue] = useState<number | null>(null);
 
@@ -181,20 +172,6 @@ Resources: ${result.helplines.map((h: any) => `${h.name} (${h.url})`).join(', ')
             setTimeout(() => setCopied(false), 2000);
         });
     }, [result, addiction]);
-
-     const handleSaveToCollection = useCallback(() => {
-        if (!result || !addiction) return;
-        
-        const content = `<h3>${result.level}</h3><p>${result.explanation}</p><h4>Advice</h4><ul>${result.advice.map((a: string) => `<li>${a}</li>`).join('')}</ul>`;
-
-        addToCollection({
-            title: `Assessment Results: ${addiction.title}`,
-            content: content
-        });
-        setSavedToCollection(true);
-        setTimeout(() => setSavedToCollection(false), 2000);
-
-    }, [result, addiction, addToCollection]);
     
     const handleRetake = () => {
         setAnswers({});
@@ -221,7 +198,7 @@ Resources: ${result.helplines.map((h: any) => `${h.name} (${h.url})`).join(', ')
     }
     
     if (quizState === 'completed' && result) {
-        return <AddictionResult result={result} onCopy={handleCopy} copied={copied} onRetake={handleRetake} onSaveToCollection={handleSaveToCollection} savedToCollection={savedToCollection}/>;
+        return <AddictionResult result={result} onCopy={handleCopy} copied={copied} onRetake={handleRetake} />;
     }
 
     if (quizState === 'in-progress') {

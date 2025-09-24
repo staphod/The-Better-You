@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import type { FullTest, Question } from '@/types';
 import { fetchTestById } from '@/services/api';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useUserCollection } from '@/hooks/useDiary';
 import { useTestHistory } from '@/hooks/useTestHistory';
 import Sparks from '@/components/Sparks';
 import TestResultDisplay from '@/components/TestResultDisplay';
@@ -19,7 +18,6 @@ const TestPage: React.FC = () => {
     const { testId } = useParams<{ testId: string }>();
     const navigate = useNavigate();
     const { isOnline } = useOnlineStatus();
-    const { addItem: addToCollection } = useUserCollection();
     const { addHistoryItem } = useTestHistory();
 
     const [test, setTest] = useState<FullTest | null>(null);
@@ -28,7 +26,6 @@ const TestPage: React.FC = () => {
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [result, setResult] = useState<any | null>(null);
     const [copied, setCopied] = useState(false);
-    const [savedToCollection, setSavedToCollection] = useState(false);
     const [showSparks, setShowSparks] = useState(false);
     
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -234,37 +231,6 @@ const TestPage: React.FC = () => {
         });
     }, [result, test]);
 
-    const handleSaveToCollection = useCallback(() => {
-        if (!result || !test) return;
-        
-        const isDimensional = test.scoringThresholds && 'O' in test.scoringThresholds;
-        let content = ``;
-
-        if (isDimensional) {
-            content = Object.keys(result.levels).map(traitKey => {
-                const traitData = test.result_template[`${traitKey}_${result.levels[traitKey].toLowerCase()}`];
-                const traitTitle = test.knowledgeBase.resultDetails.find(d => d.key === traitKey)?.title || traitKey;
-                return `<h3>${traitTitle}: ${result.levels[traitKey]}</h3><p>${traitData.explanation}</p>`;
-            }).join('');
-        } else {
-            content = `<h3>${result.level || 'Result'}</h3><p>${result.explanation}</p>`;
-            if(result.advice) {
-                content += `<h4>Advice</h4><ul>${result.advice.map((a: string) => `<li>${a}</li>`).join('')}</ul>`;
-            }
-             if(result.strategies) {
-                content += `<h4>Strategies</h4><ul>${result.strategies.map((s: string) => `<li>${s}</li>`).join('')}</ul>`;
-            }
-        }
-
-        addToCollection({
-            title: `Test Results: ${test.title}`,
-            content: content
-        });
-        setSavedToCollection(true);
-        setTimeout(() => setSavedToCollection(false), 2000);
-
-    }, [result, test, addToCollection]);
-
     const handleRetake = () => {
         setAnswers({});
         setCurrentQuestionIndex(0);
@@ -289,8 +255,6 @@ const TestPage: React.FC = () => {
                     onCopy={handleCopy} 
                     copied={copied} 
                     onRetake={handleRetake}
-                    onSaveToCollection={handleSaveToCollection}
-                    savedToCollection={savedToCollection}
                 />
             </>
         );

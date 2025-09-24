@@ -22,7 +22,6 @@ export const OneLineIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-// FIX: Add DotsIcon component for Dot Connection puzzle
 export const DotsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" {...props}>
     <circle cx="6" cy="6" r="2" />

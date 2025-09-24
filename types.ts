@@ -87,7 +87,6 @@ export interface SequencingPuzzle {
 }
 
 // --- Dot Connection Puzzle Types ---
-// FIX: Add DotPuzzle interface for dot connection game
 export interface DotPuzzle {
   id: number;
   size: number;
@@ -138,58 +137,6 @@ export interface CognitiveClashChallenge {
   correctChoiceId: string | null; // The `id` of the correct choice. `null` for NOTHING. For NOT, it's the ID to avoid.
 }
 
-
-// A log entry for a specific day in a habit's history.
-export interface HabitLog {
-  date: string; // 'YYYY-MM-DD'
-  value: number; // The amount completed (e.g., 1 for daily, 20 for reps, 30 for minutes)
-}
-
-// --- New Flexible Habit Measurement Types ---
-
-export type MeasurementType = 'daily' | 'reps' | 'duration' | 'count';
-
-export interface MeasurementDaily {
-  type: 'daily';
-}
-export interface MeasurementReps {
-  type: 'reps';
-  goal: number;
-}
-export interface MeasurementDuration {
-  type: 'duration';
-  goal: number;
-  unit: 'minutes' | 'hours';
-}
-export interface MeasurementCount {
-  type: 'count';
-  goal: number;
-  unit: string; // e.g., 'pages', 'glasses'
-}
-
-export type HabitMeasurement = MeasurementDaily | MeasurementReps | MeasurementDuration | MeasurementCount;
-
-// --- Habit Categories ---
-export const HABIT_CATEGORIES = ['Health', 'Learning', 'Mindfulness', 'Fitness', 'Productivity', 'Social', 'Finance', 'Other'] as const;
-export type HabitCategory = typeof HABIT_CATEGORIES[number];
-
-
-// The main Habit structure, designed for flexibility.
-export interface Habit {
-  id: string;
-  title: string;
-  category: HabitCategory;
-  isPositive: boolean; // True for building a habit, false for breaking one.
-  cue: string;
-  craving: string;
-  response: string;
-  reward: string;
-  reminderTime: string | null;
-  measurement: HabitMeasurement;
-  // A record of all completions and misses.
-  history: HabitLog[];
-}
-
 // --- Addiction Module Types ---
 export type AddictionCategory = 'Substance Addictions' | 'Behavioral Addictions' | 'Digital/Emerging Addictions';
 
@@ -219,22 +166,57 @@ export interface Addiction {
   scoringThresholds: { moderate: number; high: number }; // moderate score >= moderate, high score >= high
 }
 
-// --- Credits Page Types ---
-export interface CreditCategory {
-  title: string;
-  items: {
-    name: string;
-    url?: string;
-    description: string;
-  }[];
+// --- Habit Tracker Types ---
+export const HABIT_CATEGORIES = [
+  'Health',
+  'Learning',
+  'Mindfulness',
+  'Fitness',
+  'Productivity',
+  'Social',
+  'Finance',
+  'Other',
+] as const;
+
+export type HabitCategory = (typeof HABIT_CATEGORIES)[number];
+
+export type MeasurementType = 'daily' | 'reps' | 'duration' | 'count';
+
+export type HabitMeasurement =
+  | { type: 'daily' }
+  | { type: 'reps'; goal: number }
+  | { type: 'duration'; goal: number; unit: 'minutes' | 'hours' }
+  | { type: 'count'; goal: number; unit: string };
+
+export interface HabitLog {
+  date: string; // YYYY-MM-DD
+  value: number;
 }
 
-// --- Diary Types ---
-export interface DiaryEntry {
+export interface Habit {
   id: string;
   title: string;
-  content: string; // HTML content from the editor
-  modified: string; // ISO string
+  category: HabitCategory;
+  isPositive: boolean;
+  cue: string;
+  craving: string;
+  response: string;
+  reward: string;
+  reminderTime: string | null;
+  measurement: HabitMeasurement;
+  history: HabitLog[];
+}
+
+// --- Credits Page Types ---
+export interface CreditItem {
+  name: string;
+  description: string;
+  url?: string;
+}
+
+export interface CreditCategory {
+  title: string;
+  items: CreditItem[];
 }
 
 // --- Mood Tracker Types ---
@@ -242,7 +224,14 @@ export type Mood = 'Happy' | 'Calm' | 'Neutral' | 'Anxious' | 'Sad';
 
 export interface MoodLog {
   id: string;
+  date: string; // ISO string
   mood: Mood;
   note: string;
-  date: string; // ISO string
+}
+
+// --- Journaling Types ---
+export interface ReflectionPromptCategory {
+  title: string;
+  description: string;
+  prompts: string[];
 }

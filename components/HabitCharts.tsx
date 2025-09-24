@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import type { Habit } from '@/types';
+import type { Habit, HabitLog } from '@/types';
 import { toYYYYMMDD, isDayCompleted } from '@/hooks/useHabitStats';
 
 // Let TypeScript know that 'Chart' is a global variable from the imported CDN script
@@ -18,7 +18,8 @@ const HabitCharts: React.FC<HabitChartsProps> = ({ habit }) => {
     useEffect(() => {
         if (typeof Chart === 'undefined' || !habit.history) return;
 
-        const historyByDate = new Map(habit.history.map(log => [log.date, log]));
+        // FIX: Explicitly type the Map to resolve potential type inference issues.
+        const historyByDate = new Map<string, HabitLog>(habit.history.map(log => [log.date, log]));
 
         // --- 1. Daily Chart Data (Last 7 days) ---
         const dailyLabels: string[] = [];

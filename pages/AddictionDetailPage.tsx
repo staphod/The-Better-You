@@ -145,7 +145,8 @@ const AddictionDetailPage: React.FC = () => {
             const isLastQuestion = currentQuestionIndex === addiction!.questions.length - 1;
 
             if (isLastQuestion) {
-                const totalScore = Object.values(newAnswers).reduce((sum, val) => sum + val, 0);
+                // FIX: Explicitly typed the accumulator and value in the .reduce() function to resolve a TypeScript inference issue.
+                const totalScore = Object.values(newAnswers).reduce((sum: number, val: number) => sum + val, 0);
                 
                 let resultKey = 'low-risk';
                 if (totalScore >= addiction!.scoringThresholds.high) {

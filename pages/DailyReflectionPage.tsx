@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { allPrompts, reflectionPrompts, ReflectionPromptCategory } from '@/data/reflectionPrompts';
+import { allPrompts, reflectionPrompts } from '@/data/reflectionPrompts';
+import type { ReflectionPromptCategory } from '@/types';
 import { FeatherIcon } from '@/components/icons/ModuleIcons';
 
 const getDayOfYear = () => {

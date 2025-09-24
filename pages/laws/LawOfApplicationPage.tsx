@@ -1,9 +1,8 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ToolsIcon } from '@/components/icons/ModuleIcons';
 
 const LawOfApplicationPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
 
   return (
     <div className="max-w-3xl mx-auto bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">

@@ -1,9 +1,8 @@
 import React from 'react';
-import * as ReactRouterDom from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PencilIcon } from '@/components/icons/ModuleIcons';
 
 const LawOfDailyPlanningPage: React.FC = () => {
-  const { Link } = ReactRouterDom;
 
   return (
     <div className="max-w-3xl mx-auto bg-brand-surface p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
@@ -25,7 +24,7 @@ const LawOfDailyPlanningPage: React.FC = () => {
             <footer className="text-right text-sm font-semibold mt-2 not-italic">- Benjamin Franklin</footer>
           </blockquote>
           <p>
-            The Law of Daily Planning states that the simple act of creating a written plan for your day before you begin gives you a massive advantage in productivity and focus. A plan acts as a roadmap, guiding you through the inevitable distractions and interruptions of the day. It allows you to be proactive, working on your priorities, rather than reactive, responding to the demands of others.
+            The Law of DailyPlanning states that the simple act of creating a written plan for your day before you begin gives you a massive advantage in productivity and focus. A plan acts as a roadmap, guiding you through the inevitable distractions and interruptions of the day. It allows you to be proactive, working on your priorities, rather than reactive, responding to the demands of others.
           </p>
         </section>
 

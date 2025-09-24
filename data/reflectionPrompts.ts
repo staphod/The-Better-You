@@ -1,11 +1,9 @@
-export interface ReflectionPromptCategory {
-  title: string;
-  prompts: string[];
-}
+import type { ReflectionPromptCategory } from '@/types';
 
 export const reflectionPrompts: ReflectionPromptCategory[] = [
   {
     title: "Daily Review & Gratitude",
+    description: "To cultivate positivity and appreciate the good in your life.",
     prompts: [
       "What is one thing that went well today and why?",
       "What was a challenge I faced, and how did I handle it?",
@@ -20,6 +18,7 @@ export const reflectionPrompts: ReflectionPromptCategory[] = [
   },
   {
     title: "Self-Discovery",
+    description: "To understand yourself, your emotions, and your behaviors better.",
     prompts: [
       "When do I feel most like myself?",
       "What is a limiting belief I'm ready to let go of?",
@@ -34,6 +33,7 @@ export const reflectionPrompts: ReflectionPromptCategory[] = [
   },
   {
     title: "Productivity & Goals",
+    description: "To find clarity and break down complex challenges.",
     prompts: [
       "What is the single most important thing I need to accomplish this week?",
       "What is one distraction I can eliminate to be more focused?",
@@ -46,6 +46,7 @@ export const reflectionPrompts: ReflectionPromptCategory[] = [
   },
   {
     title: "Relationships",
+    description: "To cultivate positivity and appreciate the good in your life.",
     prompts: [
       "How can I be a better friend/partner/family member this week?",
       "Who in my life do I need to reconnect with?",
@@ -57,6 +58,7 @@ export const reflectionPrompts: ReflectionPromptCategory[] = [
   },
   {
     title: "Mindfulness & Well-being",
+    description: "To cultivate positivity and appreciate the good in your life.",
     prompts: [
       "What does my body need today?",
       "What is one thing I can do to reduce my stress levels?",
